@@ -1,7 +1,7 @@
 {
-  "name": "mern",
+  "name": "round-robin",
   "version": "1.0.0",
-  "description": "Mern Demo",
+  "description": "Round Robin - final project UCI coding bootcamp",
   "main": "server.js",
   "scripts": {
     "server": "node server.js",
@@ -11,13 +11,16 @@
     "deploy": "yarn build && git add . && git commit -m \"Building for production\" && git push heroku master",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Natalie Ike",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^3.5.0",
     "nodemon": "^1.11.0"
   },
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "^1.18.2",
+    "express": "^4.15.4",
+    "mysql2": "^1.5.0",
+    "sequelize": "^4.22.6"
   }
 }
