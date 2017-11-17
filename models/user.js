@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.STRING,
 			allowNull: false,
 			},
-			streetAddress: {
+		streetAddress: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			},
@@ -32,16 +32,34 @@ module.exports = function(sequelize, DataTypes){
 			allowNull: false,
 			},
 		aboutMe: {
-			type: DataTypes.Text,
+			type: DataTypes.TEXT,
 			allowNull: true,
 			},
 		isActive: {
-			type: DataTypes.Boolean,
+			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: true
-			},
-		}	
+			}
 	});
 	
+	user.associate = function(models){
+		user.belongsTo(models.stateProvince, {
+			foreignKey: {
+				allowNull: false
+			}
+		});		
+		user.belongsTo(models.shippingPreferences, {
+			foreignKey: {
+				allowNull: false
+			}
+		});			
+		user.hasMany(models.interestsFandomsAssociations, {
+			onDelete: "cascade"
+		});
+		user.hasMany(models.event, {
+			onDelete: "cascade"
+		});		
+	};
+
 	return user;
 };
