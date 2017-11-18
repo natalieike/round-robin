@@ -75,7 +75,7 @@ Create does these things:
     	});
     }).catch(err => res.json.err);
   },
-//Finds All active users (isActive = true), with Full Addresses and Shipping Preferences
+//Finds All active users (isActive = true), with Full Addresses, Shipping Preferences, and Interests/Fandoms
   findAll: function(req, res){
   	db.user.findAll({
   		where: {
@@ -105,7 +105,7 @@ Create does these things:
   		res.json(users);
   	}).catch(err => res.json(err));
   },
-//Finds User by User Id - includes Full Address and Shipping Preferences.  Returns NULL if not Active
+//Finds User by User Id - includes Full Address, Shipping Preferences, and Interests/Fandoms.  Returns NULL if not Active
   findById: function(req, res){
   	db.user.findOne({
   		where: {
