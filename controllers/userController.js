@@ -12,10 +12,17 @@ module.exports = {
 	postalCode
 	aboutMe - can be null
 	interestsFandoms = [] - own table
-	shippingPreferenceId (Assume Shipping Pref table already populated)
+	shippingPreferenceId (Assume Shipping Pref table already populated - UI should pull both ID and Description for dropdown, and return the ID)
 	fbUserId
 	oAuthToken
 }
+Create does these things:
+	1 - Find or Create Country
+	2 - Find or Create State/Province (requires Country)
+	3 - Create User (requires State/Province)
+	4 - loop thru insterestsFandoms array and Find or Create each Fandom
+		-	In this loop, once the Fandom is found/created, then Create an entry in the interestsFandomsAssociations table for this user/fandom combination
+	5 - While the interestsFandoms are being saved (because it's sort of irrelevant to the UI), send JSON of the User
 */
   create: function(req, res) {
     db.country.findOrCreate({
@@ -31,7 +38,8 @@ module.exports = {
     			stateProvinceName: req.body.stateProvince
     		},
     		defaults:{
-    			stateProvinceName: req.body.stateProvince
+    			stateProvinceName: req.body.stateProvince,
+    			countryId: country.dataValues.id
     		}
     	}).spread(function(stateProvince, cr){
     		request = req.body;
@@ -68,10 +76,24 @@ module.exports = {
     }).catch(err => res.json.err);
   },
   findAll: function(req, res){
-
+  	db.user.findAll({
+  		include: [{
+        model: db.stateProvince,
+	      attributes: ['stateProvinceName', 'countryId'],
+	      include: [{
+	          model: db.country,
+	          attributes: ['countryName']
+  		}]}, 
+  		{
+  			model: db.shippingPreferences,
+  			attributes: ['id', 'preference']
+  		}]
+  	}).then(users => {
+  		res.json(users);
+  	}).catch(err => res.json(err))
   },
   findById: function(req, res){
-
+  	
   },
   update: function(req, res) {
     
