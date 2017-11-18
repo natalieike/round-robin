@@ -75,8 +75,12 @@ Create does these things:
     	});
     }).catch(err => res.json.err);
   },
+//Finds All active users (isActive = true), with Full Addresses and Shipping Preferences
   findAll: function(req, res){
   	db.user.findAll({
+  		where: {
+  			isActive: true
+  		},
   		include: [{
         model: db.stateProvince,
 	      attributes: ['stateProvinceName', 'countryId'],
@@ -87,17 +91,25 @@ Create does these things:
   		{
   			model: db.shippingPreferences,
   			attributes: ['id', 'preference']
-  		}]
+  		}],
+  		order: [['lastName', 'ASC'], ['firstName', 'ASC']]
   	}).then(users => {
   		res.json(users);
   	}).catch(err => res.json(err))
   },
+//Finds User by User Id - includes Full Address and Shipping Preferences
   findById: function(req, res){
-  	
+
   },
+//Finds a user's interests/fandoms by User Id
+  findUsersInterestsFandoms: function(req, res){
+
+  },
+//Update a user's data by User ID
   update: function(req, res) {
     
   },
+//De-activate a user (set isActive = false - do not actually delete from database)
   remove: function(req, res) {
 
   }  
