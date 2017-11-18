@@ -91,6 +91,14 @@ Create does these things:
   		{
   			model: db.shippingPreferences,
   			attributes: ['id', 'preference']
+  		},
+  		{
+  			model: db.interestsFandomsAssociations,
+  			attributes: ['interestsFandomId', 'userId'],
+  			include: [{
+  				model: db.interestsFandoms,
+  				attributes: ['id', 'description']
+  			}]
   		}],
   		order: [['lastName', 'ASC'], ['firstName', 'ASC']]
   	}).then(users => {
@@ -99,10 +107,6 @@ Create does these things:
   },
 //Finds User by User Id - includes Full Address and Shipping Preferences
   findById: function(req, res){
-
-  },
-//Finds a user's interests/fandoms by User Id
-  findUsersInterestsFandoms: function(req, res){
 
   },
 //Update a user's data by User ID
