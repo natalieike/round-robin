@@ -103,11 +103,38 @@ Create does these things:
   		order: [['lastName', 'ASC'], ['firstName', 'ASC']]
   	}).then(users => {
   		res.json(users);
-  	}).catch(err => res.json(err))
+  	}).catch(err => res.json(err));
   },
-//Finds User by User Id - includes Full Address and Shipping Preferences
+//Finds User by User Id - includes Full Address and Shipping Preferences.  Returns NULL if not Active
   findById: function(req, res){
-
+  	db.user.findOne({
+  		where: {
+  			id: req.params.id,
+  			isActive: true
+  		},
+  		include: [{
+        model: db.stateProvince,
+	      attributes: ['stateProvinceName', 'countryId'],
+	      include: [{
+	          model: db.country,
+	          attributes: ['countryName']
+  		}]}, 
+  		{
+  			model: db.shippingPreferences,
+  			attributes: ['id', 'preference']
+  		},
+  		{
+  			model: db.interestsFandomsAssociations,
+  			attributes: ['interestsFandomId', 'userId'],
+  			include: [{
+  				model: db.interestsFandoms,
+  				attributes: ['id', 'description']
+  			}]
+  		}],
+  		order: [['lastName', 'ASC'], ['firstName', 'ASC']]
+  	}).then(user => {
+  		res.json(user);
+  	}).catch(err => res.json(err));
   },
 //Update a user's data by User ID
   update: function(req, res) {
