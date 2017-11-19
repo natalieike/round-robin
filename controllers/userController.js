@@ -35,7 +35,8 @@ Create does these things:
     }).spread(function(country, created){
     	db.stateProvince.findOrCreate({
     		where: {
-    			stateProvinceName: req.body.stateProvince
+    			stateProvinceName: req.body.stateProvince,
+    			countryId: country.dataValues.id
     		},
     		defaults:{
     			stateProvinceName: req.body.stateProvince,
@@ -136,12 +137,86 @@ Create does these things:
   		res.json(user);
   	}).catch(err => res.json(err));
   },
-//Update a user's data by User ID
+/* Update a user's data by User ID
+Update does these things:
+1 - Find or Create Country and State/Province
+2 - Update User
+3 - Loop thru interestsFandoms, and Find Or Create in InterestsFandoms.  If Create, then also create an entry in the interestsFandomsAssociations table
+4 - Return User JSON while doing #4 because that's not necessary for UI
+*/
   update: function(req, res) {
-    
+    db.country.findOrCreate({
+    	where: {
+    		countryName: req.body.country
+    	},
+    	defaults: {
+    		countryName: req.body.country
+    	}
+    }).spread(function(country, created){
+    	db.stateProvince.findOrCreate({
+    		where: {
+    			stateProvinceName: req.body.stateProvince,
+    			countryId: country.dataValues.id
+    		},
+    		defaults:{
+    			stateProvinceName: req.body.stateProvince,
+    			countryId: country.dataValues.id
+    		}
+    	}).spread(function(stateProvince, cr){
+    		request = req.body;    		
+    		var newUser = {
+    			firstName: request.firstName,
+    			lastName: request.lastName,
+    			streetAddress: request.streetAddress,
+    			city: request.city,
+    			postalCode: request.postalCode,
+    			aboutMe: request.aboutMe,
+    			shippingPreferenceId: request.shippingPreferenceId,
+    			fbUserId: request.fbUserId,
+    			oAuthToken: request.oAuthToken,
+    			stateProvinceId: stateProvince.dataValues.id
+    		};
+    		console.log(newUser);
+    		db.user.update(
+    			newUser, 
+    			{
+    				where: {
+    					id: req.params.id
+    				}
+    			}
+    		).then(function(updatedUser){
+    			req.body.interestsFandoms.map(interest => {
+    				db.interestsFandoms.findOrCreate({
+    					where: {
+    						description: interest
+    					},
+    					defaults: {
+    						description: interest
+    					}
+    				}).spread(function(intFan, created){
+    					db.interestsFandomsAssociations.findOrCreate({
+    						where: {
+	    						interestsFandomId: intFan.dataValues.id,
+	    						userId: req.params.id
+	    					},
+	    					defaults: {
+	    						interestsFandomId: intFan.dataValues.id,
+	    						userId: req.params.id		    						
+	    					}
+    					});
+    				});
+    			});
+					res.json(updatedUser);
+    		});
+    	});
+    }).catch(err => res.json.err);
   },
 //De-activate a user (set isActive = false - do not actually delete from database)
   remove: function(req, res) {
 
-  }  
+  },
+//Remove the row in InterestsFandomsAssociations for the user/interestFandom combination
+  removeInterestFandom: function(req, res){
+
+  }
 };
