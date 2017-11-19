@@ -213,9 +213,16 @@ Update does these things:
   },
 //De-activate a user (set isActive = false - do not actually delete from database)
   remove: function(req, res) {
-
+  	db.user.update({
+  		isActive: false
+  	}, {
+  		where: {
+  			id: req.params.id
+  		}
+  	}).then(data => {res.json(data)})
+  	.catch(err => {res.json(err)});
   },
-//Remove the row in InterestsFandomsAssociations for the user/interestFandom combination
+//Remove the row in InterestsFandomsAssociations for the user/interestFandom combination (hard delete - no cascading dependencies)
   removeInterestFandom: function(req, res){
 
   }
