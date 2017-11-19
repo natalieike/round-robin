@@ -224,6 +224,12 @@ Update does these things:
   },
 //Remove the row in InterestsFandomsAssociations for the user/interestFandom combination (hard delete - no cascading dependencies)
   removeInterestFandom: function(req, res){
-
+		db.interestsFandomsAssociations.destroy({
+			where: {
+				userId: req.params.userid,
+				interestsFandomId: req.params.interestid
+			}
+		}).then(data => {res.json(data)})
+		.catch(err => {res.json(err)});  	
   }
 };

@@ -12,4 +12,8 @@ router.route("/:id")
   .put(userController.update)
   .delete(userController.remove);
 
+//Matches with "/api/users/interests/:userid&:interestid"
+router.route("/interests/:userid&:interestid")
+	.delete(userController.removeInterestFandom);
+
 module.exports = router;
