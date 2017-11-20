@@ -131,8 +131,7 @@ Create does these things:
   				model: db.interestsFandoms,
   				attributes: ['id', 'description']
   			}]
-  		}],
-  		order: [['lastName', 'ASC'], ['firstName', 'ASC']]
+  		}]
   	}).then(user => {
   		res.json(user);
   	}).catch(err => res.json(err));

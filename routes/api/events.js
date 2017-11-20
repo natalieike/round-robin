@@ -12,4 +12,20 @@ router.route("/:id")
   .put(eventController.update)
   .delete(eventController.remove);
 
+//Matches with "/api/events/match/:id" - runs match process to match all participants
+router.route("/match/:id")
+	.put(eventController.match);
+
+//Matches with "/api/events/options/:option&:value" - search by an option
+router.route("/options/:option&:value")
+	.get(eventController.findByOption);
+
+//Matches with "/api/events/categories" - list all Categories
+router.route("/categories")
+	.get(eventController.findAllCategories);
+
+//Matches with "/api/events/matchoptions" - list all match options
+router.route("/matchoptions")
+	.get(eventController.findAllMatchOptions);
+
 module.exports = router;
