@@ -149,7 +149,14 @@ module.exports = {
   },
 //De-activates an Event
   remove: function(req, res) {
-
+  	db.event.update({
+  		isActive: false
+  	}, {
+  		where: {
+  			id: req.params.id
+  		}
+  	}).then(result => {res.json(result)})
+  	.catch(err => {res.json(err)});
   }, 
 //Add a User to an event 
   join: function(req, res){
