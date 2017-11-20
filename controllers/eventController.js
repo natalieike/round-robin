@@ -77,9 +77,33 @@ module.exports = {
   	}).then(data => {res.json(data)})
   	.catch(err => {res.json(err)});
   },
-//Req.params has 2 parameters - option and value
+//Req.params has 2 parameters - option and value.  Filters for Active events
   findByOption: function(req, res){
-  	
+ 		const option = req.params.option;
+ 		const value = req.params.value;
+  	db.event.findAll({
+  		where:
+				db.sequelize.where(db.sequelize.col(option), value),
+  		include: [{
+  			model: db.categories,
+	      attributes: ['id', 'categoryName'],
+  		}, {
+  			model: db.matchOptions,
+	      attributes: ['id', 'matchDescription'],
+  		}, {
+  			model: db.user,
+  			attributes: ['id', 'firstName', 'lastName']
+  		}]
+  	}).then(data => {
+  		let results = [];
+  		data.forEach(event => {
+  			if(event.isActive){
+  				results.push(event);
+  			}
+  		});
+  		res.json(results);
+  	})
+  	.catch(err => {res.json(err)}); 		 
   },
   update: function(req, res) {
     
