@@ -72,9 +72,9 @@ Create does these things:
     				});
     			});
 					res.json(user);
-    		});
-    	});
-    }).catch(err => res.json.err);
+    		}).catch(error => res.json(error));
+    	}).catch(er => res.json(er));
+    }).catch(err => res.json(err));
   },
 //Finds All active users (isActive = true), with Full Addresses, Shipping Preferences, and Interests/Fandoms
   findAll: function(req, res){
@@ -206,9 +206,9 @@ Update does these things:
     				});
     			});
 					res.json(updatedUser);
-    		});
-    	});
-    }).catch(err => res.json.err);
+    		}).catch(error => res.json(error));
+    	}).catch(er => res.json(er));
+    }).catch(err => res.json(err));
   },
 //De-activate a user (set isActive = false - do not actually delete from database)
   remove: function(req, res) {

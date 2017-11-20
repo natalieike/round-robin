@@ -35,18 +35,51 @@ module.exports = {
     			packageRecd: false
     		});
     		res.json(result)
-    	});
+    	}).catch(error => {res.json(err)});
     }).catch(err => {res.json(err)});
   },
+//Finds All Active Events
   findAll: function(req, res){
-
+  	db.event.findAll({
+  		where: {
+  			isActive: true
+  		},
+  		include: [{
+  			model: db.categories,
+	      attributes: ['id', 'categoryName'],
+  		}, {
+  			model: db.matchOptions,
+	      attributes: ['id', 'matchDescription'],
+  		}, {
+  			model: db.user,
+  			attributes: ['id', 'firstName', 'lastName']
+  		}]
+  	}).then(data => {res.json(data)})
+  	.catch(err => {res.json(err)});
   },
+//Finds the one active event by ID
   findById: function(req, res){
-
+  	db.event.findOne({
+  		where: {
+  			id: req.params.id,
+  			isActive: true
+  		},
+  		include: [{
+  			model: db.categories,
+	      attributes: ['id', 'categoryName'],
+  		}, {
+  			model: db.matchOptions,
+	      attributes: ['id', 'matchDescription'],
+  		}, {
+  			model: db.user,
+  			attributes: ['id', 'firstName', 'lastName']
+  		}]
+  	}).then(data => {res.json(data)})
+  	.catch(err => {res.json(err)});
   },
 //Req.params has 2 parameters - option and value
   findByOption: function(req, res){
-
+  	
   },
   update: function(req, res) {
     
