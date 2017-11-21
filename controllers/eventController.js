@@ -216,11 +216,15 @@ module.exports = {
   },
 //Returns all Categories
   findAllCategories: function(req, res){
-
+  	db.categories.findAll({})
+  	.then(data => {res.json(data)})
+  	.catch(err => {res.json(err)});
   },
 //Returns all MatchOptions
   findAllMatchOptions: function(req, res){
-
+  	db.matchOptions.findAll({})
+  	.then(data => {res.json(data)})
+  	.catch(err => {res.json(err)});
   },
 
 };

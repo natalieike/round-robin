@@ -26,12 +26,12 @@ router.route("/match/:id")
 router.route("/options/:option&:value")
 	.get(eventController.findByOption);
 
-//Matches with "/api/events/categories" - list all Categories
-router.route("/categories")
+//Matches with "/api/events/categories/all" - list all Categories
+router.route("/categories/all")
 	.get(eventController.findAllCategories);
 
-//Matches with "/api/events/matchoptions" - list all match options
-router.route("/matchoptions")
+//Matches with "/api/events/matchoptions/all" - list all match options
+router.route("/matchoptions/all")
 	.get(eventController.findAllMatchOptions);
 
 module.exports = router;
