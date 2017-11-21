@@ -173,9 +173,18 @@ module.exports = {
   	}).spread((result, created) => {res.json(result)})
   	.catch(err => {res.json(err)});
   },
-//Updates the eventAssociations table
+//Updates the eventAssociations table for trackingNumber and packageRecd
   eventAssociationUpdate: function(req, res){
-
+		db.eventAssociations.update({
+			trackingNumber: req.body.trackingNumber,
+			packageRecd: req.body.packageRecd
+		}, {
+			where: {
+				eventId: req.params.eventid,
+				userId: req.params.userid
+			}
+		}).then(result => res.json(result))
+		.catch(err => res.json(err));
   },
 //Needs to throw error if the user has already been matched - res.status(400).json(json_response);
   eventAssociationLeave: function(req, res){
