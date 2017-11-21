@@ -158,9 +158,20 @@ module.exports = {
   	}).then(result => {res.json(result)})
   	.catch(err => {res.json(err)});
   }, 
-//Add a User to an event 
+//Add a User to an event - requires eventId and userId.  Will only allow user to join the same event once
   join: function(req, res){
-
+  	db.eventAssociations.findOrCreate({
+  		where: {
+  			eventId: req.params.eventid,
+  			userId: req.params.userid
+  		},
+  		defaults: {
+	  		eventId: req.params.eventid,
+	  		userId: req.params.userid,
+	  		packageRecd: false
+	  	}
+  	}).spread((result, created) => {res.json(result)})
+  	.catch(err => {res.json(err)});
   },
 //Updates the eventAssociations table
   eventAssociationUpdate: function(req, res){
