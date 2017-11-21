@@ -188,7 +188,27 @@ module.exports = {
   },
 //Needs to throw error if the user has already been matched - res.status(400).json(json_response);
   eventAssociationLeave: function(req, res){
-
+  	db.eventAssociations.findOne({
+  		where: {
+  			eventId: req.params.eventid,
+  			userId: req.params.userid
+  		}
+  	}).then(event => {
+  		if(event.matchedUserId){
+  			let message = {
+  				errorResponse: "You can't leave an event once you've been matched."
+  			};
+  			res.status(400).json(message);
+  		} else {
+  			db.eventAssociations.destroy({
+  				where: {
+		  			eventId: req.params.eventid,
+		  			userId: req.params.userid  					
+  				}
+  			}).then(result => {res.json(result)})
+  			.catch(error => {res.json(error)});
+  		}
+  	}).catch(err => {res.json(err)});
   },
 //Runs the matching script for all participants in an event
   match: function(req, res){
