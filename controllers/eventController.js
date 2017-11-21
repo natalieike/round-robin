@@ -1,5 +1,29 @@
 const db = require("../models");
 
+//Decides which match function to run
+const matchFunction = (params, res) => {
+	switch(params.matchOptions){
+		case "Per Shipping Preferences Only":
+			matchShipping(params.eventId, res);
+			break;
+		case "Totally Random":
+			matchRandom(params.eventId, res);
+			break;
+		default:
+			matchShipping(params.eventId, res);
+	}
+};
+
+//Matches users based on their shipping preferences
+const matchShipping = (eventId, res) => {
+
+};
+
+//Matches users completely round-robin with no regard to shipping preferences
+const matchRandom = (eventId, res) => {
+
+};
+
 // Defining methods for the eventController
 module.exports = {
 /*
@@ -210,9 +234,30 @@ module.exports = {
   		}
   	}).catch(err => {res.json(err)});
   },
-//Runs the matching script for all participants in an event
+/* Runs the matching script for all participants in an event
+	 1 - Find Event by eventId
+	 2 - determine Match Option
+	 3 - Find All entries in eventAssociations for the event
+	 4 - Sort by options
+	 5 - loop thru array - each person is matched to the next person in the array.  The last person is matched to the first. (Later feature - swap if the users have been matched previously)
+*/
   match: function(req, res){
-
+  	db.event.findOne({
+  		where: {
+  			id: req.params.id
+  		},
+  		include: {
+  			model: db.matchOptions,
+  			attributes: ['id', 'matchDescription']
+  		}
+  	}).then(result => {
+  		var params = {
+  			eventId: result.dataValues.id,
+  			matchOptions: result.dataValues.matchOption.dataValues.matchDescription
+  		};
+  		console.log(params);
+			matchFunction(params, res);  		
+  	}).catch(err => res.json(err));
   },
 //Returns all Categories
   findAllCategories: function(req, res){
