@@ -16,7 +16,7 @@ const matchFunction = (params, res) => {
 
 //Matches users based on their shipping preferences
 const matchShipping = (eventId, res) => {
-
+	
 };
 
 //Matches users completely round-robin with no regard to shipping preferences
