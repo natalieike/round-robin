@@ -16,12 +16,130 @@ const matchFunction = (params, res) => {
 
 //Matches users based on their shipping preferences
 const matchShipping = (eventId, res) => {
+	db.eventAssociations.findAll({
+		where: {
+			eventId: eventId
+		}, 
+		include: [{
+      model: db.user,
+      attributes: ['id', 'shippingPreferenceId'],
+      include: [{
+      	model: db.stateProvince,
+      	attributes: ['id', 'countryId']
+      }]
+		}]
+	}).then(associations => {
+/* usersByPref is a sorted array by preference, and for Not Worldwide, a nested array sorted by Countries.
+Indices start at 1 to correspond to database Ids for ease.
+Indices for Preference are hard coded to:
+	1 = By Country
+	2 = Worldwide
+*/
+		let usersByPref = [[],[],[]];
+		associations.forEach(association => {
+			let userId = association.dataValues.userId;
+			let preference = association.dataValues.user.dataValues.shippingPreferenceId;
+			let country = association.dataValues.user.dataValues.stateProvince.dataValues.countryId;
+			if(preference != 2){
+//Initialize Array for Country
+				if(!usersByPref[preference][country]){
+					usersByPref[preference][country] = [];
+				}
+				usersByPref[preference][country].push(userId);
+			}else{
+				usersByPref[preference].push(userId);
+			}
+		});
+// Match users whose shipping preference is their own country
+		for(let count = 1; count < usersByPref[1].length; count++) {
+			console.log("Country: " + count);
+			if(usersByPref[1][count]) {
+				if(usersByPref[1][count].length > 1){
+	// Loops thru to get the matches for everyone except the last user			
+					for(let i = 0; i < usersByPref[1][count].length -1; i++){
+						let user = usersByPref[1][count][i];
+						let matchUser = usersByPref[1][count][i+1];
+						updateMatchIds(eventId, user, matchUser);
+					}
+	// Matches the last user in the queue to the first user in the queue
+					updateMatchIds(eventId, usersByPref[1][count][usersByPref[1][count].length-1], usersByPref[1][count][0]);
+				}else if (usersByPref[1][count].length === 1){
+	// If there's only 1 user in the country, put them in the Worldwide matchqueue				
+					usersByPref[2].push(usersByPref[1][count][0]);
+				}
+			}
+		}
+// Match users whose shipping preference is Worldwide - for loop gets everyone but the last user
+		console.log("worldwide");
+		for(let i = 0; i < usersByPref[2].length-1; i++){
+			let user = usersByPref[2][i];
+			let matchUser = usersByPref[2][i+1];
+			updateMatchIds(eventId, user, matchUser);
+		}
+// Match final user to first user
+		updateMatchIds(eventId, usersByPref[2][usersByPref[2].length-1], usersByPref[2][0]);
+// Update Event Status to Event In Progress
+		db.status.findOne({
+			where: {
+				statusName: "Event In Progress"
+			}
+		}).then(status => {
+			db.event.update({
+				statusId: status.dataValues.id
+			}, {
+				where: {
+					id: eventId
+				}
+			}).then(data => {
+				res.json(data);  		  				
+			}).catch(error => res.json(error));  			
+		}).catch(err => res.json(err))
+	}).catch(er => res.json(er));
+};
 
+const updateMatchIds = (eventId, user, matchUser) => {
+	db.eventAssociations.update({
+		matchedUserId: matchUser
+	}, {
+		where: {
+			userId: user,
+			eventId: eventId
+		}
+	}).catch(err => res.json(err));
 };
 
 //Matches users completely round-robin with no regard to shipping preferences
 const matchRandom = (eventId, res) => {
-
+	db.eventAssociations.findAll({
+		where: {
+			eventId: eventId
+		}
+	}).then(associations => {
+// Matches all but the last user
+		for(let i = 0; i < associations.length-1; i++) {
+			let userId = associations[i].dataValues.userId;
+			let matchId = associations[i+1].dataValues.userId;
+			updateMatchIds(eventId, userId, matchId);
+		}		
+// Matches last user to the first user
+		updateMatchIds(eventId, associations[associations.length-1].dataValues.userId, associations[0].dataValues.userId);
+// Update Event Status to Event In Progress
+		db.status.findOne({
+			where: {
+				statusName: "Event In Progress"
+			}
+		}).then(status => {
+			db.event.update({
+				statusId: status.dataValues.id
+			}, {
+				where: {
+					id: eventId
+				}
+			}).then(data => {
+				res.json(data);  		  				
+			}).catch(error => res.json(error));
+		}).catch(er => res.json(er));  		
+	}).catch(err => res.json(err));	
 };
 
 // Defining methods for the eventController
@@ -236,10 +354,12 @@ module.exports = {
   },
 /* Runs the matching script for all participants in an event
 	 1 - Find Event by eventId
-	 2 - determine Match Option
-	 3 - Find All entries in eventAssociations for the event
-	 4 - Sort by options
-	 5 - loop thru array - each person is matched to the next person in the array.  The last person is matched to the first. (Later feature - swap if the users have been matched previously)
+	 2 - Set status to Matching
+	 3 - determine Match Option
+	 4 - Find All entries in eventAssociations for the event
+	 5 - Sort by options
+	 6 - loop thru array - each person is matched to the next person in the array.  The last person is matched to the first. (Later feature - swap if the users have been matched previously)
+	 7 - Set status to Event In Progress
 */
   match: function(req, res){
   	db.event.findOne({
@@ -256,7 +376,21 @@ module.exports = {
   			matchOptions: result.dataValues.matchOption.dataValues.matchDescription
   		};
   		console.log(params);
-			matchFunction(params, res);  		
+  		db.status.findOne({
+  			where: {
+  				statusName: "Matching"
+  			}
+  		}).then(status => {
+  			db.event.update({
+  				statusId: status.dataValues.id
+  			}, {
+  				where: {
+  					id: result.dataValues.id
+  				}
+  			}).then(data => {
+					matchFunction(params, res);  		  				
+  			}).catch(error => res.json(error));  			
+  		}).catch(er => res.json(er));
   	}).catch(err => res.json(err));
   },
 //Returns all Categories
