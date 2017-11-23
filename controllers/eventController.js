@@ -110,7 +110,36 @@ const updateMatchIds = (eventId, user, matchUser) => {
 
 //Matches users completely round-robin with no regard to shipping preferences
 const matchRandom = (eventId, res) => {
-
+	db.eventAssociations.findAll({
+		where: {
+			eventId: eventId
+		}
+	}).then(associations => {
+// Matches all but the last user
+		for(let i = 0; i < associations.length-1; i++) {
+			let userId = associations[i].dataValues.userId;
+			let matchId = associations[i+1].dataValues.userId;
+			updateMatchIds(eventId, userId, matchId);
+		}		
+// Matches last user to the first user
+		updateMatchIds(eventId, associations[associations.length-1].dataValues.userId, associations[0].dataValues.userId);
+// Update Event Status to Event In Progress
+		db.status.findOne({
+			where: {
+				statusName: "Event In Progress"
+			}
+		}).then(status => {
+			db.event.update({
+				statusId: status.dataValues.id
+			}, {
+				where: {
+					id: eventId
+				}
+			}).then(data => {
+				res.json(data);  		  				
+			}).catch(error => res.json(error));
+		}).catch(er => res.json(er));  		
+	}).catch(err => res.json(err));	
 };
 
 // Defining methods for the eventController
