@@ -8,9 +8,9 @@ class Participate extends Component {
 	render() {
 		return(
 		  <div>
-		    <div className="jumbotron text-center">
+		    <div className="jumbotron">
 		      <h1>Participate</h1>
-		      <h2>Search for Events and Manage your Current Events</h2>
+		      <h3>Search for Events and Manage your Current Events</h3>
 		    </div>
 			</div>);
   };

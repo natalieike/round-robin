@@ -8,9 +8,9 @@ class Profile extends Component {
 	render() {
 		return(
 		  <div>
-		    <div className="jumbotron text-center">
+		    <div className="jumbotron">
 		      <h1>Profile</h1>
-		      <h2>Edit Your Profile Details</h2>
+		      <h3>Edit Your Profile Details</h3>
 		    </div>
 			</div>);
   };

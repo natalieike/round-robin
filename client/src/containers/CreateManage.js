@@ -8,9 +8,9 @@ class CreateManage extends Component {
 	render() {
 		return(
 		  <div>
-		    <div className="jumbotron text-center">
+		    <div className="jumbotron">
 		      <h1>Create / Manage Events</h1>
-		      <h2>Create your own Swap, and Manage the Swaps you are Moderating</h2>
+		      <h3>Create your own Swap, and Manage the Swaps you are Moderating</h3>
 		    </div>
 			</div>);
   };
