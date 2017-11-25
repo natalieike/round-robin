@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import {connect} from "react-redux";
+import Navpills from "./components/Navpills";
+import Home from "./containers/Home";
+import Profile from "./containers/Profile";
+import Participate from "./containers/Participate";
+import CreateManage from "./containers/CreateManage";
+import actions from "./actions";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h1>App</h1>
-      </div>
+			<Router>
+		    <div className="container">
+		      <Navpills />
+		      <Redirect exact from="/" to="/home"/>
+		      <Route path="/home" render={() => <Home />} />
+		      <Route path="/profile" render={() => <Profile />} />
+		      <Route path="/participate" render={() => <Participate />} />
+		      <Route path="/createmanage" render={() => <CreateManage />} />
+		    </div>
+		  </Router>
     );
   }
 }
