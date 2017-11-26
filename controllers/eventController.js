@@ -417,7 +417,10 @@ module.exports = {
         model: db.user,
       },
       {
-        model: db.event
+        model: db.event,
+        include: [{
+          model: db.user
+        }]
       }]
     })
     .then(data => {

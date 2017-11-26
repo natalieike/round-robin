@@ -76,4 +76,44 @@ export const searchEvents = categoryId => dispatch => {
 		.then(json => {
 			dispatch(receiveEvents(json));
 		});
+};
+
+const receiveMyEvents = (json) => {
+	let eventArray = [];
+	let signup;
+	let shipping;
+	json.data.forEach(myevent => {
+		console.log(myevent);
+		if(!myevent.event.organizerAka){
+			myevent.event.organizer = myevent.event.user.firstName + " " + myevent.event.user.lastName;
+		} else{
+			myevent.event.organizer = myevent.event.organizerAka;
+		}
+		if(moment(myevent.event.signupDeadline).isValid()){
+			signup = moment(myevent.event.signupDeadline).format("MM/DD/YYYY");
+		} else{
+			signup = "TBD";
+		}
+		if(moment(myevent.event.shipDeadline).isValid()){
+			shipping = moment(myevent.event.shipDeadline).format("MM/DD/YYYY");			
+		}else{
+			shipping = "TBD";
+		}
+		myevent.event.signupDeadline = signup;
+		myevent.event.shipDeadline = shipping;
+		eventArray.push(myevent);
+	});
+	return {
+		type: RECEIVE_DATA,
+		myEvents: eventArray
+	};	
+};
+
+export const fetchMyEvents = userId => dispatch => {
+	dispatch(requestEvents)
+	const baseURL = `/api/events/user/${userId}`
+	return axios.get(baseURL)
+		.then(json => {
+			dispatch(receiveMyEvents(json));
+		})
 }

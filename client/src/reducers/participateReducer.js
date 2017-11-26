@@ -20,7 +20,9 @@ export const allCategories = (state = {
 		isFetching: false, 
 		categories: [],
 		category: 1,
-		events: [] 
+		events: [],
+		myEvents: [],
+		user: 1 
 	}, action) => {
 	switch(action.type){
 		case "REQUEST_DATA":
@@ -38,6 +40,9 @@ export const allCategories = (state = {
 			}
 			if(action.events){
 				newState.events = action.events;
+			}
+			if(action.myEvents){
+				newState.myEvents = action.myEvents;
 			}
 			return newState;
 		default:
