@@ -13,14 +13,16 @@ const EventSearch = props => {
             <label><h4>Search for a Public Event by Category:</h4></label>
             <select 
               className="form-control"
-              value={props.category}>
+              value={props.category}
+              onChange={e => props.onChange(e.target.value)}>
               {props.options.map(category =>
-                <option value={category.id} key={category.id}>
+                <option value={category.id} 
+                  key={category.id}>
                   {category.categoryName}
                 </option>)
               }
             </select>
-            <button className="btn btn-primary">
+            <button className="btn btn-primary searchBtn">
               Search
             </button>
           </div>

@@ -13,6 +13,11 @@ class Participate extends Component {
     console.log(this.props);
   };
 
+  handleChange = selectedCategory => {
+  	console.log(selectedCategory);
+    this.props.dispatch(selectCategory(selectedCategory))
+  };
+
 /*
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedReddit !== this.props.selectedReddit) {
@@ -21,9 +26,6 @@ class Participate extends Component {
     }
   }
 
-  handleChange = nextReddit => {
-    this.props.dispatch(selectReddit(nextReddit))
-  }
 
   handleRefreshClick = e => {
     e.preventDefault()
@@ -74,8 +76,9 @@ class Participate extends Component {
 		      <h1>Participate</h1>
 		      <h3>Search for Events and Manage your Current Events</h3>
 		    </div>
-		    <EventSearch value={category}
-                options={categories} />
+		    <EventSearch value={parseInt(category)}
+                options={categories} 
+                onChange={this.handleChange}/>
 			</div>);
   };
 

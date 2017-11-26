@@ -8,8 +8,11 @@ export {RECEIVE_DATA};
 */
 
 export const selectCategory = category => {
-	type: SELECT_CATEGORY,
-	category
+	console.log(category);
+	return{
+		type: SELECT_CATEGORY,
+		category
+	};
 };
 
 const requestCategories = () => ({
@@ -20,7 +23,6 @@ const requestCategories = () => ({
 const recieveCategories = (json) => {
 	let categoryArray = [];
 	json.data.forEach(category => {
-		console.log(category);
 		categoryArray.push(category);
 	});
 	return {
