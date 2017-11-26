@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import EventSearch from "../components/EventSearch";
 //import EventResults from "../components/EventResults";
-import { selectCategory, fetchCategories } from '../actions';
+import { selectCategory, fetchCategories, searchEvents } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 
@@ -18,22 +18,23 @@ class Participate extends Component {
     this.props.dispatch(selectCategory(selectedCategory))
   };
 
-/*
+  handleClick = event => {
+  	console.log("category: " + this.props.category);
+    event.preventDefault()
+    this.props.dispatch(searchEvents(this.props.category));
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedReddit !== this.props.selectedReddit) {
+/*    if (nextProps.selectedReddit !== this.props.selectedReddit) {
       const { dispatch, selectedReddit } = nextProps
       dispatch(fetchPostsIfNeeded(selectedReddit))
     }
+*/
+		console.log(nextProps);
   }
 
+/*
 
-  handleRefreshClick = e => {
-    e.preventDefault()
-
-    const { dispatch, selectedReddit } = this.props
-    dispatch(invalidateReddit(selectedReddit))
-    dispatch(fetchPostsIfNeeded(selectedReddit))
-  }
 
   render() {
     const { selectedReddit, posts, isFetching, lastUpdated } = this.props
@@ -78,14 +79,16 @@ class Participate extends Component {
 		    </div>
 		    <EventSearch value={parseInt(category)}
                 options={categories} 
-                onChange={this.handleChange}/>
+                onChange={this.handleChange}
+                onClick={this.handleClick}
+        />
 			</div>);
   };
 
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ selectCategory, fetchCategories });
+  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEvents });
   return { ...actions, dispatch };
 }
 
@@ -93,7 +96,8 @@ const mapStateToProps = state => {
 	return{
 		categories: state.allCategories.categories,
 		category: state.selectCategories.category,
-		isFetching: state.allCategories.isFetching
+		isFetching: state.allCategories.isFetching,
+		events: state.allCategories.events
 	 };
 	};
 

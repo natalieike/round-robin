@@ -22,7 +22,8 @@ const EventSearch = props => {
                 </option>)
               }
             </select>
-            <button className="btn btn-primary searchBtn">
+            <button className="btn btn-primary searchBtn"
+              onClick={props.onClick}>
               Search
             </button>
           </div>

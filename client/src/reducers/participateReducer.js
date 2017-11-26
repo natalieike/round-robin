@@ -19,7 +19,8 @@ export const selectCategories = (state={
 export const allCategories = (state = { 
 		isFetching: false, 
 		categories: [],
-		category: 1 
+		category: 1,
+		events: [] 
 	}, action) => {
 	switch(action.type){
 		case "REQUEST_DATA":
@@ -28,11 +29,17 @@ export const allCategories = (state = {
 				isFetching: true
 			}
 		case "RECEIVE_DATA":
-			return{
+			let newState = {
 				...state,
-				isFetching: false,
-				categories: action.categories
+				isFetching: false
+			};
+			if(action.categories){
+				newState.categories = action.categories;
 			}
+			if(action.events){
+				newState.events = action.events;
+			}
+			return newState;
 		default:
 			return state
 	}

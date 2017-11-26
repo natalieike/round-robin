@@ -1,12 +1,6 @@
 import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA} from "./types.js";
 import axios from "axios";
 
-/*
-export {SELECT_CATEGORY};
-export {REQUEST_DATA};
-export {RECEIVE_DATA};
-*/
-
 export const selectCategory = category => {
 	console.log(category);
 	return{
@@ -39,3 +33,32 @@ export const fetchCategories = () => dispatch => {
 			dispatch(recieveCategories(json));
 		});
 };
+
+const requestEvents = () => ({
+	type: REQUEST_DATA,
+	payload: "Requesting"
+});
+
+const receiveEvents = (json) => {
+	console.log("receiveEvents");
+	console.log(json);
+	let eventArray = [];
+	json.data.forEach(event => {
+		eventArray.push(event);
+		console.log(event);
+	});
+	return {
+		type: RECEIVE_DATA,
+		events: eventArray
+	};	
+};
+
+export const searchEvents = categoryId => dispatch => {
+	console.log("CategoryID: " + categoryId);
+	dispatch(requestEvents)
+	const baseURL = `/api/events/options/categoryId&${categoryId}`;
+	return axios.get(baseURL)
+		.then(json => {
+			dispatch(receiveEvents(json));
+		});
+}
