@@ -44,14 +44,24 @@ const receiveEvents = (json) => {
 	console.log("receiveEvents");
 	console.log(json);
 	let eventArray = [];
+	let signup;
+	let shipping;
 	json.data.forEach(event => {
 		if(!event.organizerAka){
 			event.organizer = event.user.firstName + " " + event.user.lastName;
 		} else{
 			event.organizer = event.organizerAka;
 		}
-		let signup = moment(event.signupDeadline).format("MM/DD/YYYY");
-		let shipping = moment(event.shipDeadline).format("MM/DD/YYYY");
+		if(moment(event.signupDeadline).isValid()){
+			signup = moment(event.signupDeadline).format("MM/DD/YYYY");
+		} else{
+			signup = "TBD";
+		}
+		if(moment(event.shipDeadline).isValid()){
+			shipping = moment(event.shipDeadline).format("MM/DD/YYYY");			
+		}else{
+			shipping = "TBD";
+		}
 		event.signupDeadline = signup;
 		event.shipDeadline = shipping;
 		eventArray.push(event);
