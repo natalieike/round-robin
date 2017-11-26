@@ -1,5 +1,6 @@
 import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA} from "./types.js";
 import axios from "axios";
+import moment from "moment";
 
 export const selectCategory = category => {
 	console.log(category);
@@ -44,6 +45,15 @@ const receiveEvents = (json) => {
 	console.log(json);
 	let eventArray = [];
 	json.data.forEach(event => {
+		if(!event.organizerAka){
+			event.organizer = event.user.firstName + " " + event.user.lastName;
+		} else{
+			event.organizer = event.organizerAka;
+		}
+		let signup = moment(event.signupDeadline).format("MM/DD/YYYY");
+		let shipping = moment(event.shipDeadline).format("MM/DD/YYYY");
+		event.signupDeadline = signup;
+		event.shipDeadline = shipping;
 		eventArray.push(event);
 		console.log(event);
 	});

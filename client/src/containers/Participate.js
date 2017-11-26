@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import EventSearch from "../components/EventSearch";
-//import EventResults from "../components/EventResults";
+import EventResults from "../components/EventResults";
 import { selectCategory, fetchCategories, searchEvents } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
@@ -70,7 +70,7 @@ class Participate extends Component {
 */
 
 	render() {
-    const { category, categories } = this.props
+    const { category, categories, events } = this.props
 		return(
 		  <div>
 		    <div className="jumbotron">
@@ -81,6 +81,9 @@ class Participate extends Component {
                 options={categories} 
                 onChange={this.handleChange}
                 onClick={this.handleClick}
+        />
+        <EventResults 
+        	results={events}
         />
 			</div>);
   };

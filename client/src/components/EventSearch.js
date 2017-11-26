@@ -10,7 +10,7 @@ const EventSearch = props => {
       <div className="panel-body">
         <form>
           <div className="form-group">
-            <label><h4>Search for a Public Event by Category:</h4></label>
+            <label>Search for a Public Event by Category:</label>
             <select 
               className="form-control"
               value={props.category}
