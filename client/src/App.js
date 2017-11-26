@@ -6,7 +6,9 @@ import Home from "./containers/Home";
 import Profile from "./containers/Profile";
 import Participate from "./containers/Participate";
 import CreateManage from "./containers/CreateManage";
-import actions from "./actions";
+import * as actions from "./actions";
+import reduxThunk from "redux-thunk";
+
 
 class App extends Component {
   render() {

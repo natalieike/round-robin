@@ -19,3 +19,6 @@ export const JOIN_EVENT = "JOIN_EVENT";
 
 //For Viewing Details of an Event
 export const VIEW_DETAILS = "VIEW_DETAILS";
+
+//For Category Select Menu
+export const SELECT_CATEGORY = "SELECT_CATEGORY";
