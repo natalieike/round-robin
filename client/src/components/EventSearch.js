@@ -1,7 +1,6 @@
 import React from "react";
  
 const EventSearch = props => {
-  console.log(props);
   return(
     <div className="panel panel-default">
       <div className="panel-heading">

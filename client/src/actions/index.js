@@ -3,7 +3,6 @@ import axios from "axios";
 import moment from "moment";
 
 export const selectCategory = category => {
-	console.log(category);
 	return{
 		type: SELECT_CATEGORY,
 		category
@@ -41,8 +40,6 @@ const requestEvents = () => ({
 });
 
 const receiveEvents = (json) => {
-	console.log("receiveEvents");
-	console.log(json);
 	let eventArray = [];
 	let signup;
 	let shipping;
@@ -65,7 +62,6 @@ const receiveEvents = (json) => {
 		event.signupDeadline = signup;
 		event.shipDeadline = shipping;
 		eventArray.push(event);
-		console.log(event);
 	});
 	return {
 		type: RECEIVE_DATA,
@@ -74,7 +70,6 @@ const receiveEvents = (json) => {
 };
 
 export const searchEvents = categoryId => dispatch => {
-	console.log("CategoryID: " + categoryId);
 	dispatch(requestEvents)
 	const baseURL = `/api/events/options/categoryId&${categoryId}`;
 	return axios.get(baseURL)

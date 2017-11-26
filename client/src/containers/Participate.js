@@ -10,16 +10,13 @@ import { bindActionCreators } from 'redux'
 class Participate extends Component {
   componentDidMount() {
     this.props.dispatch(fetchCategories());
-    console.log(this.props);
   };
 
   handleChange = selectedCategory => {
-  	console.log(selectedCategory);
     this.props.dispatch(selectCategory(selectedCategory))
   };
 
   handleClick = event => {
-  	console.log("category: " + this.props.category);
     event.preventDefault()
     this.props.dispatch(searchEvents(this.props.category));
   }

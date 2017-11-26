@@ -18,6 +18,10 @@ router.route("/join/:eventid&:userid")
 	.put(eventController.eventAssociationUpdate)
 	.delete(eventController.eventAssociationLeave);
 
+//Matches with "/api/events/user/:userId"
+router.route("/user/:userId")
+	.get(eventController.findUserEvents);
+
 //Matches with "/api/events/match/:id" - runs match process to match all participants
 router.route("/match/:id")
 	.put(eventController.match);
