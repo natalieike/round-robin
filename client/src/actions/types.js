@@ -22,3 +22,7 @@ export const VIEW_DETAILS = "VIEW_DETAILS";
 
 //For Category Select Menu
 export const SELECT_CATEGORY = "SELECT_CATEGORY";
+//For Match Options Select Menu
+export const SELECT_MATCHOPTION = "SELECT_MATCHOPTION";
+//For Form Entries
+export const REGISTER_FORMDATA = "REGISTER_FORMDATA";

@@ -10,6 +10,9 @@ const MyEvents = props => {
         <td>{result.event.eventName}</td>
         <td>{result.event.organizer}</td>
         <td>{result.event.shipDeadline}</td>
+        <td><button className="btn btn-primary">
+          View Details
+        </button></td>
       </tr>
   )});
 
@@ -26,6 +29,7 @@ const MyEvents = props => {
               <th>Event Name</th>
               <th>Organizer</th>
               <th>Shipping Deadline</th>
+              <th>More</th>
             </tr>
             {resultTable}
           </tbody>

@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA} from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA} from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -151,4 +151,39 @@ export const fetchMyManagedEvents = userId => dispatch => {
 		.then(json => {
 			dispatch(receiveMyManagedEvents(json));
 		});
+};
+
+export const selectMatchOptions = option => {
+	return{
+		type: SELECT_MATCHOPTION,
+		option
+	};
+};
+
+export const registerEventNameChange = data => {
+	return {
+		type: REGISTER_FORMDATA,
+		eventName: data
+	};
+};
+
+export const registerOrganizerAkaChange = data => {
+	return {
+		type: REGISTER_FORMDATA,
+		organizerAka: data
+	};
+};
+
+export const registerAboutEventChange = data => {
+	return {
+		type: REGISTER_FORMDATA,
+		aboutEvent: data
+	};
+};
+
+export const registerRadioButtonChange = data => {
+	return {
+		type: REGISTER_FORMDATA,
+		isPrivate: data
+	};
 };

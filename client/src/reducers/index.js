@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import {selectCategories, allCategories} from "./participateReducer"
-import {manageMyEvents} from "./createmanageReducer"
+import {manageMyEvents, selectMatchOption, registerFormData} from "./createmanageReducer"
 
 
 const rootReducer = combineReducers({
 	selectCategories,
 	allCategories, 
-	manageMyEvents
+	manageMyEvents,
+	selectMatchOption, 
+	registerFormData
 })
 
 export default rootReducer
