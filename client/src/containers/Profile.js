@@ -10,7 +10,7 @@ class Profile extends Component {
 		  <div>
 		    <div className="jumbotron">
 		      <h1>Profile</h1>
-		      <h3>Edit Your Profile Details</h3>
+		      <h4>Edit Your Profile Details</h4>
 		    </div>
 			</div>);
   };

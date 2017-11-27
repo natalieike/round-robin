@@ -110,10 +110,45 @@ const receiveMyEvents = (json) => {
 };
 
 export const fetchMyEvents = userId => dispatch => {
-	dispatch(requestEvents)
-	const baseURL = `/api/events/user/${userId}`
+	dispatch(requestEvents);
+	const baseURL = `/api/events/user/${userId}`;
 	return axios.get(baseURL)
 		.then(json => {
 			dispatch(receiveMyEvents(json));
-		})
-}
+		});
+};
+
+const receiveMyManagedEvents = (json) => {
+	let eventArray = [];
+	let signup;
+	let shipping;
+	json.data.forEach(myevent => {
+		console.log(myevent);
+		if(moment(myevent.signupDeadline).isValid()){
+			signup = moment(myevent.signupDeadline).format("MM/DD/YYYY");
+		} else{
+			signup = "TBD";
+		}
+		if(moment(myevent.shipDeadline).isValid()){
+			shipping = moment(myevent.shipDeadline).format("MM/DD/YYYY");			
+		}else{
+			shipping = "TBD";
+		}
+		myevent.signupDeadline = signup;
+		myevent.shipDeadline = shipping;
+		eventArray.push(myevent);
+	});
+	return {
+		type: RECEIVE_DATA,
+		myManagedEvents: eventArray
+	};	
+};
+
+export const fetchMyManagedEvents = userId => dispatch => {
+	dispatch(requestEvents);
+	const baseURL = `/api/events/options/userId&${userId}`;
+	return axios.get(baseURL)
+		.then(json => {
+			dispatch(receiveMyManagedEvents(json));
+		});
+};

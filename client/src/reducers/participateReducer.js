@@ -1,4 +1,4 @@
-import {selectCategory, fetchCategories} from "../actions";
+import { selectCategory, fetchCategories, searchEvents, fetchMyEvents } from '../actions';
 
 export const selectCategories = (state={
 	isFetching: false,

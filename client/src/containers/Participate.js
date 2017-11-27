@@ -24,49 +24,8 @@ class Participate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-/*    if (nextProps.selectedReddit !== this.props.selectedReddit) {
-      const { dispatch, selectedReddit } = nextProps
-      dispatch(fetchPostsIfNeeded(selectedReddit))
-    }
-*/
 		console.log(nextProps);
   }
-
-/*
-
-
-  render() {
-    const { selectedReddit, posts, isFetching, lastUpdated } = this.props
-    const isEmpty = posts.length === 0
-    return (
-      <div>
-        <Picker value={selectedReddit}
-                onChange={this.handleChange}
-                options={[ 'reactjs', 'frontend' ]} />
-        <p>
-          {lastUpdated &&
-            <span>
-              Last updated at {new Date(lastUpdated).toLocaleTimeString()}.
-              {' '}
-            </span>
-          }
-          {!isFetching &&
-            <button onClick={this.handleRefreshClick}>
-              Refresh
-            </button>
-          }
-        </p>
-        {isEmpty
-          ? (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
-          : <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-              <Posts posts={posts} />
-            </div>
-        }
-      </div>
-    )
-  }
-}
-*/
 
 	render() {
     const { category, categories, events, myEvents } = this.props
@@ -74,7 +33,7 @@ class Participate extends Component {
 		  <div>
 		    <div className="jumbotron">
 		      <h1>Participate</h1>
-		      <h3>Search for Events and Manage your Current Events</h3>
+		      <h4>Search for Events and Manage your Current Events</h4>
 		    </div>
 		    <EventSearch value={parseInt(category)}
                 options={categories} 
