@@ -1,4 +1,4 @@
-import { fetchMyManagedEvents, selectMatchOptions, registerEventNameChange, registerRadioButtonChange } from '../actions';
+import { fetchMyManagedEvents, selectMatchOptions, registerEventNameChange, registerRadioButtonChange, submitNewEvent } from '../actions';
 
 export const manageMyEvents = (state = { 
 		isFetching: false, 
@@ -65,6 +65,14 @@ export const registerFormData = (state={
 			if(action.isPrivate){
 				newState.isPrivate = action.isPrivate;
 			}
+			return newState;
+		case "FORM_CLEAR":
+			let newData = action.formData;
+			newState = {
+				...state,
+				...newData
+			}
+			console.log(newState);
 			return newState;
 		default:
 			return state;

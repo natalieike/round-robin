@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA} from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR} from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -186,4 +186,29 @@ export const registerRadioButtonChange = data => {
 		type: REGISTER_FORMDATA,
 		isPrivate: data
 	};
+};
+
+const clearForm = formData =>{
+	console.log("formData: " + formData)
+	return{
+		type: FORM_CLEAR,
+		formData
+	}
+};
+
+export const submitNewEvent = eventData => dispatch => {
+	let formDataToClear = {
+		eventName: "",
+		organizerAka: "",
+		category: 1,
+		matchOption: 1,
+		isPrivate: true,
+		aboutEvent: ""
+	}
+	dispatch(clearForm(formDataToClear));
+	const baseURL = `/api/events`;
+	return axios.post(baseURL, eventData)
+		.then(json => {
+			dispatch(fetchMyManagedEvents(eventData.userId));
+		});
 };

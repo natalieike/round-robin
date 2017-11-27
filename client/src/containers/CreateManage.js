@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import ManageMyEvents from "../components/ManageMyEvents";
-import { fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange } from '../actions';
+import { fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 import CreateEvent from "../components/CreateEvent"
@@ -40,7 +40,16 @@ class CreateManage extends Component {
 
   handleClick = event => {
     event.preventDefault()
-//    this.props.dispatch(searchEvents(this.props.category));
+    let newEventData = {
+    	eventName: this.props.eventName,
+    	organizerAka: this.props.organizerAka,
+    	isPrivate: this.props.isPrivate,
+    	aboutEvent: this.props.aboutEvent,
+    	categoryId: this.props.category,
+    	userId: this.props.user,
+    	matchOptionId: this.props.matchOption
+    }
+    this.props.dispatch(submitNewEvent(newEventData));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,7 +88,7 @@ class CreateManage extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange });
+  let actions = bindActionCreators({ fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent });
   return { ...actions, dispatch };
 }
 
