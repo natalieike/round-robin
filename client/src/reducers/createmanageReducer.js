@@ -48,9 +48,11 @@ export const registerFormData = (state={
 	organizerAka: "",
 	isPrivate: false
 }, action) =>{
+	console.log(action);
+	let newState = {};
 	switch(action.type){
 		case "REGISTER_FORMDATA":
-			let newState = {
+			newState = {
 				...state,
 			};
 			if(action.eventName){
@@ -67,13 +69,12 @@ export const registerFormData = (state={
 			}
 			return newState;
 		case "FORM_CLEAR":
-			let newData = action.formData;
-			newState = {
+			newState =  {
 				...state,
-				...newData
+				...action
 			}
 			console.log(newState);
-			return newState;
+			return newState
 		default:
 			return state;
 	}

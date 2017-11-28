@@ -188,24 +188,29 @@ export const registerRadioButtonChange = data => {
 	};
 };
 
-const clearForm = formData =>{
-	console.log("formData: " + formData)
-	return{
-		type: FORM_CLEAR,
-		formData
+export const registerAllEventData = data => {
+	return {
+		type: REGISTER_FORMDATA,
+		...data
 	}
-};
+}
+
+const clearFormData = data => {
+	return {
+		type: FORM_CLEAR,
+		...data
+	}
+}
 
 export const submitNewEvent = eventData => dispatch => {
-	let formDataToClear = {
+	dispatch(clearFormData({
 		eventName: "",
 		organizerAka: "",
-		category: 1,
-		matchOption: 1,
-		isPrivate: true,
-		aboutEvent: ""
-	}
-	dispatch(clearForm(formDataToClear));
+		aboutEvent: "",
+		isPrivate: ""
+	}));
+	dispatch (selectCategory(1));
+	dispatch(selectMatchOptions(1));
 	const baseURL = `/api/events`;
 	return axios.post(baseURL, eventData)
 		.then(json => {
