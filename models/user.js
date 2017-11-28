@@ -9,31 +9,35 @@ module.exports = function(sequelize, DataTypes){
 		},
 		firstName: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: false
 			},
 		lastName: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: false
 			},
 		streetAddress: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: false
 			},
 		city: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: false
 			},
+		postalCode: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		fbUserId: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: false
 			},
 		oAuthToken: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: false
 			},
 		aboutMe: {
 			type: DataTypes.TEXT,
-			allowNull: true,
+			allowNull: true
 			},
 		isActive: {
 			type: DataTypes.BOOLEAN,

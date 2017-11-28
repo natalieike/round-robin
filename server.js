@@ -6,7 +6,7 @@ const routes = require("./routes");
 
 //Initialize database
 var db = require("./models");
-db.sequelize.sync({ force: true }).then(function(){
+db.sequelize.sync({ force: false }).then(function(){
 	
 	//Set up Express
 	const PORT = process.env.PORT || 3001;
