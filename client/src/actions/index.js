@@ -83,7 +83,6 @@ const receiveMyEvents = (json) => {
 	let signup;
 	let shipping;
 	json.data.forEach(myevent => {
-		console.log(myevent);
 		if(!myevent.event.organizerAka){
 			myevent.event.organizer = myevent.event.user.firstName + " " + myevent.event.user.lastName;
 		} else{
@@ -123,7 +122,6 @@ const receiveMyManagedEvents = (json) => {
 	let signup;
 	let shipping;
 	json.data.forEach(myevent => {
-		console.log(myevent);
 		if(moment(myevent.signupDeadline).isValid()){
 			signup = moment(myevent.signupDeadline).format("MM/DD/YYYY");
 		} else{
