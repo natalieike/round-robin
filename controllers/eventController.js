@@ -405,5 +405,34 @@ module.exports = {
   	.then(data => {res.json(data)})
   	.catch(err => {res.json(err)});
   },
+//Returns all Events for a User
+  findUserEvents: function(req, res){
+    const user = req.params.userId;
+    console.log(user);
+    db.eventAssociations.findAll({
+      where: {
+        userId: user
+      }, 
+      include: [{
+        model: db.user,
+      },
+      {
+        model: db.event,
+        include: [{
+          model: db.user
+        }]
+      }]
+    })
+    .then(data => {
+      let result = [];
+      data.forEach(eventData => {
+        if(eventData.event.isActive == true){
+          result.push(eventData);
+        }
+      })
+      res.json(result);
+    })
+    .catch(err => {res.json(err)});   
+  }  
 
 };
