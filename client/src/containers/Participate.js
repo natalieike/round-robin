@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import EventSearch from "../components/EventSearch";
 import EventResults from "../components/EventResults";
-import { selectCategory, fetchCategories, searchEvents, fetchMyEvents } from '../actions';
+import { selectCategory, fetchCategories, searchEvents, fetchMyEvents, joinEvent } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 import MyEvents from "../components/MyEvents";
@@ -19,8 +19,23 @@ class Participate extends Component {
   };
 
   handleClick = event => {
-    event.preventDefault()
+    event.preventDefault();
     this.props.dispatch(searchEvents(this.props.category));
+  }
+
+  handleJoin = event => {
+    event.preventDefault();
+    let index = this.props.myEvents.find(x => x.event.id == event.target.value);
+    console.log(index);
+    console.log(this.props.myEvents);
+    if(!this.props.myEvents.find(x => x.event.id == event.target.value)){
+        this.props.dispatch(joinEvent({
+          eventId: event.target.value, 
+          userId: this.props.user
+        }));
+    }else{
+      console.log("already joined");
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,12 +51,13 @@ class Participate extends Component {
 		      <h4>Search for Events and Manage your Current Events</h4>
 		    </div>
 		    <EventSearch value={parseInt(category)}
-                options={categories} 
-                onChange={this.handleChange}
-                onClick={this.handleClick}
+          options={categories} 
+          onChange={this.handleChange}
+          onClick={this.handleClick}
         />
         <EventResults 
         	results={events}
+          onClick={this.handleJoin}
         />
         <MyEvents 
         	results={myEvents}
@@ -52,7 +68,7 @@ class Participate extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEvents, fetchMyEvents });
+  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEvents, fetchMyEvents, joinEvent });
   return { ...actions, dispatch };
 }
 

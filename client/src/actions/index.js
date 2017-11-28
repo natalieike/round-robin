@@ -217,3 +217,11 @@ export const submitNewEvent = eventData => dispatch => {
 			dispatch(fetchMyManagedEvents(eventData.userId));
 		});
 };
+
+export const joinEvent = eventData => dispatch => {
+	const baseURL = `/api/events/join/${eventData.eventId}&${eventData.userId}`;
+	return axios.post(baseURL)
+	.then(json => {
+			dispatch(fetchMyEvents(eventData.userId));
+	});
+};
