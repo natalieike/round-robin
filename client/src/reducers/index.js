@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
 	allCategories, 
 	manageMyEvents,
 	selectMatchOption, 
-	registerFormData,
+	registerFormData
 })
 
 export default rootReducer
