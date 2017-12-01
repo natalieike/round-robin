@@ -6,6 +6,7 @@
 	margin-bottom: 1%;
 }
 
-.fbbutton{
-	vertical-align: middle;
+.fbButton{
+	height: 100px;
+	width: 100px;
 }
