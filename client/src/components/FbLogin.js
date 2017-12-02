@@ -11,12 +11,14 @@ class FbLogin extends Component {
         version    : 'v2.11'
       });
       window.FB.AppEvents.logPageView();
-      this.checkLoginState();
+      window.FB.getLoginStatus(function(response) {
+        console.log(response.status);
+      });
       window.FB.Event.subscribe('auth.statusChange', function(response) {
         if (response.authResponse) {
           this.checkLoginState();
         } else {
-          console.log('---->User cancelled login or did not fully authorize.');
+          console.log('---->User logged out, cancelled login, or did not fully authorize.');
           this.checkLoginState();
         }
       }.bind(this));
@@ -36,12 +38,12 @@ class FbLogin extends Component {
   // successful.  See statusChangeCallback() for when this call is made.
   testAPI() {
     console.log('Welcome! Fetching your information.... ');
-    window.FB.api('/me', function(response) {
+    window.FB.api('/me?fields=name,email,first_name,last_name', function(response) {
       console.log('Successful login for: ' + response.name);
       console.log(response);
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
-    });
+    })
   }
 
   // This is called with the results from from FB.getLoginStatus().
@@ -68,7 +70,9 @@ class FbLogin extends Component {
   }
 
   handleClick() {
-    window.FB.login(this.checkLoginState());
+    window.FB.login(this.checkLoginState(), 
+                    {scope: 'public_profile, email',
+                      return_scopes: true});
   }
 
   handleResponse = (data) => {
@@ -90,7 +94,7 @@ class FbLogin extends Component {
           data-auto-logout-link="true" 
           data-use-continue-as="true"
           onClick={this.handleClick}
-          onChange={this.checkLoginState}
+          onlogin={this.checkLoginState}
           onError={this.handleError}
         >
         </div>
