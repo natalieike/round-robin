@@ -223,3 +223,11 @@ export const joinEvent = eventData => dispatch => {
 			dispatch(fetchMyEvents(eventData.userId));
 	});
 };
+
+export const loginToDb = loginData => dispatch => {
+	console.log(loginData);
+};
+
+export const receiveFbData = fbData => dispatch => {
+	console.log(fbData);
+};

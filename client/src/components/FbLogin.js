@@ -1,4 +1,9 @@
 import React, { Component} from 'react';
+import { loginToDb, receiveFbData } from '../actions';
+import reduxThunk from "redux-thunk";
+import { bindActionCreators } from 'redux';
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 class FbLogin extends Component {
 
@@ -37,10 +42,12 @@ class FbLogin extends Component {
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
   testAPI() {
+    let that = this;
     console.log('Welcome! Fetching your information.... ');
     window.FB.api('/me?fields=name,email,first_name,last_name', function(response) {
       console.log('Successful login for: ' + response.name);
       console.log(response);
+      that.props.dispatch(receiveFbData(response));
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     })
@@ -52,13 +59,14 @@ class FbLogin extends Component {
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       this.testAPI();
+      this.props.dispatch(loginToDb(response))
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'You are not logged in to this app.';
+      document.getElementById('status').innerHTML = 'Log in with Facebook to Get Started!';
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'You are not logged in.';
+      document.getElementById('status').innerHTML = 'Log in with Facebook to Get Started!';
     }
   }
 
@@ -73,6 +81,10 @@ class FbLogin extends Component {
     window.FB.login(this.checkLoginState(), 
                     {scope: 'public_profile, email',
                       return_scopes: true});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   }
 
   handleResponse = (data) => {
@@ -98,10 +110,20 @@ class FbLogin extends Component {
           onError={this.handleError}
         >
         </div>
-        <div id="status"></div>
       </div>              
     );
   }
 }
-  
-export default FbLogin;
+
+const mapDispatchToProps = dispatch => {
+  let actions = bindActionCreators({ loginToDb, receiveFbData });
+  return { ...actions, dispatch };
+}
+
+const mapStateToProps = state => {
+  return{
+    user: state.allCategories.user
+   };
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(FbLogin);  
