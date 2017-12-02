@@ -1,13 +1,6 @@
 import React, { Component} from 'react';
 
 class FbLogin extends Component {
-  constructor(props) {
-    super(props);
-    this.checkLoginState = this.checkLoginState.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.testAPI = this.testAPI.bind(this);
-    this.statusChangeCallback = this.statusChangeCallback.bind(this);
-  }
 
   componentDidMount() {
     window.fbAsyncInit = function() {
