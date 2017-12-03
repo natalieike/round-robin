@@ -33,5 +33,5 @@ VALUES ("", false, 1, 1, NULL),
 				("", false, 4, 8, NULL),
 				("", false, 4, 9, NULL),
 				("", false, 5, 5, 1),
-				("", false, 5, 1, 5)
+				("", false, 5, 1, 5),
 				("", false, 2, 1, NULL);

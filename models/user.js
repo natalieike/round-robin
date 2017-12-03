@@ -15,6 +15,10 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.STRING,
 			allowNull: false
 			},
+		email: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		streetAddress: {
 			type: DataTypes.STRING,
 			allowNull: false
@@ -28,10 +32,6 @@ module.exports = function(sequelize, DataTypes){
 			allowNull: false
 		},
 		fbUserId: {
-			type: DataTypes.STRING,
-			allowNull: false
-			},
-		oAuthToken: {
 			type: DataTypes.STRING,
 			allowNull: false
 			},
