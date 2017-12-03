@@ -26,6 +26,7 @@
     "mysql2": "^1.5.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
+    "passport-facebook-token": "^3.3.0",
     "sequelize": "^4.22.6"
   }
 }

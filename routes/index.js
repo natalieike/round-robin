@@ -5,6 +5,7 @@ const session = require("express-session");
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook");
 
+/*
 // Authentication Routes
 function isLoggedIn(req, res, next) {
   req.loggedIn = !!req.user;
@@ -25,8 +26,10 @@ router.get('/auth/facebook/callback',
 
 router.get('/login', isLoggedIn, function(req, res) {
   if(req.loggedIn) res.redirect('/');
-  console.log(req.loggedIn);
-  res.json(res);
+  console.log("/login: " + req.loggedIn);
+  res.json({
+    login: false
+  });
 });
 
 // 500 error handler (middleware)
@@ -35,6 +38,7 @@ router.use(function(err, req, res, next){
   res.status(500);
   res.json(err);
 });
+*/
 
 // API Routes
 router.use("/api", apiRoutes);

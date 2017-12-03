@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import { loginToDb, receiveFbData } from '../actions';
+import { loginToDb, receiveFbData, isLoggedIn } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux';
 import { Link } from "react-router-dom";
@@ -58,8 +58,9 @@ class FbLogin extends Component {
     console.log("status callback");
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
+      console.log(response.authResponse.accessToken);
       this.testAPI();
-      this.props.dispatch(loginToDb(response))
+      this.props.dispatch(loginToDb(response.authResponse.accessToken))
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Log in with Facebook to Get Started!';
@@ -78,9 +79,12 @@ class FbLogin extends Component {
   }
 
   handleClick() {
+   
     window.FB.login(this.checkLoginState(), 
                     {scope: 'public_profile, email',
                       return_scopes: true});
+//    this.props.dispatch(isLoggedIn());
+//    this.props.dispatch(loginToDb());
   }
 
   componentWillReceiveProps(nextProps) {
@@ -116,7 +120,7 @@ class FbLogin extends Component {
 }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ loginToDb, receiveFbData });
+  let actions = bindActionCreators({ loginToDb, receiveFbData, isLoggedIn });
   return { ...actions, dispatch };
 }
 

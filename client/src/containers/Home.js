@@ -5,6 +5,15 @@ class Home extends Component {
 	state={
 	};
 
+/*
+	      	<a href="/auth/facebook"
+	      		className="btn btn-primary searchBtn"
+	      	>
+	      	Facebook AUTH
+	      	</a>
+*/
+
+
 	render() {
 		return(
 		  <div>
@@ -16,7 +25,6 @@ class Home extends Component {
 			      <li>Participate in Swaps - Private Swaps by Invite, or Search for Public Events</li>
 			    </ul>
 		      <h3 className="text-center" id="status">Log in with Facebook to Get Started!</h3>
-
 		    </div>
 			</div>);
   };

@@ -224,9 +224,29 @@ export const joinEvent = eventData => dispatch => {
 	});
 };
 
-export const loginToDb = loginData => dispatch => {
-	console.log(loginData);
+export const loginToDb = (token) => dispatch => {
+	console.log("loginToDb");
+	const baseURL = `/auth/facebook/token`;
+	return axios.post(baseURL, {
+		access_token:token
+	})
+	.then(json => {
+		console.log(json);
+	})
+	.catch(err => {
+		console.log("Error: ");
+		console.log(err);
+	});
 };
+
+export const isLoggedIn = () => dispatch => {
+	console.log("isLoggedIn");
+	const baseURL = `/login`;
+	return axios.get(baseURL)
+	.then(json => {
+		console.log(json);
+	});
+}
 
 export const receiveFbData = fbData => dispatch => {
 	console.log(fbData);

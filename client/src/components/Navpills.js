@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FbLogin from "./FbLogin";
 
+/*  
+*/    
+
 const Navpills = () =>
   <ul className="nav nav-pills nav-justified">
     <li>
