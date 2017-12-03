@@ -31,7 +31,7 @@ db.sequelize.sync({ force: false }).then(function(){
           stateProvinceId: 1
     	};
     	console.log(me);
-    	
+
       db.user.findOrCreate({
       	where: {
 	      	fbUserId: me.fbUserId,
@@ -40,7 +40,7 @@ db.sequelize.sync({ force: false }).then(function(){
 	    	defaults: me
 	    }).spread(function(user, created){
 	    	console.log("find or create user: " + user);
-				return done(error, user);
+				return done(null, user);
       }).catch(err => {
       	console.log(err);
       });
