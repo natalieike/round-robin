@@ -42,6 +42,14 @@ router.use(function(err, req, res, next){
 
 module.exports = function(passport){
 
+// middleware that is specific to this router
+router.use(isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated()){
+    return next();
+  }
+  res.json({data: "not logged in"}); 
+});
+
 // API Routes
 router.use("/api", apiRoutes);
 
