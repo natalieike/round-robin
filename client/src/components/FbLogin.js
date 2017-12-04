@@ -56,13 +56,14 @@ class FbLogin extends Component {
   // This is called with the results from from FB.getLoginStatus().
   statusChangeCallback(response) {
     console.log("status callback");
+    this.props.dispatch(loginToDb(response))
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      console.log(response.authResponse.accessToken);
+      console.log(response);
       this.testAPI();
-      this.props.dispatch(loginToDb(response.authResponse.accessToken))
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
+      
       document.getElementById('status').innerHTML = 'Log in with Facebook to Get Started!';
     } else {
       // The person is not logged into Facebook, so we're not sure if

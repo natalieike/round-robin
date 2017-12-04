@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR} from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT} from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -121,21 +121,24 @@ const receiveMyManagedEvents = (json) => {
 	let eventArray = [];
 	let signup;
 	let shipping;
-	json.data.forEach(myevent => {
-		if(moment(myevent.signupDeadline).isValid()){
-			signup = moment(myevent.signupDeadline).format("MM/DD/YYYY");
-		} else{
-			signup = "TBD";
-		}
-		if(moment(myevent.shipDeadline).isValid()){
-			shipping = moment(myevent.shipDeadline).format("MM/DD/YYYY");			
-		}else{
-			shipping = "TBD";
-		}
-		myevent.signupDeadline = signup;
-		myevent.shipDeadline = shipping;
-		eventArray.push(myevent);
-	});
+	console.log(json.data);
+	if(json.data){
+		json.data.forEach(myevent => {
+			if(moment(myevent.signupDeadline).isValid()){
+				signup = moment(myevent.signupDeadline).format("MM/DD/YYYY");
+			} else{
+				signup = "TBD";
+			}
+			if(moment(myevent.shipDeadline).isValid()){
+				shipping = moment(myevent.shipDeadline).format("MM/DD/YYYY");			
+			}else{
+				shipping = "TBD";
+			}
+			myevent.signupDeadline = signup;
+			myevent.shipDeadline = shipping;
+			eventArray.push(myevent);
+		});
+	}
 	return {
 		type: RECEIVE_DATA,
 		myManagedEvents: eventArray
@@ -224,13 +227,39 @@ export const joinEvent = eventData => dispatch => {
 	});
 };
 
-export const loginToDb = (token) => dispatch => {
+const logUserIn = (authObj, json) => {
+	console.log("logUserIn");
+	let login = {
+		loginStatus: authObj.status,
+		access_token: authObj.authResponse.accessToken,
+		fbUserId: authObj.authResponse.userID,
+		dbStatus: json.statusText
+	};
+	if(login.loginStatus == "connected" && login.dbStatus == "OK"){
+		return {
+			type: LOGIN,
+			data: login
+		};
+	} else{
+		return {
+			type: LOGOUT,
+			data: login
+		};
+	}
+};
+
+export const loginToDb = (authObj) => dispatch => {
 	console.log("loginToDb");
+	console.log(authObj.authResponse.accessToken);
+//	const baseURL = `/auth/facebook/token?access_token=${authObj.authResponse.accessToken}`;
 	const baseURL = `/auth/facebook/token`;
+	console.log(baseURL);
 	return axios.post(baseURL, {
-		access_token:token
+		access_token: authObj.authResponse.accessToken
 	})
 	.then(json => {
+		console.log("got JSON");
+		dispatch(logUserIn(authObj, json));
 		console.log(json);
 	})
 	.catch(err => {
@@ -238,6 +267,7 @@ export const loginToDb = (token) => dispatch => {
 		console.log(err);
 	});
 };
+
 
 export const isLoggedIn = () => dispatch => {
 	console.log("isLoggedIn");
@@ -247,6 +277,7 @@ export const isLoggedIn = () => dispatch => {
 		console.log(json);
 	});
 }
+
 
 export const receiveFbData = fbData => dispatch => {
 	console.log(fbData);

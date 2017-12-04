@@ -1,12 +1,16 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const routes = require("./routes");
+//const routes = require("./routes");
 const keys = require("./config/keys.json")
 const session = require("express-session");
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook");
+//const FacebookStrategy = require("passport-facebook");
 const FacebookTokenStrategy = require('passport-facebook-token');
+const cookieParser = require("cookie-parser");
+
+
+const cookieSecret = process.env.cookieSecret || keys.cookieSecret;
 
 //Initialize database
 var db = require("./models");
@@ -17,7 +21,10 @@ db.sequelize.sync({ force: false }).then(function(){
 	passport.use(new FacebookTokenStrategy({
     clientID: process.env.facebookAppId || keys.facebook.app_id,
     clientSecret: process.env.facebookAppSecret || keys.facebook.app_secret
+//    callbackURL: process.env.facebookCallback || keys.facebook.callback,
+//    profileFields:['displayname', 'id', 'email','first_name','last_name']
   }, function(accessToken, refreshToken, profile, done) {
+      console.log("Profile ");
       console.log(profile);
       let me = {
           email:profile.emails[0].value,
@@ -30,6 +37,7 @@ db.sequelize.sync({ force: false }).then(function(){
           shippingPreferenceId: 1,
           stateProvinceId: 1
     	};
+    	console.log("me ");
     	console.log(me);
 
       db.user.findOrCreate({
@@ -38,9 +46,10 @@ db.sequelize.sync({ force: false }).then(function(){
 	      	isActive: true
 	    	},
 	    	defaults: me
-	    }).spread(function(user, created){
-	    	console.log("find or create user: " + user);
-				return done(null, user);
+	    }).spread(function(userData, created){
+	    	console.log("find or create user: ");
+	    	console.log(userData);
+				return done(null, userData);
       }).catch(err => {
       	console.log(err);
       });
@@ -89,19 +98,23 @@ db.sequelize.sync({ force: false }).then(function(){
 */
 
 	passport.serializeUser(function(user, done) {
-    console.log("serialize user: " + user);
+    console.log("serialize user: " + user.id);
     done(null, user.id);
 	});
 
 	passport.deserializeUser(function(id, done) {
     db.user.findOne({
     	where: {
-    		id: id,
+    		id: parseInt(id),
     		isActive: true
     	}})
-    .then(function(err, user) {
-    	console.log("deserialize user: " + user);
-      done(err, user);
+    .then(function(user) {
+    	console.log("deserialize user: " + user.id);
+//    	console.log(user);
+      done(null, user.id);
+    })
+    .catch(err => {
+    	done(err, user);
     });
 	});
 
@@ -123,11 +136,12 @@ db.sequelize.sync({ force: false }).then(function(){
 	// Configure Express-Session for Passport
 	app.set('trust proxy'); // trust proxy
 	app.use(session({
-	  secret: process.env.cookieSecret || keys.cookieSecret,
+	  secret: cookieSecret,
 	  resave: false,
 	  saveUninitialized: true,
-	  cookie: { secure: true }
+	  cookie: { secure: false }
 	}));
+//	app.use(cookieParser)
 	app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -142,17 +156,31 @@ db.sequelize.sync({ force: false }).then(function(){
 	});
 
 	app.get('/', isLoggedIn, function(req, res) {
+		console.log(req.loggedIn);
     res.json({
       loggedIn:req.loggedIn
     });
 	});
 
-	app.post('/auth/facebook/token',
+//	app.post('/auth/facebook/token?access_token',
+	app.post('/auth/facebook/token',	
 	  passport.authenticate('facebook-token'),
 	  function (req, res) {
+//	  	console.log(req);
 	    // do something with req.user 
-	    res.send(req.user? 200 : 401);
-	  }
+//	    console.log("req.user: ");
+//	    console.log(req.user);
+	    res.status(req.user? 200 : 401);
+	    res.json(req.user);
+//			console.log("req.user");
+//			console.log(req.user);
+//			res.sendStatus(req.user? 200 : 401);
+	  },
+	  (error, req, res, next) => {
+      if(error) {
+        res.status(401).json({success: false, message: 'Auth failed', error})
+      }
+    }
 	);
 
 /*
@@ -180,7 +208,9 @@ db.sequelize.sync({ force: false }).then(function(){
 	// Add routes, both API and view
 	app.use(express.static("client/build"));
 */
-
+//	console.log(passport);
+	const routes = require("./routes")(passport);
+//	app.use(routes)(passport);
 	app.use(routes);
 
 	// Send every request to the React app

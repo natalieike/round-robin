@@ -2,7 +2,7 @@ const path = require("path");
 const router = require("express").Router();
 const apiRoutes = require("./api");
 const session = require("express-session");
-const passport = require("passport");
+//const passport = require("passport");
 const FacebookStrategy = require("passport-facebook");
 
 /*
@@ -40,6 +40,8 @@ router.use(function(err, req, res, next){
 });
 */
 
+module.exports = function(passport){
+
 // API Routes
 router.use("/api", apiRoutes);
 
@@ -48,4 +50,7 @@ router.use(function(req, res) {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-module.exports = router;
+return router;
+}
+
+//module.exports = router;
