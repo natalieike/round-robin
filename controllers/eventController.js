@@ -168,10 +168,13 @@ module.exports = {
     		statusName: "Signup"
     	}
     }).then(status => {
+      console.log("found status")
     	var request = req.body;
     	request.statusId = status.id;
     	db.event.create(request)
     	.then(result => {
+        console.log("create result");
+        console.log(result);
     		db.eventAssociations.create({
     			eventId: result.id,
     			userId: request.userId,
