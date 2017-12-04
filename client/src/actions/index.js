@@ -264,7 +264,8 @@ export const loginToDb = (authObj) => dispatch => {
 	})
 	.catch(err => {
 		console.log("Error: ");
-		console.log(err);
+		console.log(err.message);
+		dispatch(logUserIn(authObj, err));
 	});
 };
 

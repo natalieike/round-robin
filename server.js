@@ -178,7 +178,7 @@ db.sequelize.sync({ force: false }).then(function(){
 	  },
 	  (error, req, res, next) => {
       if(error) {
-        res.status(401).json({success: false, message: 'Auth failed', error})
+        res.status(401).json({success: false, message: 'Not Authorized', error})
       }
     }
 	);

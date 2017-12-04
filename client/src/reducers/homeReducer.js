@@ -8,14 +8,14 @@ export const loginReducer = (state = {
 	}, action) => {
 	switch(action.type){
 		case "LOGIN":
-			console.log(state);
+			console.log("LOGIN");
 			return {
 				...state,
 				...action.data,
 				loggedIn: true
 			}
 		case "LOGOUT":
-			console.log(state);
+			console.log("LOGOUT");
 			return {
 				...state,
 				...action.data,
