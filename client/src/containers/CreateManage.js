@@ -56,6 +56,10 @@ class CreateManage extends Component {
 
   componentWillReceiveProps(nextProps) {
 		console.log(nextProps);
+    if(!this.props.isLoggedIn && nextProps.isLoggedIn){
+      this.props.dispatch(fetchMyManagedEvents(nextProps.user));
+      this.props.dispatch(fetchCategories());  
+    }
   }
 
 	render() {
@@ -110,7 +114,7 @@ const mapStateToProps = state => {
 	return{
 		isFetching: state.manageMyEvents.isFetching,
 		myManagedEvents: state.manageMyEvents.myManagedEvents,
-		user: state.manageMyEvents.user,
+    user: state.loginReducer.userId,
 		categories: state.allCategories.categories,
 		category: state.selectCategories.category, 
 		matchOption: state.selectMatchOption.matchOption,

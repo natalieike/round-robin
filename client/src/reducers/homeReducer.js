@@ -4,7 +4,8 @@ export const loginReducer = (state = {
 	loginStatus: "not connected",
 	access_token: "",
 	fbUserId: "",
-	dbStatus: ""
+	dbStatus: "", 
+	userId: 0
 	}, action) => {
 	switch(action.type){
 		case "LOGIN":

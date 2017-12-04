@@ -229,12 +229,18 @@ export const joinEvent = eventData => dispatch => {
 
 const logUserIn = (authObj, json) => {
 	console.log("logUserIn");
+	console.log(json);
 	let login = {
 		loginStatus: authObj.status,
 		access_token: authObj.authResponse.accessToken,
 		fbUserId: authObj.authResponse.userID,
-		dbStatus: json.statusText
+		dbStatus: json.statusText,
 	};
+	if (json.data){
+		login.userId = json.data.id;
+	} else{
+		login.userId = 0;
+	}
 	if(login.loginStatus == "connected" && login.dbStatus == "OK"){
 		return {
 			type: LOGIN,
