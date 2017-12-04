@@ -162,6 +162,7 @@ module.exports = {
 	4 - Res.json while eventAssociation is happening
 */	
   create: function(req, res) {
+    console.log("Create Event")
     db.status.findOne({
     	where: {
     		statusName: "Signup"
@@ -177,7 +178,7 @@ module.exports = {
     			packageRecd: false
     		});
     		res.json(result)
-    	}).catch(error => {res.json(err)});
+    	}).catch(error => {res.json(error)});
     }).catch(err => {res.json(err)});
   },
 //Finds All Active Events

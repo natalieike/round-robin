@@ -1,11 +1,9 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-//const routes = require("./routes");
 const keys = require("./config/keys.json")
 const session = require("express-session");
 const passport = require("passport");
-//const FacebookStrategy = require("passport-facebook");
 const FacebookTokenStrategy = require('passport-facebook-token');
 const cookieParser = require("cookie-parser");
 
@@ -21,8 +19,6 @@ db.sequelize.sync({ force: false }).then(function(){
 	passport.use(new FacebookTokenStrategy({
     clientID: process.env.facebookAppId || keys.facebook.app_id,
     clientSecret: process.env.facebookAppSecret || keys.facebook.app_secret
-//    callbackURL: process.env.facebookCallback || keys.facebook.callback,
-//    profileFields:['displayname', 'id', 'email','first_name','last_name']
   }, function(accessToken, refreshToken, profile, done) {
       console.log("Profile ");
       console.log(profile);
@@ -53,49 +49,8 @@ db.sequelize.sync({ force: false }).then(function(){
       }).catch(err => {
       	console.log(err);
       });
-/*    
-			User.findOrCreate({facebookId: profile.id}, function (error, user) {
-      	return done(error, user);
-    	}); 
-*/
   }
 ));
-
-/*	
-	passport.use(new FacebookStrategy(
-		{
-	    clientID: process.env.facebookAppId || keys.facebook.app_id,
-	    clientSecret: process.env.facebookAppSecret || keys.facebook.app_secret,
-	    callbackURL: process.env.facebookCallback || keys.facebook.callback,
-	    profileFields:['displayname', 'id', 'email','first_name','last_name']
-    }, 
-    function(accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-      let me = {
-          email:profile.emails[0].value,
-          firstName: profile.first_name,
-          lastName: profile.last_name,
-          fbUserId: profile.id,
-          streetAddress: "Please Confirm",
-          city: "Please Confirm",
-          postalCode: "Please Confirm",
-          shippingPreferenceId: 1,
-          stateProvinceId: 1
-    	};
-
-      db.user.findOrCreate({
-      	where: {
-	      	fbUserId: me.fbUserId,
-	      	isActive: true
-	    	},
-	    	defaults: me
-	    }).spread(function(user, created){
-	    	console.log("find or create user: " + user);
-	    	return cb(user)
-      }).catch(err => {res.json(err)});
-	  }
-	));
-*/
 
 	passport.serializeUser(function(user, done) {
     console.log("serialize user: " + user.id);
@@ -141,7 +96,6 @@ db.sequelize.sync({ force: false }).then(function(){
 	  saveUninitialized: true,
 	  cookie: { secure: false }
 	}));
-//	app.use(cookieParser)
 	app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -162,19 +116,11 @@ db.sequelize.sync({ force: false }).then(function(){
     });
 	});
 
-//	app.post('/auth/facebook/token?access_token',
 	app.post('/auth/facebook/token',	
 	  passport.authenticate('facebook-token'),
 	  function (req, res) {
-//	  	console.log(req);
-	    // do something with req.user 
-//	    console.log("req.user: ");
-//	    console.log(req.user);
 	    res.status(req.user? 200 : 401);
 	    res.json(req.user);
-//			console.log("req.user");
-//			console.log(req.user);
-//			res.sendStatus(req.user? 200 : 401);
 	  },
 	  (error, req, res, next) => {
       if(error) {
@@ -183,19 +129,6 @@ db.sequelize.sync({ force: false }).then(function(){
     }
 	);
 
-/*
-	app.get('/auth/facebook', passport.authenticate('facebook', {scope:"email"}));
-	app.get('/auth/facebook/callback', passport.authenticate('facebook', 
-	{ successRedirect: '/', failureRedirect: '/login' }));
-	app.get('/login', isLoggedIn, function(req, res) {
-    if(req.loggedIn) res.redirect('/');
-    console.log(req.loggedIn);
-    res.json({
-        title:'Login/Registration'
-    });
-	});
-*/
-
 	// 500 error handler (middleware)
 	app.use(function(err, req, res, next){
     console.error(err.stack);
@@ -203,23 +136,9 @@ db.sequelize.sync({ force: false }).then(function(){
     res.json(err);
 	});
 
-
-/*
-	// Add routes, both API and view
-	app.use(express.static("client/build"));
-*/
-//	console.log(passport);
+// Pass Passport to routes
 	const routes = require("./routes")(passport);
-//	app.use(routes)(passport);
 	app.use(routes);
-
-	// Send every request to the React app
-	// Define any API routes before this runs
-	/*
-	app.get("*", function(req, res) {
-	  res.sendFile(path.join(__dirname, "./client/build/index.html"));
-	});
-	*/
 
 	app.listen(PORT, function() {
 	  console.log(`🌎 ==> Server now on port ${PORT}!`);

@@ -51,6 +51,8 @@ class CreateManage extends Component {
     	userId: this.props.user,
     	matchOptionId: this.props.matchOption
     }
+    console.log("Create Event");
+    console.log(newEventData);
     this.props.dispatch(submitNewEvent(newEventData));
   }
 
