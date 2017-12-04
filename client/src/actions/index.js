@@ -238,6 +238,8 @@ const logUserIn = (authObj, json) => {
 	};
 	if (json.data){
 		login.userId = json.data.id;
+		login.firstName = json.data.firstName;
+		login.lastName = json.data.lastName;
 	} else{
 		login.userId = 0;
 	}
