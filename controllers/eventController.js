@@ -162,25 +162,24 @@ module.exports = {
 	4 - Res.json while eventAssociation is happening
 */	
   create: function(req, res) {
-    console.log("Create Event")
     db.status.findOne({
     	where: {
     		statusName: "Signup"
     	}
     }).then(status => {
-      console.log("found status")
     	var request = req.body;
     	request.statusId = status.id;
+      request.categoryId = parseInt(request.categoryId);
+      console.log(request);
     	db.event.create(request)
     	.then(result => {
-        console.log("create result");
-        console.log(result);
     		db.eventAssociations.create({
     			eventId: result.id,
     			userId: request.userId,
     			packageRecd: false
-    		});
-    		res.json(result)
+    		}).then(assoc => {
+    		  res.json(result);          
+        }).catch(er => {res.json(er)});
     	}).catch(error => {res.json(error)});
     }).catch(err => {res.json(err)});
   },

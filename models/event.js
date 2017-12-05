@@ -30,7 +30,7 @@ module.exports = function(sequelize, DataTypes){
 			},
 		aboutEvent: {
 			type: DataTypes.TEXT,
-			allowNull: false,
+			allowNull: true,
 			},
 		isActive: {
 			type: DataTypes.BOOLEAN,
