@@ -1,8 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import FbLogin from "./FbLogin";
+
+/*  
+*/    
 
 const Navpills = () =>
   <ul className="nav nav-pills nav-justified">
+    <li>
+      <FbLogin fb={window.FB}/>
+    </li>
     <li className={window.location.pathname === "/home" ? "active" : ""}>
       <Link to="/home">Home</Link>
     </li>

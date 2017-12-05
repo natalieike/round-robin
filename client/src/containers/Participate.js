@@ -10,8 +10,10 @@ import MyEvents from "../components/MyEvents";
 
 class Participate extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchCategories());
-    this.props.dispatch(fetchMyEvents(this.props.user));
+    if(this.props.isLoggedIn){
+      this.props.dispatch(fetchCategories());
+      this.props.dispatch(fetchMyEvents(this.props.user));
+    }
   };
 
   handleChange = selectedCategory => {
@@ -40,28 +42,42 @@ class Participate extends Component {
 
   componentWillReceiveProps(nextProps) {
 		console.log(nextProps);
+    if(!this.props.isLoggedIn && nextProps.isLoggedIn){
+      this.props.dispatch(fetchCategories());
+      this.props.dispatch(fetchMyEvents(nextProps.user));
+    }
   }
 
 	render() {
-    const { category, categories, events, myEvents } = this.props
+    const { category, categories, events, myEvents, loginStatus, isLoggedIn } = this.props
+    let data;
+    if (loginStatus == "connected"){
+      data = <div>
+        <EventSearch value={parseInt(category)}
+          options={categories} 
+          onChange={this.handleChange}
+          onClick={this.handleClick}
+        />
+        <EventResults 
+          results={events}
+          onClick={this.handleJoin}
+        />
+        <MyEvents 
+          results={myEvents}
+        />
+      </div>
+    } else {
+      data = <div>
+        <p>You must be logged in to view this content.</p>
+      </div>
+    }
 		return(
 		  <div>
 		    <div className="jumbotron">
 		      <h1>Participate</h1>
 		      <h4>Search for Events and Manage your Current Events</h4>
 		    </div>
-		    <EventSearch value={parseInt(category)}
-          options={categories} 
-          onChange={this.handleChange}
-          onClick={this.handleClick}
-        />
-        <EventResults 
-        	results={events}
-          onClick={this.handleJoin}
-        />
-        <MyEvents 
-        	results={myEvents}
-        />
+        {data}
 			</div>);
   };
 
@@ -79,7 +95,9 @@ const mapStateToProps = state => {
 		isFetching: state.allCategories.isFetching,
 		events: state.allCategories.events, 
 		myEvents: state.allCategories.myEvents,
-		user: state.allCategories.user
+		user: state.loginReducer.userId,
+    loginStatus: state.loginReducer.loginStatus, 
+    isLoggedIn: state.loginReducer.loggedIn
 	 };
 	};
 

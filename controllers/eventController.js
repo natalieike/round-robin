@@ -169,15 +169,18 @@ module.exports = {
     }).then(status => {
     	var request = req.body;
     	request.statusId = status.id;
+      request.categoryId = parseInt(request.categoryId);
+      console.log(request);
     	db.event.create(request)
     	.then(result => {
     		db.eventAssociations.create({
     			eventId: result.id,
     			userId: request.userId,
     			packageRecd: false
-    		});
-    		res.json(result)
-    	}).catch(error => {res.json(err)});
+    		}).then(assoc => {
+    		  res.json(result);          
+        }).catch(er => {res.json(er)});
+    	}).catch(error => {res.json(error)});
     }).catch(err => {res.json(err)});
   },
 //Finds All Active Events

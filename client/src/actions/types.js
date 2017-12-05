@@ -1,6 +1,8 @@
 //For Login
 export const NEW_USER = "NEW_USER";
 export const EXISTING_USER = "EXISTING_USER";
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 //For Interests/Fandoms Tags
 export const ADD_TAG = "ADD_TAG";

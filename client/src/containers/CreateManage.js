@@ -10,8 +10,10 @@ import CreateEvent from "../components/CreateEvent"
 class CreateManage extends Component {
   componentDidMount() {
   	console.log(this.props);
-    this.props.dispatch(fetchMyManagedEvents(this.props.user));
-    this.props.dispatch(fetchCategories());
+    if(this.props.isLoggedIn){
+      this.props.dispatch(fetchMyManagedEvents(this.props.user));
+      this.props.dispatch(fetchCategories());  
+    }
   };
 
   handleCategoryChange = (selectedCategory) => {
@@ -49,25 +51,28 @@ class CreateManage extends Component {
     	userId: this.props.user,
     	matchOptionId: this.props.matchOption
     }
+    console.log("Create Event");
+    console.log(newEventData);
     this.props.dispatch(submitNewEvent(newEventData));
   }
 
   componentWillReceiveProps(nextProps) {
 		console.log(nextProps);
+    if(!this.props.isLoggedIn && nextProps.isLoggedIn){
+      this.props.dispatch(fetchMyManagedEvents(nextProps.user));
+      this.props.dispatch(fetchCategories());  
+    }
   }
 
 	render() {
-    const { isFetching, myManagedEvents, user, categories, category, matchOption, eventName, organizerAka, aboutEvent, isPrivate } = this.props
-		return(
-		  <div>
-		    <div className="jumbotron">
-		      <h1>Create / Manage Events</h1>
-		      <h4>Create your own Swap, and Manage the Swaps you are Moderating</h4>
-		    </div>
-		    <CreateEvent
-		    	categoryvalue={category}
+    const { isFetching, myManagedEvents, user, categories, category, matchOption, eventName, organizerAka, aboutEvent, isPrivate, isLoggedIn, loginStatus } = this.props
+    let data;
+    if (loginStatus == "connected"){
+      data = <div>
+        <CreateEvent
+          categoryvalue={category}
           options={categories} 
- 	        onCategoryChange={this.handleCategoryChange}
+          onCategoryChange={this.handleCategoryChange}
           onClick={this.handleClick}
           matchoptionvalue={matchOption}
           onOptionChange={this.handleOptionChange}
@@ -78,10 +83,24 @@ class CreateManage extends Component {
           aboutEventValue={aboutEvent}
           onAboutEventChange={this.handleAboutEventChange}
           onRadioButtonChange={this.handleRadioButtonChange}
-		    />
-		    <ManageMyEvents 
-		    	results={myManagedEvents}
-		    />
+        />
+        <ManageMyEvents 
+          results={myManagedEvents}
+        />
+      </div>
+    } else {
+      data = <div>
+        <p>You must be logged in to view this content.</p>
+      </div>
+    }
+
+		return(
+		  <div>
+		    <div className="jumbotron">
+		      <h1>Create / Manage Events</h1>
+		      <h4>Create your own Swap, and Manage the Swaps you are Moderating</h4>
+		    </div>
+        {data}
 			</div>);
   };
 
@@ -93,17 +112,20 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
+  console.log(state);
 	return{
 		isFetching: state.manageMyEvents.isFetching,
 		myManagedEvents: state.manageMyEvents.myManagedEvents,
-		user: state.manageMyEvents.user,
+    user: state.loginReducer.userId,
 		categories: state.allCategories.categories,
 		category: state.selectCategories.category, 
 		matchOption: state.selectMatchOption.matchOption,
 		eventName: state.registerFormData.eventName,
 		organizerAka: state.registerFormData.organizerAka,
 		aboutEvent: state.registerFormData.aboutEvent, 
-		isPrivate: state.registerFormData.isPrivate
+		isPrivate: state.registerFormData.isPrivate,
+    loginStatus: state.loginReducer.loginStatus, 
+    isLoggedIn: state.loginReducer.loggedIn
 	};
 };
 

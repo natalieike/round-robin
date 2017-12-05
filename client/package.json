@@ -6,6 +6,10 @@
     "axios": "^0.17.1",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
+    "react-facebook": "^4.1.1",
+    "react-facebook-auth": "^1.1.0",
+    "react-facebook-login": "^3.7.2",
+    "react-facebook-login-component": "^0.9.1",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -19,5 +23,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
- "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001"
 }
