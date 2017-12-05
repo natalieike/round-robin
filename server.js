@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-//const keys = require("./config/keys.json")
+const keys = require("./config/keys.json")
 const session = require("express-session");
 const passport = require("passport");
 const FacebookTokenStrategy = require('passport-facebook-token');
@@ -17,8 +17,8 @@ db.sequelize.sync({ force: true }).then(function(){
 	// Setup Passport
  
 	passport.use(new FacebookTokenStrategy({
-    clientID: process.env.facebookAppId || require("./config/keys.json").facebook.app_id,
-    clientSecret: process.env.facebookAppSecret || require("./config/keys.json").facebook.app_secret
+    clientID: process.env.facebookAppId || keys.facebook.app_id,
+    clientSecret: process.env.facebookAppSecret || keys.facebook.app_secret
   }, function(accessToken, refreshToken, profile, done) {
       console.log("Profile ");
       console.log(profile);
