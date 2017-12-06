@@ -1,9 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ProfileForm from "../components/ProfileForm";
 
 class Profile extends Component {
-	state={
+  constructor (props) {
+    super(props);
+    this.state = { country: '', stateProvince: '' };
+  }
+
+  submit = values => {
+	  console.log(values)
 	};
+
+	stateProvinceChange = value => {
+   this.setState({ stateProvince: value })
+	}
+
+	countryChange = value =>{
+   this.setState({ country: value })
+	}
 
 	render() {
 		return(
@@ -12,9 +27,15 @@ class Profile extends Component {
 		      <h1>Profile</h1>
 		      <h4>Edit Your Profile Details</h4>
 		    </div>
+		    <ProfileForm
+		    	onSubmit={this.submit}
+		    	country={this.state.country}
+		    	stateProvince={this.state.stateProvince}
+		    />
 			</div>);
   };
 
  }
 
  export default Profile;
+
