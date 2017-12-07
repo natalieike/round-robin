@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 import ProfileForm from "../components/ProfileForm";
 
 class Profile extends Component {
+/*	
   constructor (props) {
     super(props);
     this.state = { country: '', stateProvince: '' };
   }
-
+*/
   submit = values => {
 	  console.log(values)
 	};
 
+/*
 	stateProvinceChange = value => {
    this.setState({ stateProvince: value })
 	}
@@ -19,6 +21,7 @@ class Profile extends Component {
 	countryChange = value =>{
    this.setState({ country: value })
 	}
+*/
 
 	render() {
 		return(
@@ -29,8 +32,6 @@ class Profile extends Component {
 		    </div>
 		    <ProfileForm
 		    	onSubmit={this.submit}
-		    	country={this.state.country}
-		    	stateProvince={this.state.stateProvince}
 		    />
 			</div>);
   };

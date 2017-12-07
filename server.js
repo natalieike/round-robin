@@ -8,7 +8,7 @@ const FacebookTokenStrategy = require('passport-facebook-token');
 const cookieParser = require("cookie-parser");
 
 
-const cookieSecret = process.env.cookieSecret || keys.cookieSecret;
+const cookieSecret = process.env.cookieSecret || require("./config/keys.json").cookieSecret;
 
 //Initialize database
 var db = require("./models");
