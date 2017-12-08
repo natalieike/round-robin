@@ -60,9 +60,9 @@ let ProfileForm = props => {
 					    </div>
 					  </div>
 					  <div className="form-group">
-					    <label htmlFor="address" className="col-sm-2 control-label">Address</label>
+					    <label htmlFor="streetAddress" className="col-sm-2 control-label">Address</label>
 			  	    <div className="col-sm-10">
-					    	<Field name="address" component="input" type="text" className="form-control"/>
+					    	<Field name="streetAddress" component="input" type="text" className="form-control"/>
 					    </div>
 					  </div>
 					  <div className="form-group">
@@ -122,7 +122,7 @@ ProfileForm = connect(state => {
   const shippingPreferenceId = selector(state, 'shippingPreferenceId')
   const country = selector(state, 'country')
   const stateProvinceName = selector(state, 'stateProvinceName')
-  const { firstName, lastName, email, address, city, postalCode, aboutMe } = selector(state, 'firstName', 'lastName', 'email', 'address', 'city', 'postalCode', 'aboutMe')
+  const { firstName, lastName, email, streetAddress, city, postalCode, aboutMe } = selector(state, 'firstName', 'lastName', 'email', 'streetAddress', 'city', 'postalCode', 'aboutMe')
   return {
   	shippingPreferenceId,
   	country,
@@ -130,7 +130,7 @@ ProfileForm = connect(state => {
   	firstName,
   	lastName,
   	email,
-  	address,
+  	streetAddress,
   	city,
   	postalCode,
   	aboutMe

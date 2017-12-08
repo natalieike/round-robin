@@ -301,7 +301,6 @@ export const getUserData = userId => dispatch => {
 	const baseURL = `/api/users/${userId}`;
 	return axios.get(baseURL)
 	.then(json => {
-		console.log(json.data);
 		dispatch(receiveUserData(json.data));
 	})
 };

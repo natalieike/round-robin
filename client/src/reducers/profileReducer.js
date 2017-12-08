@@ -14,16 +14,26 @@ export const manageUserData = (state = {
 	}, action) => {
 	switch(action.type){
 		case "RECEIVE_PROFILEDATA":
+			let newAction = action;
 			if(action.shippingPreferenceId){
-				action.shippingPreferenceId = parseInt(action.shippingPreferenceId);
+				newAction.shippingPreferenceId = parseInt(action.shippingPreferenceId);
 			}
 			let stateProvince = action.stateProvince['stateProvinceName'];
 			let country = action.stateProvince['country'].countryName;
-			action.stateProvinceName = stateProvince;
-			action.country = country;
+			newAction.stateProvinceName = stateProvince;
+			newAction.country = country;
+			if(action.streetAddress === "Please Confirm"){
+				newAction.streetAddress = "";
+			}
+			if(action.postalCode === "Please Confirm"){
+				newAction.postalCode = "";
+			}
+			if(action.city === "Please Confirm"){
+				newAction.city = "";
+			}
 			return{
 				...state,
-				...action
+				...newAction
 			}
 		default:
 			return state
