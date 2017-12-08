@@ -2,9 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import {getUserData} from "../actions";
 
 let ProfileForm = props => {
-  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe } = props
+  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData } = props;
 
   const renderCountryList = field => 
   	<CountryDropdown 
@@ -33,7 +34,11 @@ let ProfileForm = props => {
 					  <div className="form-group">
 					    <label htmlFor="firstName" className="col-sm-2 control-label">First Name</label>
 			  	    <div className="col-sm-4">
-					    	<Field name="firstName" component="input" type="text" className="form-control"/>
+					    	<Field name="firstName" 
+					    		component="input" 
+					    		type="text" 
+					    		className="form-control"
+				    		/>
 					    </div>
 					    <label htmlFor="lastName" className="col-sm-2 control-label">Last Name</label>
 			  	    <div className="col-sm-4">
@@ -45,9 +50,9 @@ let ProfileForm = props => {
 			  	    <div className="col-sm-4">
 					    	<Field name="email" component="input" type="email" className="form-control"/>
 					    </div>
-					    <label htmlFor="shippingPref" className="col-sm-2 control-label">Shipping Preferences</label>	    
+					    <label htmlFor="shippingPreferenceId" className="col-sm-2 control-label">Shipping Preferences</label>	    
 			  	    <div className="col-sm-4">
-					    	<Field name="shippingPref" component="select" type="select" className="form-control">
+					    	<Field name="shippingPreferenceId" component="select" type="select" className="form-control">
 									<option value="">Select an option...</option>
 									<option value="1">My Country Only</option>
 									<option value="2">Worldwide</option>
@@ -78,10 +83,10 @@ let ProfileForm = props => {
 					    		component={renderCountryList} 
 				    		/>
 					    </div>
-					    <label htmlFor="stateProvince" className="col-sm-2 control-label">State/Province</label>
+					    <label htmlFor="stateProvinceName" className="col-sm-2 control-label">State/Province</label>
 			  	    <div className="col-sm-4">
 					    	<Field
-					    		name="stateProvince" 
+					    		name="stateProvinceName" 
 					    		component={renderStateProvinceList} 
 					    		data={country}
 					    		flat
@@ -107,20 +112,21 @@ let ProfileForm = props => {
 
 
 ProfileForm = reduxForm({
-  form: 'profile'
+  form: 'profile',
+  enableReinitialize : true
 })(ProfileForm)
 
 // Decorate with connect to read form values
 const selector = formValueSelector('profile') // <-- same as form name
 ProfileForm = connect(state => {
-  const shippingPref = selector(state, 'shippingPref')
+  const shippingPreferenceId = selector(state, 'shippingPreferenceId')
   const country = selector(state, 'country')
-  const stateProvince = selector(state, 'stateProvince')
+  const stateProvinceName = selector(state, 'stateProvinceName')
   const { firstName, lastName, email, address, city, postalCode, aboutMe } = selector(state, 'firstName', 'lastName', 'email', 'address', 'city', 'postalCode', 'aboutMe')
   return {
-  	shippingPref,
+  	shippingPreferenceId,
   	country,
-  	stateProvince,
+  	stateProvinceName,
   	firstName,
   	lastName,
   	email,
@@ -130,5 +136,13 @@ ProfileForm = connect(state => {
   	aboutMe
   }
 })(ProfileForm)
+
+// You have to connect() to any reducers that you wish to connect to yourself
+ProfileForm = connect(
+  state => ({
+    initialValues: state.manageUserData // pull initial values from account reducer
+  }),
+  { load: getUserData } // bind account loading action creator
+)(ProfileForm)
 
 export default ProfileForm

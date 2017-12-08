@@ -1,29 +1,34 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ProfileForm from "../components/ProfileForm";
+import { connect } from 'react-redux';
+import { getUserData } from '../actions';
+import reduxThunk from "redux-thunk";
+import { bindActionCreators } from 'redux'
+import {reset} from 'redux-form';
+
+
 
 class Profile extends Component {
-/*	
-  constructor (props) {
-    super(props);
-    this.state = { country: '', stateProvince: '' };
-  }
+  componentDidMount() {
+  	console.log(this.props);
+  	this.props.dispatch(getUserData(this.props.user));
+  	
+/*    if(this.props.isLoggedIn){
+      this.props.dispatch(fetchMyManagedEvents(this.props.user));
+      this.props.dispatch(fetchCategories());  
+    }
 */
+  };
+
   submit = values => {
-	  console.log(values)
+	  console.log(values);
+		this.props.dispatch(reset('profile'));
 	};
 
-/*
-	stateProvinceChange = value => {
-   this.setState({ stateProvince: value })
-	}
-
-	countryChange = value =>{
-   this.setState({ country: value })
-	}
-*/
 
 	render() {
+    const { user, isLoggedIn, loginStatus, userData } = this.props
 		return(
 		  <div>
 		    <div className="jumbotron">
@@ -38,5 +43,19 @@ class Profile extends Component {
 
  }
 
- export default Profile;
+const mapDispatchToProps = dispatch => {
+  let actions = bindActionCreators({ reset, getUserData });
+  return { ...actions, dispatch };
+}
 
+const mapStateToProps = state => {
+  console.log(state);
+	return{
+    user: state.loginReducer.userId,
+    loginStatus: state.loginReducer.loginStatus, 
+    isLoggedIn: state.loginReducer.loggedIn,
+    userData: state.manageUserData
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

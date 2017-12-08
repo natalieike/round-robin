@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT} from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA } from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -277,7 +277,6 @@ export const loginToDb = (authObj) => dispatch => {
 	});
 };
 
-
 export const isLoggedIn = () => dispatch => {
 	console.log("isLoggedIn");
 	const baseURL = `/login`;
@@ -287,7 +286,22 @@ export const isLoggedIn = () => dispatch => {
 	});
 }
 
-
 export const receiveFbData = fbData => dispatch => {
 	console.log(fbData);
+};
+
+const receiveUserData = (json) => {
+	return {
+		type: RECEIVE_PROFILEDATA,
+		...json
+	}
+};
+
+export const getUserData = userId => dispatch => {
+	const baseURL = `/api/users/${userId}`;
+	return axios.get(baseURL)
+	.then(json => {
+		console.log(json.data);
+		dispatch(receiveUserData(json.data));
+	})
 };
