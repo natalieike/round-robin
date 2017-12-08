@@ -4,22 +4,40 @@ import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import {getUserData} from "../actions";
 
+
+const validate = values => {
+  const errors = {}
+  const requiredValues = ["firstName", "lastName", "email", "streetAddress", "city", "postalCode", "country", "stateProvinceName"];
+  requiredValues.forEach(required => {
+  	if(!values[required.key] || values[required.key] == ""){
+  		errors[required.key] = "Required";
+  	}
+  })
+  return errors
+};
+
+const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+  <div>
+    <input {...input} type={type}/>
+    {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
+  </div>
+);
+
 let ProfileForm = props => {
-  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData } = props;
+  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting } = props;
 
-  const renderCountryList = field => 
-  	<CountryDropdown 
-			{...field.input}
-  		classes="form-control"				
-		/>
+	const renderCountryList = field => (
+	  	<CountryDropdown 
+				{...field.input}
+	  		classes="form-control"				
+			/>);
 
-  const renderStateProvinceList = (field) => 
-		<RegionDropdown 
-			{...field.input}
-  		classes="form-control"
-  		country={country}				
-		/>
-	
+	const renderStateProvinceList = (field) => (
+			<RegionDropdown 
+				{...field.input}
+	  		classes="form-control"
+	  		country={country}				
+			/>);
 
   return (
     <div className="panel panel-default">
@@ -34,9 +52,10 @@ let ProfileForm = props => {
 					  <div className="form-group">
 					    <label htmlFor="firstName" className="col-sm-2 control-label">First Name</label>
 			  	    <div className="col-sm-4">
-					    	<Field name="firstName" 
-					    		component="input" 
-					    		type="text" 
+					    	<Field
+					    		name="firstName" 
+					    		type="text"
+        					component={renderField} 
 					    		className="form-control"
 				    		/>
 					    </div>
@@ -113,6 +132,7 @@ let ProfileForm = props => {
 
 ProfileForm = reduxForm({
   form: 'profile',
+  validate,
   enableReinitialize : true
 })(ProfileForm)
 
