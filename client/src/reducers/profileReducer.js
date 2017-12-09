@@ -18,10 +18,6 @@ export const manageUserData = (state = {
 			if(action.shippingPreferenceId){
 				newAction.shippingPreferenceId = parseInt(action.shippingPreferenceId);
 			}
-			let stateProvince = action.stateProvince['stateProvinceName'];
-			let country = action.stateProvince['country'].countryName;
-			newAction.stateProvinceName = stateProvince;
-			newAction.country = country;
 			if(action.streetAddress === "Please Confirm"){
 				newAction.streetAddress = "";
 			}
@@ -30,6 +26,16 @@ export const manageUserData = (state = {
 			}
 			if(action.city === "Please Confirm"){
 				newAction.city = "";
+				newAction.stateProvinceName = "";
+				newAction.country = "";
+			}else if(!action.stateProvince) {
+				newAction.stateProvinceName = "";
+				newAction.country = "";
+			} else{
+				let stateProvince = action.stateProvince['stateProvinceName'];
+				let country = action.stateProvince['country'].countryName;
+				newAction.stateProvinceName = stateProvince;
+				newAction.country = country;
 			}
 			return{
 				...state,

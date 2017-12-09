@@ -9,35 +9,50 @@ const validate = values => {
   const errors = {}
   const requiredValues = ["firstName", "lastName", "email", "streetAddress", "city", "postalCode", "country", "stateProvinceName"];
   requiredValues.forEach(required => {
-  	if(!values[required.key] || values[required.key] == ""){
-  		errors[required.key] = "Required";
+  	if(!values[required] || values[required] == ""){
+  		errors[required] = "Required";
   	}
   })
   return errors
 };
 
-const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
+const renderField = ({ input, label, type, className, meta: { touched, error, warning } }) => (
   <div>
-    <input {...input} type={type}/>
+    <input 
+    	{...input} 
+    	type={type} 
+    	className={className}
+  	/>
     {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
   </div>
 );
 
-let ProfileForm = props => {
-  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting } = props;
-
-	const renderCountryList = field => (
+const renderCountryList = (field) => {
+	return (
+	  <div>
 	  	<CountryDropdown 
 				{...field.input}
-	  		classes="form-control"				
-			/>);
+	  		classes={field.className}				
+			/>
+	    {field.meta.touched && (field.meta.error && <span className="error">{field.meta.error}</span>)}
+		</div>
+)};
 
-	const renderStateProvinceList = (field) => (
+const renderStateProvinceList = (field) => {
+	return(
+  	<div>
 			<RegionDropdown 
 				{...field.input}
 	  		classes="form-control"
-	  		country={country}				
-			/>);
+	  		country={field.data}				
+			/>
+	    {field.meta.touched && (field.meta.error && <span className="error">{field.meta.error}</span>)}
+		</div>
+)};
+
+let ProfileForm = props => {
+  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting } = props;
+
 
   return (
     <div className="panel panel-default">
@@ -61,13 +76,23 @@ let ProfileForm = props => {
 					    </div>
 					    <label htmlFor="lastName" className="col-sm-2 control-label">Last Name</label>
 			  	    <div className="col-sm-4">
-					    	<Field name="lastName" component="input" type="text" className="form-control"/>
+					    	<Field 
+					    		name="lastName" 
+        					component={renderField} 
+					    		type="text" 
+					    		className="form-control"
+				    		/>
 					    </div>
 					  </div>
 					  <div className="form-group">
 					    <label htmlFor="email" className="col-sm-2 control-label">Email</label>
 			  	    <div className="col-sm-4">
-					    	<Field name="email" component="input" type="email" className="form-control"/>
+					    	<Field 
+					    		name="email" 
+        					component={renderField} 
+					    		type="email" 
+					    		className="form-control"
+				    		/>
 					    </div>
 					    <label htmlFor="shippingPreferenceId" className="col-sm-2 control-label">Shipping Preferences</label>	    
 			  	    <div className="col-sm-4">
@@ -81,17 +106,32 @@ let ProfileForm = props => {
 					  <div className="form-group">
 					    <label htmlFor="streetAddress" className="col-sm-2 control-label">Address</label>
 			  	    <div className="col-sm-10">
-					    	<Field name="streetAddress" component="input" type="text" className="form-control"/>
+					    	<Field 
+					    		name="streetAddress" 
+        					component={renderField} 
+				    			type="text" 
+				    			className="form-control"
+			    			/>
 					    </div>
 					  </div>
 					  <div className="form-group">
 					    <label htmlFor="city" className="col-sm-2 control-label">City</label>
 			  	    <div className="col-sm-4">
-					    	<Field name="city" component="input" type="text" className="form-control"/>
+					    	<Field 
+					    		name="city" 
+        					component={renderField} 
+					    		type="text" 
+					    		className="form-control"
+				    		/>
 					    </div>
 					    <label htmlFor="postalCode" className="col-sm-2 control-label">Zip/Postal Code</label>
 			  	    <div className="col-sm-4">
-					    	<Field name="postalCode" component="input" type="text" className="form-control"/>
+					    	<Field 
+					    		name="postalCode" 
+        					component={renderField} 
+					    		type="text" 
+					    		className="form-control"
+				    		/>
 					    </div>
 					  </div>
 					  <div className="form-group">
@@ -100,6 +140,8 @@ let ProfileForm = props => {
 					    	<Field
 					    		name="country" 
 					    		component={renderCountryList} 
+					    		className="form-control"
+					    		type="custom"
 				    		/>
 					    </div>
 					    <label htmlFor="stateProvinceName" className="col-sm-2 control-label">State/Province</label>
@@ -115,7 +157,12 @@ let ProfileForm = props => {
 					  <div className="form-group">
 					    <label htmlFor="aboutMe" className="col-sm-2 control-label">About Me</label>
 			  	    <div className="col-sm-10">
-					    	<Field name="aboutMe" component="textarea" type="text" className="form-control"/>
+					    	<Field 
+					    		name="aboutMe" 
+        					component={renderField} 
+					    		type="textarea" 
+					    		className="form-control"
+				    		/>
 					    </div>
 					  </div>
 					  <div className="form-group">
