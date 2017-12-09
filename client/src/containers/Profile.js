@@ -10,16 +10,18 @@ import {reset} from 'redux-form';
 
 
 class Profile extends Component {
-  componentDidMount() {
-  	console.log(this.props);
+  componentDidMount() { 	
+   if(this.props.isLoggedIn){
   	this.props.dispatch(getUserData(this.props.user));
-  	
-/*    if(this.props.isLoggedIn){
-      this.props.dispatch(fetchMyManagedEvents(this.props.user));
-      this.props.dispatch(fetchCategories());  
     }
-*/
   };
+
+  componentWillReceiveProps(nextProps) {
+		console.log(nextProps);
+    if(!this.props.isLoggedIn && nextProps.isLoggedIn){
+  		this.props.dispatch(getUserData(nextProps.user));
+    }
+  }
 
   submit = values => {
 	  console.log(values);
@@ -43,15 +45,25 @@ class Profile extends Component {
 
 	render() {
     const { user, isLoggedIn, loginStatus, userData } = this.props
+        let data;
+    if (loginStatus == "connected"){
+      data = <div>
+		    <ProfileForm
+		    	onSubmit={this.submit}
+		    />
+      </div>
+    } else {
+      data = <div>
+        <p>You must be logged in to view this content.</p>
+      </div>
+    }
 		return(
 		  <div>
 		    <div className="jumbotron">
 		      <h1>Profile</h1>
 		      <h4>Edit Your Profile Details</h4>
 		    </div>
-		    <ProfileForm
-		    	onSubmit={this.submit}
-		    />
+		    {data}
 			</div>);
   };
 
