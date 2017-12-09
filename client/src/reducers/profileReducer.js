@@ -41,6 +41,11 @@ export const manageUserData = (state = {
 				...state,
 				...newAction
 			}
+		case "ERROR":
+			return{
+				...state,
+				...action.data
+			}
 		default:
 			return state
 	}

@@ -171,8 +171,6 @@ Update does these things:
     			postalCode: request.postalCode,
     			aboutMe: request.aboutMe,
     			shippingPreferenceId: request.shippingPreferenceId,
-    			fbUserId: request.fbUserId,
-    			oAuthToken: request.oAuthToken,
     			stateProvinceId: stateProvince.dataValues.id
     		};
     		console.log(newUser);

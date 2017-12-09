@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ProfileForm from "../components/ProfileForm";
 import { connect } from 'react-redux';
-import { getUserData } from '../actions';
+import { getUserData, submitUserData } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 import {reset} from 'redux-form';
@@ -23,6 +23,20 @@ class Profile extends Component {
 
   submit = values => {
 	  console.log(values);
+	  const {aboutMe, city, country, email, firstName, lastName, postalCode, shippingPreferenceId, stateProvinceName, streetAddress} = values;
+	  let profileUpdate = {
+	  	country: country,
+	  	stateProvince: stateProvinceName,
+			firstName: firstName,
+			lastName: lastName,
+			streetAddress: streetAddress,
+			city: city,
+			postalCode: postalCode,
+			aboutMe: aboutMe,
+			shippingPreferenceId: shippingPreferenceId,
+	  };
+	  console.log(profileUpdate);
+	  this.props.dispatch(submitUserData(this.props.user, profileUpdate))
 		this.props.dispatch(reset('profile'));
 	};
 
@@ -44,7 +58,7 @@ class Profile extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ reset, getUserData });
+  let actions = bindActionCreators({ reset, getUserData, submitUserData });
   return { ...actions, dispatch };
 }
 

@@ -27,6 +27,17 @@ const renderField = ({ input, label, type, className, meta: { touched, error, wa
   </div>
 );
 
+const renderTextArea = ({ input, label, type, className, meta: { touched, error, warning } }) => (
+  <div>
+    <textArea 
+    	{...input} 
+    	type={type} 
+    	className={className}
+  	/>
+    {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
+  </div>
+);
+
 const renderCountryList = (field) => {
 	return (
 	  <div>
@@ -52,7 +63,6 @@ const renderStateProvinceList = (field) => {
 
 let ProfileForm = props => {
   const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting } = props;
-
 
   return (
     <div className="panel panel-default">
@@ -159,7 +169,7 @@ let ProfileForm = props => {
 			  	    <div className="col-sm-10">
 					    	<Field 
 					    		name="aboutMe" 
-        					component={renderField} 
+        					component={renderTextArea} 
 					    		type="textarea" 
 					    		className="form-control"
 				    		/>
