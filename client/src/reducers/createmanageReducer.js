@@ -67,6 +67,9 @@ export const registerFormData = (state={
 			if(action.isPrivate){
 				newState.isPrivate = action.isPrivate;
 			}
+			if(action.eventId){
+				newState.eventId = action.eventId;
+			}
 			return newState;
 		case "FORM_CLEAR":
 			newState =  {

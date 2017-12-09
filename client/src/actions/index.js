@@ -39,11 +39,43 @@ const requestEvents = () => ({
 	payload: "Requesting"
 });
 
-const receiveEvents = (json) => {
+const receiveEvents = (json, setting) => {
 	let eventArray = [];
 	let signup;
 	let shipping;
-	json.data.forEach(event => {
+	console.log(json.data.length);
+	if(json.data && json.data.length){
+		json.data.forEach(event => {
+			if(!event.organizerAka){
+				event.organizer = event.user.firstName + " " + event.user.lastName;
+			} else{
+				event.organizer = event.organizerAka;
+			}
+			if(moment(event.signupDeadline).isValid()){
+				signup = moment(event.signupDeadline).format("MM/DD/YYYY");
+			} else{
+				signup = "TBD";
+			}
+			if(moment(event.shipDeadline).isValid()){
+				shipping = moment(event.shipDeadline).format("MM/DD/YYYY");			
+			}else{
+				shipping = "TBD";
+			}
+			event.signupDeadline = signup;
+			event.shipDeadline = shipping;
+			switch (setting){
+				case "public":
+					if(!event.isPrivate){
+						eventArray.push(event);	
+					}
+					break;
+				case "all":
+					eventArray.push(event);	
+				break;
+			}
+		});
+	} else if (json.data){
+		let event = json.data;
 		if(!event.organizerAka){
 			event.organizer = event.user.firstName + " " + event.user.lastName;
 		} else{
@@ -61,21 +93,51 @@ const receiveEvents = (json) => {
 		}
 		event.signupDeadline = signup;
 		event.shipDeadline = shipping;
-		eventArray.push(event);
-	});
+		switch (setting){
+			case "public":
+				if(!event.isPrivate){
+					eventArray.push(event);	
+				}
+				break;
+			case "all":
+				eventArray.push(event);	
+			break;
+		}
+	}
 	return {
 		type: RECEIVE_DATA,
 		events: eventArray
 	};	
 };
 
-export const searchEvents = categoryId => dispatch => {
+export const searchEventsCategory = categoryId => dispatch => {
 	dispatch(requestEvents)
+	dispatch(selectCategory(0));
 	const baseURL = `/api/events/options/categoryId&${categoryId}`;
 	return axios.get(baseURL)
 		.then(json => {
-			dispatch(receiveEvents(json));
+			dispatch(receiveEvents(json, "public"));
 		});
+};
+
+export const searchEventsId = eventId => dispatch => {
+	dispatch(clearFormData({
+		eventId: ""
+	}));
+	dispatch(requestEvents)
+	const baseURL = `/api/events/${eventId}`;
+	return axios.get(baseURL)
+		.then(json => {
+			dispatch(receiveEvents(json, "all"));
+		});
+};
+
+export const registerEventIdChange = data => {
+	console.log(data);
+	return {
+		type: REGISTER_FORMDATA,
+		eventId: data
+	};
 };
 
 const receiveMyEvents = (json) => {

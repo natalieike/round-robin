@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import EventSearch from "../components/EventSearch";
 import EventResults from "../components/EventResults";
-import { selectCategory, fetchCategories, searchEvents, fetchMyEvents, joinEvent } from '../actions';
+import { selectCategory, fetchCategories, searchEventsId, fetchMyEvents, joinEvent, searchEventsCategory, registerEventIdChange } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 import MyEvents from "../components/MyEvents";
@@ -17,13 +17,21 @@ class Participate extends Component {
   };
 
   handleChange = selectedCategory => {
-    this.props.dispatch(selectCategory(selectedCategory))
+    this.props.dispatch(selectCategory(parseInt(selectedCategory)));
   };
 
   handleClick = event => {
     event.preventDefault();
-    this.props.dispatch(searchEvents(this.props.category));
+    if(this.props.eventId){
+      this.props.dispatch(searchEventsId(this.props.eventId));
+    } else if(this.props.category){    
+        this.props.dispatch(searchEventsCategory(this.props.category));
+    }
   }
+
+  handleEventIdChange = eventId => {
+    this.props.dispatch(registerEventIdChange(parseInt(eventId)));
+  };
 
   handleJoin = event => {
     event.preventDefault();
@@ -49,14 +57,17 @@ class Participate extends Component {
   }
 
 	render() {
-    const { category, categories, events, myEvents, loginStatus, isLoggedIn } = this.props
+    const { category, categories, events, myEvents, loginStatus, isLoggedIn, eventId } = this.props
     let data;
     if (loginStatus == "connected"){
       data = <div>
-        <EventSearch value={parseInt(category)}
+        <EventSearch 
+          category={category}
           options={categories} 
           onChange={this.handleChange}
           onClick={this.handleClick}
+          eventIdValue={eventId || ""}
+          eventIdOnChange={this.handleEventIdChange}
         />
         <EventResults 
           results={events}
@@ -84,7 +95,7 @@ class Participate extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEvents, fetchMyEvents, joinEvent });
+  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEventsId, fetchMyEvents, joinEvent, searchEventsCategory, registerEventIdChange });
   return { ...actions, dispatch };
 }
 
@@ -97,7 +108,8 @@ const mapStateToProps = state => {
 		myEvents: state.allCategories.myEvents,
 		user: state.loginReducer.userId,
     loginStatus: state.loginReducer.loginStatus, 
-    isLoggedIn: state.loginReducer.loggedIn
+    isLoggedIn: state.loginReducer.loggedIn,
+    eventId: state.registerFormData.eventId
 	 };
 	};
 

@@ -3,7 +3,7 @@ import { selectCategory, fetchCategories, searchEvents, fetchMyEvents } from '..
 export const selectCategories = (state={
 	isFetching: false,
 	categories: [],
-	category: 1
+	category: 0
 }, action) => {
 	switch(action.type){
 		case "SELECT_CATEGORY":
