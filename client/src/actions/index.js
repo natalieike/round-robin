@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT} from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR } from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -277,7 +277,6 @@ export const loginToDb = (authObj) => dispatch => {
 	});
 };
 
-
 export const isLoggedIn = () => dispatch => {
 	console.log("isLoggedIn");
 	const baseURL = `/login`;
@@ -287,7 +286,41 @@ export const isLoggedIn = () => dispatch => {
 	});
 }
 
-
 export const receiveFbData = fbData => dispatch => {
 	console.log(fbData);
+};
+
+const receiveUserData = (json) => {
+	return {
+		type: RECEIVE_PROFILEDATA,
+		...json
+	}
+};
+
+export const getUserData = userId => dispatch => {
+	const baseURL = `/api/users/${userId}`;
+	return axios.get(baseURL)
+	.then(json => {
+		dispatch(receiveUserData(json.data));
+	})
+};
+
+const submitError = (errJson) => {
+	return {
+		type: ERROR,
+		...errJson
+	};
+};
+
+export const submitUserData = (userId, userData) => dispatch => {
+	const baseURL = `/api/users/${userId}`;
+	return axios.put(baseURL, userData)
+	.then(json => {
+		console.log(json);
+		if(json.status === 200){
+			dispatch(getUserData(userId));
+		} else{
+			dispatch(submitError(json));
+		}
+	})
 };

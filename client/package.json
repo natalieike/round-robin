@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "react": "^16.1.1",
+    "react-country-region-selector": "^1.2.3",
     "react-dom": "^16.1.1",
     "react-facebook": "^4.1.1",
     "react-facebook-auth": "^1.1.0",
@@ -15,6 +16,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
+    "redux-form": "^7.2.0",
     "redux-thunk": "^2.2.0"
   },
   "scripts": {

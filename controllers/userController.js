@@ -141,7 +141,7 @@ Update does these things:
 1 - Find or Create Country and State/Province
 2 - Update User
 3 - Loop thru interestsFandoms, and Find Or Create in InterestsFandoms.  If Create, then also create an entry in the interestsFandomsAssociations table
-4 - Return User JSON while doing #4 because that's not necessary for UI
+4 - Return User JSON while doing #3 because that's not necessary for UI
 */
   update: function(req, res) {
     db.country.findOrCreate({
@@ -171,8 +171,6 @@ Update does these things:
     			postalCode: request.postalCode,
     			aboutMe: request.aboutMe,
     			shippingPreferenceId: request.shippingPreferenceId,
-    			fbUserId: request.fbUserId,
-    			oAuthToken: request.oAuthToken,
     			stateProvinceId: stateProvince.dataValues.id
     		};
     		console.log(newUser);
@@ -184,27 +182,29 @@ Update does these things:
     				}
     			}
     		).then(function(updatedUser){
-    			req.body.interestsFandoms.map(interest => {
-    				db.interestsFandoms.findOrCreate({
-    					where: {
-    						description: interest
-    					},
-    					defaults: {
-    						description: interest
-    					}
-    				}).spread(function(intFan, created){
-    					db.interestsFandomsAssociations.findOrCreate({
-    						where: {
-	    						interestsFandomId: intFan.dataValues.id,
-	    						userId: req.params.id
-	    					},
-	    					defaults: {
-	    						interestsFandomId: intFan.dataValues.id,
-	    						userId: req.params.id		    						
-	    					}
-    					});
-    				});
-    			});
+          if(req.body.interestsFandoms){
+            req.body.interestsFandoms.map(interest => {
+              db.interestsFandoms.findOrCreate({
+                where: {
+                  description: interest
+                },
+                defaults: {
+                  description: interest
+                }
+              }).spread(function(intFan, created){
+                db.interestsFandomsAssociations.findOrCreate({
+                  where: {
+                    interestsFandomId: intFan.dataValues.id,
+                    userId: req.params.id
+                  },
+                  defaults: {
+                    interestsFandomId: intFan.dataValues.id,
+                    userId: req.params.id                    
+                  }
+                }).catch(err => res.json(err));
+              }).catch(error => res.json(error));
+            });
+          }
 					res.json(updatedUser);
     		}).catch(error => res.json(error));
     	}).catch(er => res.json(er));
