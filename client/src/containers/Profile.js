@@ -24,6 +24,7 @@ class Profile extends Component {
   submit = values => {
 	  const {aboutMe, city, country, email, firstName, lastName, postalCode, shippingPreferenceId, stateProvinceName, streetAddress} = values;
 	  let profileUpdate = {
+	  	email: email,
 	  	country: country,
 	  	stateProvince: stateProvinceName,
 			firstName: firstName,
