@@ -18,11 +18,18 @@ class MyEvents extends Component{
           <td>{result.event.organizer}</td>
           <td>{result.event.shipDeadline}</td>
           <td><DetailsModal 
-            data={
-              <p>Body</p>
-            }
             title={result.event.eventName}
             label={result.event.id}
+            data={
+              <div>
+                <p>My Match</p>
+                <div className="well well-sm">
+                  <ul className="list-unstyled">
+                    <li>Name: </li>
+                  </ul>
+                </div>
+              </div>
+            }
           /></td>
         </tr>
     )});
