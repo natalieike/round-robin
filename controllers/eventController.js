@@ -247,7 +247,8 @@ module.exports = {
   		}, {
   			model: db.user,
   			attributes: ['id', 'firstName', 'lastName']
-  		}]
+  		}],
+      order: [["id", "DESC"]]
   	}).then(data => {
   		let results = [];
   		data.forEach(event => {
@@ -416,17 +417,11 @@ module.exports = {
       where: {
         userId: user
       }, 
-      include: [{
-        model: db.user,
-      },
-      {
-        model: db.event,
-        include: [{
-          model: db.user
-        }]
-      }]
+      include: [{ all: true, nested: true }],
+      order: [["eventId", "DESC"]]
     })
     .then(data => {
+      console.log(data);
       let result = [];
       data.forEach(eventData => {
         if(eventData.event.isActive == true){

@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT} from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR, TOGGLE_MODAL } from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -39,11 +39,42 @@ const requestEvents = () => ({
 	payload: "Requesting"
 });
 
-const receiveEvents = (json) => {
+const receiveEvents = (json, setting) => {
 	let eventArray = [];
 	let signup;
 	let shipping;
-	json.data.forEach(event => {
+	if(json.data && json.data.length){
+		json.data.forEach(event => {
+			if(!event.organizerAka){
+				event.organizer = event.user.firstName + " " + event.user.lastName;
+			} else{
+				event.organizer = event.organizerAka;
+			}
+			if(moment(event.signupDeadline).isValid()){
+				signup = moment(event.signupDeadline).format("MM/DD/YYYY");
+			} else{
+				signup = "TBD";
+			}
+			if(moment(event.shipDeadline).isValid()){
+				shipping = moment(event.shipDeadline).format("MM/DD/YYYY");			
+			}else{
+				shipping = "TBD";
+			}
+			event.signupDeadline = signup;
+			event.shipDeadline = shipping;
+			switch (setting){
+				case "public":
+					if(!event.isPrivate){
+						eventArray.push(event);	
+					}
+					break;
+				case "all":
+					eventArray.push(event);	
+				break;
+			}
+		});
+	} else if (json.data){
+		let event = json.data;
 		if(!event.organizerAka){
 			event.organizer = event.user.firstName + " " + event.user.lastName;
 		} else{
@@ -61,21 +92,50 @@ const receiveEvents = (json) => {
 		}
 		event.signupDeadline = signup;
 		event.shipDeadline = shipping;
-		eventArray.push(event);
-	});
+		switch (setting){
+			case "public":
+				if(!event.isPrivate){
+					eventArray.push(event);	
+				}
+				break;
+			case "all":
+				eventArray.push(event);	
+			break;
+		}
+	}
 	return {
 		type: RECEIVE_DATA,
 		events: eventArray
 	};	
 };
 
-export const searchEvents = categoryId => dispatch => {
+export const searchEventsCategory = categoryId => dispatch => {
 	dispatch(requestEvents)
+	dispatch(selectCategory(0));
 	const baseURL = `/api/events/options/categoryId&${categoryId}`;
 	return axios.get(baseURL)
 		.then(json => {
-			dispatch(receiveEvents(json));
+			dispatch(receiveEvents(json, "public"));
 		});
+};
+
+export const searchEventsId = eventId => dispatch => {
+	dispatch(clearFormData({
+		eventId: ""
+	}));
+	dispatch(requestEvents)
+	const baseURL = `/api/events/${eventId}`;
+	return axios.get(baseURL)
+		.then(json => {
+			dispatch(receiveEvents(json, "all"));
+		});
+};
+
+export const registerEventIdChange = data => {
+	return {
+		type: REGISTER_FORMDATA,
+		eventId: data
+	};
 };
 
 const receiveMyEvents = (json) => {
@@ -121,7 +181,6 @@ const receiveMyManagedEvents = (json) => {
 	let eventArray = [];
 	let signup;
 	let shipping;
-	console.log(json.data);
 	if(json.data){
 		json.data.forEach(myevent => {
 			if(moment(myevent.signupDeadline).isValid()){
@@ -229,7 +288,6 @@ export const joinEvent = eventData => dispatch => {
 
 const logUserIn = (authObj, json) => {
 	console.log("logUserIn");
-	console.log(json);
 	let login = {
 		loginStatus: authObj.status,
 		access_token: authObj.authResponse.accessToken,
@@ -258,17 +316,13 @@ const logUserIn = (authObj, json) => {
 
 export const loginToDb = (authObj) => dispatch => {
 	console.log("loginToDb");
-	console.log(authObj.authResponse.accessToken);
 //	const baseURL = `/auth/facebook/token?access_token=${authObj.authResponse.accessToken}`;
 	const baseURL = `/auth/facebook/token`;
-	console.log(baseURL);
 	return axios.post(baseURL, {
 		access_token: authObj.authResponse.accessToken
 	})
 	.then(json => {
-		console.log("got JSON");
 		dispatch(logUserIn(authObj, json));
-		console.log(json);
 	})
 	.catch(err => {
 		console.log("Error: ");
@@ -277,17 +331,63 @@ export const loginToDb = (authObj) => dispatch => {
 	});
 };
 
-
 export const isLoggedIn = () => dispatch => {
-	console.log("isLoggedIn");
 	const baseURL = `/login`;
 	return axios.get(baseURL)
 	.then(json => {
-		console.log(json);
+		console.log("isLoggedIn");
 	});
 }
 
-
 export const receiveFbData = fbData => dispatch => {
-	console.log(fbData);
+//	console.log(fbData);
+};
+
+const receiveUserData = (json) => {
+	return {
+		type: RECEIVE_PROFILEDATA,
+		...json
+	}
+};
+
+export const getUserData = userId => dispatch => {
+	const baseURL = `/api/users/${userId}`;
+	return axios.get(baseURL)
+	.then(json => {
+		dispatch(receiveUserData(json.data));
+	})
+};
+
+const submitError = (errJson) => {
+	return {
+		type: ERROR,
+		...errJson
+	};
+};
+
+export const submitUserData = (userId, userData) => dispatch => {
+	const baseURL = `/api/users/${userId}`;
+	return axios.put(baseURL, userData)
+	.then(json => {
+		if(json.status === 200){
+			dispatch(getUserData(userId));
+		} else{
+			dispatch(submitError(json));
+		}
+	})
+};
+
+export const	toggleModal = (label) => {
+  return {
+    type: TOGGLE_MODAL,
+    id: label
+  };
+};
+
+export const matchAction = (args) => dispatch => {
+	const baseURL = `/api/events/match/${args.id}`;
+	return axios.put(baseURL, {})
+	.then(json => {
+		dispatch(fetchMyManagedEvents(args.userId))
+	})
 };

@@ -1,6 +1,4 @@
 //For Login
-export const NEW_USER = "NEW_USER";
-export const EXISTING_USER = "EXISTING_USER";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 
@@ -26,6 +24,16 @@ export const VIEW_DETAILS = "VIEW_DETAILS";
 export const SELECT_CATEGORY = "SELECT_CATEGORY";
 //For Match Options Select Menu
 export const SELECT_MATCHOPTION = "SELECT_MATCHOPTION";
+
 //For Form Entries
 export const REGISTER_FORMDATA = "REGISTER_FORMDATA";
 export const FORM_CLEAR = "FORM_CLEAR";
+
+//For Profile Form
+export const REGISTER_PROFILEDATA = "REGISTER_PROFILEDATA";
+export const RECEIVE_PROFILEDATA = "RECEIVE_PROFILEDATA";
+export const SUBMIT_PROFILEDATA = "SUBMIT_PROFILEDATA";
+export const ERROR = "ERROR";
+
+//For Modal
+export const TOGGLE_MODAL = "TOGGLE_MODAL";

@@ -10,3 +10,8 @@
 	height: 100px;
 	width: 100px;
 }
+
+.error{
+	margin-left: 3px;
+	color: red;
+}

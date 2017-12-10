@@ -3,7 +3,7 @@ import { selectCategory, fetchCategories, searchEvents, fetchMyEvents } from '..
 export const selectCategories = (state={
 	isFetching: false,
 	categories: [],
-	category: 1
+	category: 0
 }, action) => {
 	switch(action.type){
 		case "SELECT_CATEGORY":
@@ -48,4 +48,16 @@ export const allCategories = (state = {
 		default:
 			return state
 	}
+}
+
+export const modal = (state = {modalId: null}, action) => {
+  switch(action.type){
+    case "TOGGLE_MODAL":
+			return {
+				...state,
+				modalId: action.id
+			};
+    default:
+      return state;
+  }
 }
