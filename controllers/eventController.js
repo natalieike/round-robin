@@ -247,7 +247,8 @@ module.exports = {
   		}, {
   			model: db.user,
   			attributes: ['id', 'firstName', 'lastName']
-  		}]
+  		}],
+      order: [["id", "DESC"]]
   	}).then(data => {
   		let results = [];
   		data.forEach(event => {
@@ -416,22 +417,8 @@ module.exports = {
       where: {
         userId: user
       }, 
-      include: [{ all: true, nested: true }]
-/*
-      [{
-        model: db.user,
-      },
-      {
-        model: db.event,
-        include: [{
-          model: db.user
-        }]
-      },
-      {
-        model: db.user,
-        as: "matchedUser"
-      }]
-*/
+      include: [{ all: true, nested: true }],
+      order: [["eventId", "DESC"]]
     })
     .then(data => {
       console.log(data);
