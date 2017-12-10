@@ -8,7 +8,7 @@ class ViewDetailsButton extends Component{
       const {toggleModal} = this.props;
       return (
         <button 
-        	onClick={toggleModal}
+        	onClick={e => toggleModal(this.props.id)}
         	className="btn btn-primary"
       	>
       		View Details

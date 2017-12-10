@@ -22,7 +22,7 @@ class MyEvents extends Component{
               <p>Body</p>
             }
             title={result.event.eventName}
-            label={result.event.eventName}
+            label={result.event.id}
           /></td>
         </tr>
     )});

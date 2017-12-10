@@ -12,23 +12,23 @@ class DetailsModal extends Component{
   }
 
   closeModal(){
-    this.props.toggleModal();
+    this.props.toggleModal(null);
   }
 
   render(){
-    const {modalStatus} = this.props;
+    const {activeModal} = this.props;
 //    const status = modalStatus ? "true": "false";
     return (
       <div>
         <ViewDetailsButton
-          contentLabel={this.props.label}
+          id={this.props.label}
         />
         <Modal
-          isOpen={modalStatus}
+          isOpen={activeModal === this.props.label}
           onRequestClose={this.closeModal}
           className="modal-dialog"
           ariaHideApp={false}
-          contentLabel={this.props.label}
+          id={this.props.label}
           >
           <div className="modal-content">
             <div className="modal-header">
@@ -52,7 +52,7 @@ class DetailsModal extends Component{
 
 function mapStateToProps(state){
   return {
-    modalStatus: state.modal.modalState
+    activeModal: state.modal.modalId
   };
 }
 

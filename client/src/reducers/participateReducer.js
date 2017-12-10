@@ -50,14 +50,12 @@ export const allCategories = (state = {
 	}
 }
 
-export const modal = (state = {modalState: false}, action) => {
+export const modal = (state = {modalId: null}, action) => {
   switch(action.type){
     case "TOGGLE_MODAL":
-      const actualState = state.modalState;
-      const newState = !actualState;
 			return {
 				...state,
-				modalState: newState
+				modalId: action.id
 			};
     default:
       return state;

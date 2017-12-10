@@ -390,7 +390,7 @@ export const submitUserData = (userId, userData) => dispatch => {
 export const	toggleModal = (label) => {
   return {
     type: TOGGLE_MODAL,
-    label: label
+    id: label
   };
 };
 
