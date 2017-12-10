@@ -27,14 +27,14 @@ const renderField = ({ input, label, type, className, meta: { touched, error, wa
   </div>
 );
 
-const renderTextArea = ({ input, label, type, className, meta: { touched, error, warning } }) => (
+const renderTextArea = (field) => (
   <div>
     <textArea 
-    	{...input} 
-    	type={type} 
-    	className={className}
+    	{...field.input} 
+    	type={field.type} 
+    	className={field.className}
   	/>
-    {touched && ((error && <span className="error">{error}</span>) || (warning && <span>{warning}</span>))}
+    {field.meta.touched && (field.meta.error && <span className="error">{field.meta.error}</span>)}
   </div>
 );
 
@@ -169,9 +169,9 @@ let ProfileForm = props => {
 			  	    <div className="col-sm-10">
 					    	<Field 
 					    		name="aboutMe" 
-        					component={renderTextArea} 
+        					component="textarea" 
 					    		type="textarea" 
-					    		className="form-control"
+					    		className="form-control textarea"
 				    		/>
 					    </div>
 					  </div>
