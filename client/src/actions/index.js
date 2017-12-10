@@ -43,7 +43,6 @@ const receiveEvents = (json, setting) => {
 	let eventArray = [];
 	let signup;
 	let shipping;
-	console.log(json.data.length);
 	if(json.data && json.data.length){
 		json.data.forEach(event => {
 			if(!event.organizerAka){
@@ -133,7 +132,6 @@ export const searchEventsId = eventId => dispatch => {
 };
 
 export const registerEventIdChange = data => {
-	console.log(data);
 	return {
 		type: REGISTER_FORMDATA,
 		eventId: data
@@ -183,7 +181,6 @@ const receiveMyManagedEvents = (json) => {
 	let eventArray = [];
 	let signup;
 	let shipping;
-	console.log(json.data);
 	if(json.data){
 		json.data.forEach(myevent => {
 			if(moment(myevent.signupDeadline).isValid()){
@@ -291,7 +288,6 @@ export const joinEvent = eventData => dispatch => {
 
 const logUserIn = (authObj, json) => {
 	console.log("logUserIn");
-	console.log(json);
 	let login = {
 		loginStatus: authObj.status,
 		access_token: authObj.authResponse.accessToken,
@@ -320,17 +316,13 @@ const logUserIn = (authObj, json) => {
 
 export const loginToDb = (authObj) => dispatch => {
 	console.log("loginToDb");
-	console.log(authObj.authResponse.accessToken);
 //	const baseURL = `/auth/facebook/token?access_token=${authObj.authResponse.accessToken}`;
 	const baseURL = `/auth/facebook/token`;
-	console.log(baseURL);
 	return axios.post(baseURL, {
 		access_token: authObj.authResponse.accessToken
 	})
 	.then(json => {
-		console.log("got JSON");
 		dispatch(logUserIn(authObj, json));
-		console.log(json);
 	})
 	.catch(err => {
 		console.log("Error: ");
@@ -340,16 +332,15 @@ export const loginToDb = (authObj) => dispatch => {
 };
 
 export const isLoggedIn = () => dispatch => {
-	console.log("isLoggedIn");
 	const baseURL = `/login`;
 	return axios.get(baseURL)
 	.then(json => {
-		console.log(json);
+		console.log("isLoggedIn");
 	});
 }
 
 export const receiveFbData = fbData => dispatch => {
-	console.log(fbData);
+//	console.log(fbData);
 };
 
 const receiveUserData = (json) => {
@@ -378,7 +369,6 @@ export const submitUserData = (userId, userData) => dispatch => {
 	const baseURL = `/api/users/${userId}`;
 	return axios.put(baseURL, userData)
 	.then(json => {
-		console.log(json);
 		if(json.status === 200){
 			dispatch(getUserData(userId));
 		} else{
@@ -395,7 +385,6 @@ export const	toggleModal = (label) => {
 };
 
 export const matchAction = (args) => dispatch => {
-	console.log(args.id);
 	const baseURL = `/api/events/match/${args.id}`;
 	return axios.put(baseURL, {})
 	.then(json => {

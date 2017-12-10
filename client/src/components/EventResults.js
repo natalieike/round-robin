@@ -4,21 +4,26 @@ import React from "react";
 const EventResult = props => {
 
   let resultTable = props.results.map((result, i) => {
+    let button = "";
+    if(!props.myEvents.find(x => x.event.id == result.id)){
+      button =           
+        <button 
+          onClick={props.onClick} 
+          className="btn btn-primary" 
+          value={result.id}
+        >
+          Join
+        </button>
+    }else{
+      button = <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+    }
     return(
       <tr key={result.id}>
         <td>{result.id}</td>
         <td>{result.eventName}</td>
         <td>{result.organizer}</td>
         <td>{result.shipDeadline}</td>
-        <td>
-          <button 
-            onClick={props.onClick} 
-            className="btn btn-primary" 
-            value={result.id}
-          >
-            Join
-          </button>
-        </td>
+        <td>{button}</td>
       </tr>
   )});
 

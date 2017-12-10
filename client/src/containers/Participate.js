@@ -49,7 +49,6 @@ class Participate extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
     if(!this.props.isLoggedIn && nextProps.isLoggedIn){
       this.props.dispatch(fetchCategories());
       this.props.dispatch(fetchMyEvents(nextProps.user));
@@ -72,6 +71,7 @@ class Participate extends Component {
         <EventResults 
           results={events}
           onClick={this.handleJoin}
+          myEvents={myEvents}
         />
         <MyEvents 
           results={myEvents}

@@ -48,7 +48,6 @@ export const registerFormData = (state={
 	organizerAka: "",
 	isPrivate: false
 }, action) =>{
-	console.log(action);
 	let newState = {};
 	switch(action.type){
 		case "REGISTER_FORMDATA":
@@ -76,7 +75,6 @@ export const registerFormData = (state={
 				...state,
 				...action
 			}
-			console.log(newState);
 			return newState
 		default:
 			return state;

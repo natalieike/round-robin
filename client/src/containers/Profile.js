@@ -16,14 +16,12 @@ class Profile extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
     if(!this.props.isLoggedIn && nextProps.isLoggedIn){
   		this.props.dispatch(getUserData(nextProps.user));
     }
   }
 
   submit = values => {
-	  console.log(values);
 	  const {aboutMe, city, country, email, firstName, lastName, postalCode, shippingPreferenceId, stateProvinceName, streetAddress} = values;
 	  let profileUpdate = {
 	  	country: country,
@@ -36,7 +34,6 @@ class Profile extends Component {
 			aboutMe: aboutMe,
 			shippingPreferenceId: shippingPreferenceId,
 	  };
-	  console.log(profileUpdate);
 	  this.props.dispatch(submitUserData(this.props.user, profileUpdate));
 		this.props.dispatch(reset('profile'));
 	};
@@ -74,7 +71,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
 	return{
     user: state.loginReducer.userId,
     loginStatus: state.loginReducer.loginStatus, 

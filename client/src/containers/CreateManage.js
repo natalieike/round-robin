@@ -10,39 +10,13 @@ import {reset} from 'redux-form';
 
 class CreateManage extends Component {
   componentDidMount() {
-  	console.log(this.props);
     if(this.props.isLoggedIn){
       this.props.dispatch(fetchMyManagedEvents(this.props.user));
       this.props.dispatch(fetchCategories());  
     }
   };
-/*
-  handleCategoryChange = (selectedCategory) => {
-    this.props.dispatch(selectCategory(parseInt(selectedCategory)));
-  };
 
-  handleOptionChange = selectedOption => {
-    this.props.dispatch(selectMatchOptions(parseInt(selectedOption)));
-  };
-
-  handleEventNameChange = name => {
-  	this.props.dispatch(registerEventNameChange(name));
-  };
-
-  handleOrganizerAkaChange = organizer => {
-  	this.props.dispatch(registerOrganizerAkaChange(organizer));
-  };
-
-  handleAboutEventChange = about => {
-  	this.props.dispatch(registerAboutEventChange(about));
-  };
-
-	handleRadioButtonChange= radio => {
-  	this.props.dispatch(registerRadioButtonChange(radio));
-  };
-*/
   handleClick = values => {
-    console.log(values);
    let newEventData = {
     	eventName: values.eventName,
     	organizerAka: values.organizerAka,
@@ -52,14 +26,11 @@ class CreateManage extends Component {
     	userId: this.props.user,
     	matchOptionId: values.matchOptionId
     }
-    console.log("Create Event");
-    console.log(newEventData); 
     this.props.dispatch(submitNewEvent(newEventData));
     this.props.dispatch(reset('event'));
   }
 
   componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
     if(!this.props.isLoggedIn && nextProps.isLoggedIn){
       this.props.dispatch(fetchMyManagedEvents(nextProps.user));
       this.props.dispatch(fetchCategories());  

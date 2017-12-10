@@ -13,7 +13,6 @@ class ManageMyEvents extends Component{
 
   render(){
     let resultTable = this.props.results.map((result, i) => {
-      console.log(result);
       let signupDeadline = result.signupDeadline;
       if(result.status.id > 1){
         signupDeadline = "The signup deadline has already passed.";

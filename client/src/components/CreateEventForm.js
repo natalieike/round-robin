@@ -37,7 +37,7 @@ const renderToggle = (field) => {
       </label>
       <div className="col-sm-1">
 			  <Toggle
-					checked={field.input.value} 
+					checked={field.input.value || false} 
 					onChange={field.input.onChange} 
 					icons={false} 
 		    />

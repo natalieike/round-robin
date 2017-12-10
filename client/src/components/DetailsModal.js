@@ -12,10 +12,6 @@ class DetailsModal extends Component{
     this.handleModalFunction = this.handleModalFunction.bind(this);
   }
 
-  componentDidMount(){
-    console.log(this.props);
-  }
-
   closeModal(){
     this.props.toggleModal(null);
   }

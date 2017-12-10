@@ -46,35 +46,27 @@ class FbLogin extends Component {
     console.log('Welcome! Fetching your information.... ');
     window.FB.api('/me?fields=name,email,first_name,last_name', function(response) {
       console.log('Successful login for: ' + response.name);
-      console.log(response);
       that.props.dispatch(receiveFbData(response));
- //     document.getElementById('status').innerHTML =
-//        'Thanks for logging in, ' + response.name + '!';
     })
   }
 
   // This is called with the results from from FB.getLoginStatus().
   statusChangeCallback(response) {
-    console.log("status callback");
     this.props.dispatch(loginToDb(response))
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      console.log(response);
       this.testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
 
-//      document.getElementById('status').innerHTML = 'Log in with Facebook to Get Started!';
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-//      document.getElementById('status').innerHTML = 'Log in with Facebook to Get Started!';
     }
   }
 
   checkLoginState() {
     window.FB.getLoginStatus(function(response) {
-      console.log(response);
       this.statusChangeCallback(response);
     }.bind(this));
   }
@@ -84,10 +76,9 @@ class FbLogin extends Component {
     window.FB.login(this.checkLoginState(), 
                     {scope: 'public_profile, email',
                       return_scopes: true});
-//    this.props.dispatch(isLoggedIn());
-//    this.props.dispatch(loginToDb());
   }
 
+/*
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
   }
@@ -95,7 +86,7 @@ class FbLogin extends Component {
   handleResponse = (data) => {
     console.log(data);
   }
- 
+ */
   handleError = (error) => {
     console.log(error);
   }

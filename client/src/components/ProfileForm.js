@@ -9,7 +9,7 @@ const validate = values => {
   const errors = {}
   const requiredValues = ["firstName", "lastName", "email", "streetAddress", "city", "postalCode", "country", "stateProvinceName"];
   requiredValues.forEach(required => {
-  	if(!values[required] || values[required] == ""){
+  	if(!values[required] || values[required] === ""){
   		errors[required] = "Required";
   	}
   })

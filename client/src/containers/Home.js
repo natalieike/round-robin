@@ -4,16 +4,6 @@ import { connect } from 'react-redux';
 
 class Home extends Component {
 
-
-/*
-	      	<a href="/auth/facebook"
-	      		className="btn btn-primary searchBtn"
-	      	>
-	      	Facebook AUTH
-	      	</a>
-*/
-
-
 	render() {
     const { isFetching, myManagedEvents, user, categories, category, matchOption, eventName, organizerAka, aboutEvent, isPrivate, isLoggedIn, loginStatus, firstName, lastName } = this.props
     let data;
@@ -38,7 +28,6 @@ class Home extends Component {
 
  }
 const mapStateToProps = state => {
-  console.log(state);
 	return{
 		isFetching: state.manageMyEvents.isFetching,
 		myManagedEvents: state.manageMyEvents.myManagedEvents,

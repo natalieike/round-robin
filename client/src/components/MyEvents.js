@@ -10,7 +10,6 @@ class MyEvents extends Component{
 
   render(){
     let resultTable = this.props.results.map((result, i) => {
-      console.log(result);
       let matchName = "You haven't been matched yet";
       let matchAddress = "";
       let aboutMatch = "";
