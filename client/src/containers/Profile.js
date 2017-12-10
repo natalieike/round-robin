@@ -4,10 +4,9 @@ import ProfileForm from "../components/ProfileForm";
 import { connect } from 'react-redux';
 import { getUserData, submitUserData } from '../actions';
 import reduxThunk from "redux-thunk";
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 import {reset} from 'redux-form';
-
-
+import DetailsModal from "../components/DetailsModal";
 
 class Profile extends Component {
   componentDidMount() { 	

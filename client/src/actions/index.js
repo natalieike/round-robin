@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR } from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR, TOGGLE_MODAL } from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -386,3 +386,11 @@ export const submitUserData = (userId, userData) => dispatch => {
 		}
 	})
 };
+
+export const	toggleModal = (label) => {
+  return {
+    type: TOGGLE_MODAL,
+    label: label
+  };
+};
+
