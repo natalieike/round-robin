@@ -394,3 +394,11 @@ export const	toggleModal = (label) => {
   };
 };
 
+export const matchAction = (args) => dispatch => {
+	console.log(args.id);
+	const baseURL = `/api/events/match/${args.id}`;
+	return axios.put(baseURL, {})
+	.then(json => {
+		dispatch(fetchMyManagedEvents(args.userId))
+	})
+};

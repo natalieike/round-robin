@@ -32,6 +32,7 @@ class MyEvents extends Component{
           <td><DetailsModal 
             title={result.event.eventName}
             label={result.event.id}
+            hiddenClass="invisible"
             data={
               <div>
               <p>Event Details</p>

@@ -2,16 +2,26 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import ViewDetailsButton from './ViewDetailsButton';
 import Modal from 'react-modal';
-import {toggleModal} from '../actions';
+import {toggleModal, matchAction} from '../actions';
 import {bindActionCreators} from 'redux';
 
 class DetailsModal extends Component{
   constructor(props){
     super(props);
     this.closeModal = this.closeModal.bind(this);
+    this.handleModalFunction = this.handleModalFunction.bind(this);
+  }
+
+  componentDidMount(){
+    console.log(this.props);
   }
 
   closeModal(){
+    this.props.toggleModal(null);
+  }
+
+  handleModalFunction(){
+    this.props.dispatch(this.props.buttonAction(this.props.args));
     this.props.toggleModal(null);
   }
 
@@ -41,6 +51,7 @@ class DetailsModal extends Component{
               {this.props.data}
             </div>
             <div className="modal-footer">
+             <button type="button" className={this.props.hiddenClass} onClick={this.handleModalFunction}>{this.props.btnmessage}</button>
               <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.closeModal}>Close</button>
             </div>
           </div>
@@ -58,7 +69,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
-    toggleModal
+    toggleModal, matchAction
   }, dispatch);
 }
 
