@@ -49,3 +49,15 @@ export const allCategories = (state = {
 			return state
 	}
 }
+
+export const modal = (state = {modalId: null}, action) => {
+  switch(action.type){
+    case "TOGGLE_MODAL":
+			return {
+				...state,
+				modalId: action.id
+			};
+    default:
+      return state;
+  }
+}

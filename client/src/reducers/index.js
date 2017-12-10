@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import {selectCategories, allCategories} from "./participateReducer";
+import {selectCategories, allCategories, modal} from "./participateReducer";
 import {manageMyEvents, selectMatchOption, registerFormData} from "./createmanageReducer";
 import {loginReducer} from "./homeReducer";
 import {manageUserData} from "./profileReducer";
@@ -13,7 +13,8 @@ const rootReducer = combineReducers({
 	registerFormData,
 	loginReducer,
   form: formReducer,
-  manageUserData
+  manageUserData,
+  modal
 })
 
 export default rootReducer

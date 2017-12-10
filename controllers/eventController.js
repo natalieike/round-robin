@@ -416,7 +416,9 @@ module.exports = {
       where: {
         userId: user
       }, 
-      include: [{
+      include: [{ all: true, nested: true }]
+/*
+      [{
         model: db.user,
       },
       {
@@ -424,9 +426,15 @@ module.exports = {
         include: [{
           model: db.user
         }]
+      },
+      {
+        model: db.user,
+        as: "matchedUser"
       }]
+*/
     })
     .then(data => {
+      console.log(data);
       let result = [];
       data.forEach(eventData => {
         if(eventData.event.isActive == true){
