@@ -11,6 +11,18 @@ class MyEvents extends Component{
   render(){
     let resultTable = this.props.results.map((result, i) => {
       console.log(result);
+      let matchName = "You haven't been matched yet";
+      let matchAddress = "";
+      let aboutMatch = "";
+      if(result.matchedUser){
+        matchName = result.matchedUser.firstName + " " + result.matchedUser.lastName;
+        matchAddress = result.matchedUser.streetAddress + ", " + result.matchedUser.city + ", " + result.matchedUser.stateProvince.stateProvinceName + " " + result.matchedUser.stateProvince.country.countryName + ", " + result.matchedUser.postalCode;
+        aboutMatch = result.matchedUser.aboutMe || "";
+      }
+      let signupDeadline = result.event.signupDeadline;
+      if(result.event.status.id > 1){
+        signupDeadline = "The signup deadline has already passed.";
+      }
       return(
         <tr key={result.id}>
           <td>{result.event.id}</td>
@@ -22,10 +34,23 @@ class MyEvents extends Component{
             label={result.event.id}
             data={
               <div>
+              <p>Event Details</p>
+                <div className="well well-sm">
+                  <ul className="list-unstyled">
+                    <li><label>Event Status:</label> {result.event.status.statusName}</li>
+                    <li><label>Event ID:</label> {result.event.id}</li>
+                    <li><label>Category:</label> {result.event.category.categoryName}</li>
+                    <li><label>Signup Deadline:</label> {signupDeadline}</li>
+                    <li><label>Shipping Deadline:</label> {result.event.shipDeadline}</li>
+                    <li><label>About this Event:</label> {result.event.aboutEvent}</li>
+                  </ul>
+                </div>
                 <p>My Match</p>
                 <div className="well well-sm">
                   <ul className="list-unstyled">
-                    <li>Name: </li>
+                    <li><label>Name:</label> {matchName}</li>
+                    <li><label>Address:</label> {matchAddress}</li>
+                    <li><label>About My Match:</label> {aboutMatch}</li>
                   </ul>
                 </div>
               </div>
