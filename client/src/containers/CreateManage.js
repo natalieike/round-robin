@@ -5,7 +5,8 @@ import ManageMyEvents from "../components/ManageMyEvents";
 import { fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
-import CreateEvent from "../components/CreateEvent"
+import CreateEventForm from "../components/CreateEventForm"
+import {reset} from 'redux-form';
 
 class CreateManage extends Component {
   componentDidMount() {
@@ -15,7 +16,7 @@ class CreateManage extends Component {
       this.props.dispatch(fetchCategories());  
     }
   };
-
+/*
   handleCategoryChange = (selectedCategory) => {
     this.props.dispatch(selectCategory(parseInt(selectedCategory)));
   };
@@ -39,21 +40,22 @@ class CreateManage extends Component {
 	handleRadioButtonChange= radio => {
   	this.props.dispatch(registerRadioButtonChange(radio));
   };
-
-  handleClick = event => {
-    event.preventDefault()
-    let newEventData = {
-    	eventName: this.props.eventName,
-    	organizerAka: this.props.organizerAka,
-    	isPrivate: this.props.isPrivate,
-    	aboutEvent: this.props.aboutEvent,
-    	categoryId: this.props.category,
+*/
+  handleClick = values => {
+    console.log(values);
+   let newEventData = {
+    	eventName: values.eventName,
+    	organizerAka: values.organizerAka,
+    	isPrivate: values.isPrivate || false,
+    	aboutEvent: values.aboutEvent,
+    	categoryId: values.category,
     	userId: this.props.user,
-    	matchOptionId: this.props.matchOption
+    	matchOptionId: values.matchOptionId
     }
     console.log("Create Event");
-    console.log(newEventData);
+    console.log(newEventData); 
     this.props.dispatch(submitNewEvent(newEventData));
+    this.props.dispatch(reset('event'));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,20 +71,9 @@ class CreateManage extends Component {
     let data;
     if (loginStatus == "connected"){
       data = <div>
-        <CreateEvent
-          categoryvalue={category}
+        <CreateEventForm
           options={categories} 
-          onCategoryChange={this.handleCategoryChange}
-          onClick={this.handleClick}
-          matchoptionvalue={matchOption}
-          onOptionChange={this.handleOptionChange}
-          eventnamevalue={eventName}
-          onEventNameChange={this.handleEventNameChange}
-          organizerAkaValue={organizerAka}
-          onOrganizerAkaChange={this.handleOrganizerAkaChange}
-          aboutEventValue={aboutEvent}
-          onAboutEventChange={this.handleAboutEventChange}
-          onRadioButtonChange={this.handleRadioButtonChange}
+          onSubmit={this.handleClick}
         />
         <ManageMyEvents 
           results={myManagedEvents}
@@ -107,12 +98,11 @@ class CreateManage extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent });
+  let actions = bindActionCreators({ fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent, reset });
   return { ...actions, dispatch };
 }
 
 const mapStateToProps = state => {
-  console.log(state);
 	return{
 		isFetching: state.manageMyEvents.isFetching,
 		myManagedEvents: state.manageMyEvents.myManagedEvents,

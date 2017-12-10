@@ -38,7 +38,7 @@ class Profile extends Component {
 			shippingPreferenceId: shippingPreferenceId,
 	  };
 	  console.log(profileUpdate);
-	  this.props.dispatch(submitUserData(this.props.user, profileUpdate))
+	  this.props.dispatch(submitUserData(this.props.user, profileUpdate));
 		this.props.dispatch(reset('profile'));
 	};
 
