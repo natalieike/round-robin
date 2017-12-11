@@ -36,7 +36,7 @@ class DetailsModal extends Component{
           ariaHideApp={false}
           id={this.props.label}
           >
-          <div className="modal-content">
+          <div className="modal-content featherGrey">
             <div className="modal-header">
               <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.closeModal}>
                 <span aria-hidden="true">&times;</span>

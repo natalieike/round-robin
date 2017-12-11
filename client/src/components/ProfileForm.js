@@ -65,11 +65,11 @@ let ProfileForm = props => {
   const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting } = props;
 
   return (
-    <div className="panel panel-default">
-      <div className="panel-heading">
+    <div className="panel">
+      <div className="panel-heading eggshellBlue">
         <h3 className="panel-title">My Profile</h3>
       </div>
-      <div className="panel-body">
+      <div className="panel-body featherGrey">
 			  <form 
 			  	onSubmit={handleSubmit}
 			  >

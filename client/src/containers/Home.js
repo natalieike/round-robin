@@ -16,7 +16,7 @@ class Home extends Component {
 		  <div>
 		    <div className="jumbotron">
 		      <h1 className="text-center">Welcome to Round Robin!</h1>
-		      <ul>
+		      <ul className="list-unstyled">
 			      <li>Sign up to Manage and Participate in all kinds of swaps - Craft Exchanges, Secret Santas, Sweets Swaps, and More!</li>
 			      <li>Create your own Swap - Make it Public or Private</li>
 			      <li>Participate in Swaps - Private Swaps by Invite, or Search for Public Events</li>
