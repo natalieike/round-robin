@@ -14,8 +14,15 @@ h1{
   font-family: 'Yellowtail', cursive;
 }
 
-h3{
+h3, jumboHome{
   font-family: 'Roboto Condensed', sans-serif;
+}
+
+.login{
+  font-family: 'Roboto Condensed', sans-serif;
+	font-size: 27px;
+	font-weight: bold;
+	text-shadow: 2px 1px #e6e6e6, 
 }
 
 footer{

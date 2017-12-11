@@ -50,8 +50,8 @@ class Profile extends Component {
 		    />
       </div>
     } else {
-      data = <div>
-        <p>You must be logged in to view this content.</p>
+      data = <div className="well">
+        <p className="login">You must be logged in to view this content.</p>
       </div>
     }
 		return(
