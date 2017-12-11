@@ -23,6 +23,9 @@ class Home extends Component {
 			    </ul>
 			    {data}
 		    </div>
+      	<footer>
+        	<small>&copy; Copyright 2017, Natalie Ike.  All Rights Reserved</small>
+      	</footer>
 			</div>);
   };
 
