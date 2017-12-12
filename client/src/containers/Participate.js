@@ -84,9 +84,14 @@ class Participate extends Component {
     }
 		return(
 		  <div>
-		    <div className="jumbotron">
-		      <h1>Participate</h1>
-		      <h4>Search for Events and Manage your Current Events</h4>
+		    <div className="jumbotron clearfix">
+          <div className="pull-left">
+  		      <h1>Participate</h1>
+  		      <h4>Search for Events and Manage your Current Events</h4>
+          </div>
+          <div className="pull-right">
+            <img src="./roundRobin-leftFacing.png" className="logo2" />
+          </div>
 		    </div>
         {data}
 			</div>);

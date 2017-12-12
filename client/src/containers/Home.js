@@ -16,6 +16,9 @@ class Home extends Component {
 		  <div>
 		    <div className="jumbotron">
 		      <h1 className="text-center">Welcome to Round Robin!</h1>
+		      <div className="text-center">
+		      	<img src="./roundRobinWithGift.png" className="logo"/>
+	      	</div>
 	      </div>
 	      <div className="well">
 		      <ul className="list-unstyled jumboHome">

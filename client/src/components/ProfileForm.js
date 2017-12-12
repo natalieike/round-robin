@@ -176,7 +176,7 @@ let ProfileForm = props => {
 					    </div>
 					  </div>
 					  <div className="form-group">
-              <div className="col-sm-offset-1 col-sm-3">
+              <div className="col-sm-offset-10 col-sm-3">
 				  			<button type="submit" className="btn btn-success">Submit</button>
 				  		</div>
 				  	</div>
