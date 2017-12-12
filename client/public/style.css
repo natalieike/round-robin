@@ -1,3 +1,90 @@
+/*
+    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Oswald', sans-serif;
+    font-family: 'Yellowtail', cursive;
+*/
+
+body{
+	background-color: #837370;
+  font-family: 'Oswald', sans-serif;
+}
+
+h1{
+  font-family: 'Yellowtail', cursive;
+}
+
+h3{
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.btn-primary{
+	background-color: #005780;
+}
+
+.btn-success{
+	background-color: #008040;
+}
+
+.jumboHome{
+  font-family: 'Roboto Condensed', sans-serif;
+	font-size: 20px;	
+}
+
+.logo{
+	height: 100px;
+}
+
+.logo2{
+	height: 100px;
+	margin-top: 20%;
+}
+
+.login{
+  font-family: 'Roboto Condensed', sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	text-shadow: 2px 1px #e6e6e6, 
+}
+
+footer{
+	text-align: center;
+	color: #e6f7ff;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.nav-pills a{
+	color: #e6f7ff;
+	font-weight: bold;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 18px;
+}
+
+.nav-pills a:hover {
+	color: #ffc299;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {	background-color: #006999;
+}
+
+.jumbotron{
+	background-color: #ffe0cc;
+}
+
+.eggshellBlue{
+	background-color: #ccefff;
+}
+
+.well{
+	background-color: #e6e6e6;	
+}
+
+.featherGrey{
+	background-color: #f2f2f2;
+}
+
 .searchBtn{
 	margin-top: 1%;
 }
@@ -15,3 +102,4 @@
 	margin-left: 3px;
 	color: red;
 }
+

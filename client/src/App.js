@@ -22,13 +22,15 @@ class App extends Component {
   render() {
     return (
 			<Router>
-		    <div className="container">
-		      <Navpills />
-		      <Redirect exact from="/" to="/home"/>
-		      <Route path="/home" render={() => <Home />} />
-		      <Route path="/profile" render={() => <Profile />} />
-		      <Route path="/participate" render={() => <Participate />} />
-		      <Route path="/createmanage" render={() => <CreateManage />} />
+		    <div className="container Site">
+		    	<div className="Site-content">
+			      <Navpills />
+			      <Redirect exact from="/" to="/home"/>
+			      <Route path="/home" render={() => <Home />} />
+			      <Route path="/profile" render={() => <Profile />} />
+			      <Route path="/participate" render={() => <Participate />} />
+			      <Route path="/createmanage" render={() => <CreateManage />} />
+	      	</div>
 		    </div>
 		  </Router>
     );
