@@ -2,11 +2,11 @@ import React from "react";
  
 const CreateEvent = props => {
   return(
-    <div className="panel panel-default">
-      <div className="panel-heading">
+    <div className="panel">
+      <div className="panel-heading eggshellBlue">
         <h3 className="panel-title">Create an Event</h3>
       </div>
-      <div className="panel-body">
+      <div className="panel-body featherGrey">
         <form className="form-horizontal">
           <div className="form-group">
             <label className="col-sm-2 control-label">Event Name</label>

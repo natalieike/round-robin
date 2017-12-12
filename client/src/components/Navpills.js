@@ -6,7 +6,7 @@ import FbLogin from "./FbLogin";
 */    
 
 const Navpills = () =>
-  <ul className="nav nav-pills nav-justified">
+  <ul className="nav nav-pills nav-justified robinNav">
     <li>
       <FbLogin fb={window.FB}/>
     </li>

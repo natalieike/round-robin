@@ -51,16 +51,21 @@ class CreateManage extends Component {
         />
       </div>
     } else {
-      data = <div>
-        <p>You must be logged in to view this content.</p>
+      data = <div className="well">
+        <p className="login">You must be logged in to view this content.</p>
       </div>
     }
 
 		return(
 		  <div>
-		    <div className="jumbotron">
-		      <h1>Create / Manage Events</h1>
-		      <h4>Create your own Swap, and Manage the Swaps you are Moderating</h4>
+		    <div className="jumbotron clearfix">
+          <div className="pull-left">
+  		      <h1>Create / Manage Events</h1>
+  		      <h4>Create your own Swap, and Manage the Swaps you are Moderating</h4>
+          </div>
+          <div className="pull-right">
+            <img src="./roundRobin-leftFacing.png" className="logo2" />
+          </div>
 		    </div>
         {data}
 			</div>);

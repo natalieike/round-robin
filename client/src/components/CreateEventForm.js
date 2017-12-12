@@ -30,7 +30,7 @@ const renderToggle = (field) => {
 	return (
 	  <div>
       <label 
-      	className="col-sm-4 col-sm-offset-1 text-right"
+      	className="col-sm-4 text-right"
       >
         Public Event
         {" "}
@@ -40,6 +40,7 @@ const renderToggle = (field) => {
 					checked={field.input.value || false} 
 					onChange={field.input.onChange} 
 					icons={false} 
+					className={field.input.className}
 		    />
 	    </div>
       <label 
@@ -106,11 +107,11 @@ const renderMatchOptions = (field) => {
 let CreateEventForm = props => {
   const { handleSubmit, pristine, reset, submitting, eventName, organizerAka, aboutEvent } = props;
   return (
-    <div className="panel panel-default">
-      <div className="panel-heading">
+    <div className="panel">
+      <div className="panel-heading eggshellBlue">
         <h3 className="panel-title">Create an Event</h3>
       </div>
-      <div className="panel-body">
+      <div className="panel-body featherGrey">
 			  <form 
 			  	onSubmit={handleSubmit}
 			  >
@@ -164,7 +165,7 @@ let CreateEventForm = props => {
 		            <Field 
 		            	name="isPrivate" 
 		            	component={renderToggle}
-		            	className="form-control"
+		            	className="form-control toggle-custom"
 		            	data={true}
 					    		type="custom"
 	            	/>
@@ -182,7 +183,7 @@ let CreateEventForm = props => {
 					    </div>
 					  </div>
 					  <div className="form-group">
-              <div className="col-sm-offset-1 col-sm-3">
+              <div className="col-sm-offset-10 col-sm-3">
 				  			<button type="submit" className="btn btn-success">Submit</button>
 				  		</div>
 				  	</div>

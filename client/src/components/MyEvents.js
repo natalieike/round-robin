@@ -60,11 +60,11 @@ class MyEvents extends Component{
     )});
 
     return(  
-      <div className="panel panel-default">
-        <div className="panel-heading">
+      <div className="panel">
+        <div className="panel-heading eggshellBlue">
           <h3 className="panel-title">My Events</h3>
         </div>
-        <div className="panel-body">
+        <div className="panel-body featherGrey">
           <table className="table" id="eventTable">
             <tbody>
               <tr>

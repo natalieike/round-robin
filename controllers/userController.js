@@ -164,6 +164,7 @@ Update does these things:
     	}).spread(function(stateProvince, cr){
     		request = req.body;    		
     		var newUser = {
+          email: request.email,
     			firstName: request.firstName,
     			lastName: request.lastName,
     			streetAddress: request.streetAddress,
