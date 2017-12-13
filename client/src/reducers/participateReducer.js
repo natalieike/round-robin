@@ -50,13 +50,18 @@ export const allCategories = (state = {
 	}
 }
 
-export const modal = (state = {modalId: null}, action) => {
+export const modal = (state = {modalId: null, isShowingInfoAlert: false}, action) => {
   switch(action.type){
     case "TOGGLE_MODAL":
 			return {
 				...state,
 				modalId: action.id
 			};
+		case "TOGGLE_ALERT":
+			return {
+				...state,
+				isShowingInfoAlert: !state.isShowingInfoAlert
+			}
     default:
       return state;
   }

@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ProfileForm from "../components/ProfileForm";
 import { connect } from 'react-redux';
-import { getUserData, submitUserData } from '../actions';
+import { getUserData, submitUserData, toggleIsShowingInfoAlert } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux';
 import {reset} from 'redux-form';
-import DetailsModal from "../components/DetailsModal";
 
 class Profile extends Component {
   componentDidMount() { 	
@@ -36,17 +35,23 @@ class Profile extends Component {
 			shippingPreferenceId: shippingPreferenceId,
 	  };
 	  this.props.dispatch(submitUserData(this.props.user, profileUpdate));
-		this.props.dispatch(reset('profile'));
+//		this.props.dispatch(toggleIsShowingInfoAlert());
 	};
+
+	clearAlert = () =>{
+		this.props.dispatch(toggleIsShowingInfoAlert());
+	}
 
 
 	render() {
-    const { user, isLoggedIn, loginStatus, userData } = this.props
+    const { user, isLoggedIn, loginStatus, userData, isShowingInfoAlert } = this.props
         let data;
     if (loginStatus == "connected"){
       data = <div>
 		    <ProfileForm
 		    	onSubmit={this.submit}
+		    	toggleIsShowingInfoAlert={this.clearAlert}
+		    	isShowingInfoAlert={isShowingInfoAlert}
 		    />
       </div>
     } else {
@@ -72,7 +77,7 @@ class Profile extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ reset, getUserData, submitUserData });
+  let actions = bindActionCreators({ reset, getUserData, submitUserData, toggleIsShowingInfoAlert });
   return { ...actions, dispatch };
 }
 
@@ -81,7 +86,8 @@ const mapStateToProps = state => {
     user: state.loginReducer.userId,
     loginStatus: state.loginReducer.loginStatus, 
     isLoggedIn: state.loginReducer.loggedIn,
-    userData: state.manageUserData
+    userData: state.manageUserData,
+    isShowingInfoAlert: state.modal.isShowingInfoAlert
 	};
 };
 

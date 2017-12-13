@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR, TOGGLE_MODAL } from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR, TOGGLE_MODAL, TOGGLE_ALERT } from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -370,6 +370,7 @@ export const submitUserData = (userId, userData) => dispatch => {
 	return axios.put(baseURL, userData)
 	.then(json => {
 		if(json.status === 200){
+			dispatch(toggleIsShowingInfoAlert());
 			dispatch(getUserData(userId));
 		} else{
 			dispatch(submitError(json));
@@ -391,3 +392,9 @@ export const matchAction = (args) => dispatch => {
 		dispatch(fetchMyManagedEvents(args.userId))
 	})
 };
+
+export const toggleIsShowingInfoAlert = () => {
+	return {
+		type: TOGGLE_ALERT
+	}
+}
