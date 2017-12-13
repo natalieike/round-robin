@@ -5,7 +5,7 @@
 */
 
 body{
-	background-color: #837370;
+	background-color: #c5bab5;
   font-family: 'Oswald', sans-serif;
 }
 
@@ -63,14 +63,14 @@ footer{
 }
 
 .nav-pills a:hover {
-	color: #ffc299;
+	color: #fec7a4;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {	background-color: #006999;
 }
 
 .jumbotron{
-	background-color: #ffe0cc;
+	background-color: #fedcc6;
 }
 
 .eggshellBlue{
