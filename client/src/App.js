@@ -25,8 +25,7 @@ class App extends Component {
 		    <div className="container Site">
 		    	<div className="Site-content">
 			      <Navpills />
-			      <Redirect exact from="/" to="/home"/>
-			      <Route path="/home" render={() => <Home />} />
+			      <Route path="/" exact render={() => <Home />} />
 			      <Route path="/profile" render={() => <Profile />} />
 			      <Route path="/participate" render={() => <Participate />} />
 			      <Route path="/createmanage" render={() => <CreateManage />} />
