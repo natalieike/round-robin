@@ -279,6 +279,7 @@ export const submitNewEvent = eventData => dispatch => {
 };
 
 export const joinEvent = eventData => dispatch => {
+	dispatch(toggleIsShowingInfoAlert(true));
 	const baseURL = `/api/events/join/${eventData.eventId}&${eventData.userId}`;
 	return axios.post(baseURL)
 	.then(json => {
@@ -370,7 +371,7 @@ export const submitUserData = (userId, userData) => dispatch => {
 	return axios.put(baseURL, userData)
 	.then(json => {
 		if(json.status === 200){
-			dispatch(toggleIsShowingInfoAlert());
+			dispatch(toggleIsShowingInfoAlert(true));
 			dispatch(getUserData(userId));
 		} else{
 			dispatch(submitError(json));
@@ -393,8 +394,9 @@ export const matchAction = (args) => dispatch => {
 	})
 };
 
-export const toggleIsShowingInfoAlert = () => {
+export const toggleIsShowingInfoAlert = (show) => {
 	return {
-		type: TOGGLE_ALERT
+		type: TOGGLE_ALERT,
+		showInfo: show
 	}
 }

@@ -17,7 +17,7 @@ class Home extends Component {
 		    <div className="jumbotron">
 		      <h1 className="text-center">Welcome to Round Robin!</h1>
 		      <div className="text-center">
-		      	<img src="./roundRobinWithGift.png" className="logo"/>
+		      	<img src="./roundRobinWithGift1.png" className="logo"/>
 	      	</div>
 	      </div>
 	      <div className="well">

@@ -39,7 +39,7 @@ class Profile extends Component {
 	};
 
 	clearAlert = () =>{
-		this.props.dispatch(toggleIsShowingInfoAlert());
+		this.props.dispatch(toggleIsShowingInfoAlert(false));
 	}
 
 
@@ -67,7 +67,7 @@ class Profile extends Component {
 			      <h4>Edit Your Profile Details</h4>
 		      </div>
 		      <div className="pull-right">
-		      	<img src="./roundRobin-leftFacing.png" className="logo2" />
+		      	<img src="./roundRobin-leftFacing1.png" className="logo2" />
 		      </div>
 		    </div>
 		    {data}

@@ -60,7 +60,7 @@ export const modal = (state = {modalId: null, isShowingInfoAlert: false}, action
 		case "TOGGLE_ALERT":
 			return {
 				...state,
-				isShowingInfoAlert: !state.isShowingInfoAlert
+				isShowingInfoAlert: action.showInfo
 			}
     default:
       return state;
