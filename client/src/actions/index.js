@@ -1,4 +1,4 @@
-import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR, TOGGLE_MODAL } from "./types.js";
+import {SELECT_CATEGORY, REQUEST_DATA, RECEIVE_DATA, SELECT_MATCHOPTION, REGISTER_FORMDATA, CREATE_DATA, FORM_CLEAR, LOGIN, LOGOUT, REGISTER_PROFILEDATA, RECEIVE_PROFILEDATA, SUBMIT_PROFILEDATA, ERROR, TOGGLE_MODAL, TOGGLE_ALERT } from "./types.js";
 import axios from "axios";
 import moment from "moment";
 
@@ -263,7 +263,7 @@ const clearFormData = data => {
 }
 
 export const submitNewEvent = eventData => dispatch => {
-	dispatch(clearFormData({
+/*	dispatch(clearFormData({
 		eventName: "",
 		organizerAka: "",
 		aboutEvent: "",
@@ -271,6 +271,8 @@ export const submitNewEvent = eventData => dispatch => {
 	}));
 	dispatch (selectCategory(1));
 	dispatch(selectMatchOptions(1));
+	*/
+	dispatch(toggleIsShowingInfoAlert(true));
 	const baseURL = `/api/events`;
 	return axios.post(baseURL, eventData)
 		.then(json => {
@@ -279,6 +281,7 @@ export const submitNewEvent = eventData => dispatch => {
 };
 
 export const joinEvent = eventData => dispatch => {
+	dispatch(toggleIsShowingInfoAlert(true));
 	const baseURL = `/api/events/join/${eventData.eventId}&${eventData.userId}`;
 	return axios.post(baseURL)
 	.then(json => {
@@ -370,6 +373,7 @@ export const submitUserData = (userId, userData) => dispatch => {
 	return axios.put(baseURL, userData)
 	.then(json => {
 		if(json.status === 200){
+			dispatch(toggleIsShowingInfoAlert(true));
 			dispatch(getUserData(userId));
 		} else{
 			dispatch(submitError(json));
@@ -391,3 +395,10 @@ export const matchAction = (args) => dispatch => {
 		dispatch(fetchMyManagedEvents(args.userId))
 	})
 };
+
+export const toggleIsShowingInfoAlert = (show) => {
+	return {
+		type: TOGGLE_ALERT,
+		showInfo: show
+	}
+}

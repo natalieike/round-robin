@@ -10,8 +10,8 @@ const Navpills = () =>
     <li>
       <FbLogin fb={window.FB}/>
     </li>
-    <li className={window.location.pathname === "/home" ? "active" : ""}>
-      <Link to="/home">Home</Link>
+    <li className={window.location.pathname === "/" ? "active" : ""}>
+      <Link to="/">Home</Link>
     </li>
     <li className={window.location.pathname === "/profile" ? "active" : ""}>
       <Link to="/profile">Profile</Link>
