@@ -13,17 +13,30 @@ import { bindActionCreators } from 'redux'
 class App extends Component {
 
   render() {
-  return (
+  	let router = "";
+  	if(this.props.loginStatus == "connected"){
+  		router = 
+  			<div>
+					<Route path="/" exact render={() => <Home />} />
+		      <Route path="/profile" render={() => <Profile />} />
+		      <Route path="/participate" render={() => <Participate />} />
+		      <Route path="/createmanage" render={() => <CreateManage />} />
+	      </div>
+  	} else {
+  		router = 
+  			<div>
+					<Route path="/" render={() => <Home />} />
+  			</div>
+  	}
+
+	  return (
 			<Router>
 		    <div className="container Site">
 		    	<div className="Site-content">
 			      <Navpills 
 			      	loginStatus = {this.props.loginStatus} 
 			      />
-			      <Route path="/" exact render={() => <Home />} />
-			      <Route path="/profile" render={() => <Profile />} />
-			      <Route path="/participate" render={() => <Participate />} />
-			      <Route path="/createmanage" render={() => <CreateManage />} />
+			      {router}
 	      	</div>
 		    </div>
 		  </Router>

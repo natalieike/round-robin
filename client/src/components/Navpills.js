@@ -25,16 +25,6 @@ const Navpills = (props) => {
           <Link to="/createmanage">Create/Manage Events</Link>
         </li>
       </ul>
-  } else if(window.location.pathname != "/"){
-    navItems =         
-      <ul className="nav nav-pills nav-justified robinNav">
-        <li role="presentation" >
-          <FbLogin fb={window.FB}/>
-        </li>
-        <li role="presentation" className={window.location.pathname === "/" ? "active" : ""}>
-          <Link to="/">Home</Link>
-        </li>
-      </ul>
   } else{
     navItems = 
       <ul className="nav nav-pills nav-justified robinNav">
