@@ -11,24 +11,32 @@ import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 
 class App extends Component {
-/*	
-  componentDidMount() {
-  	console.log("mounting app");
-  	this.props.dispatch(actions.isLoggedIn())
-
-  };
-*/
 
   render() {
-    return (
+  	let router = "";
+  	if(this.props.loginStatus == "connected"){
+  		router = 
+  			<div>
+					<Route path="/" exact render={() => <Home />} />
+		      <Route path="/profile" render={() => <Profile />} />
+		      <Route path="/participate" render={() => <Participate />} />
+		      <Route path="/createmanage" render={() => <CreateManage />} />
+	      </div>
+  	} else {
+  		router = 
+  			<div>
+					<Route path="/" render={() => <Home />} />
+  			</div>
+  	}
+
+	  return (
 			<Router>
 		    <div className="container Site">
 		    	<div className="Site-content">
-			      <Navpills />
-			      <Route path="/" exact render={() => <Home />} />
-			      <Route path="/profile" render={() => <Profile />} />
-			      <Route path="/participate" render={() => <Participate />} />
-			      <Route path="/createmanage" render={() => <CreateManage />} />
+			      <Navpills 
+			      	loginStatus = {this.props.loginStatus} 
+			      />
+			      {router}
 	      	</div>
 		    </div>
 		  </Router>
@@ -36,27 +44,10 @@ class App extends Component {
   }
 }
 
-/*
-const mapDispatchToProps = dispatch => {
-  let dispatchActions = bindActionCreators(actions);
-  return { ...dispatchActions, dispatch };
-}
-
 const mapStateToProps = state => {
 	return{
-		isFetching: state.manageMyEvents.isFetching,
-		myManagedEvents: state.manageMyEvents.myManagedEvents,
-		user: state.manageMyEvents.user,
-		categories: state.allCategories.categories,
-		category: state.selectCategories.category, 
-		matchOption: state.selectMatchOption.matchOption,
-		eventName: state.registerFormData.eventName,
-		organizerAka: state.registerFormData.organizerAka,
-		aboutEvent: state.registerFormData.aboutEvent, 
-		isPrivate: state.registerFormData.isPrivate
+    loginStatus: state.loginReducer.loginStatus, 
+    isLoggedIn: state.loginReducer.loggedIn,
 	};
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
-*/
-export default connect(null, actions)(App);
+export default connect(mapStateToProps, actions)(App);

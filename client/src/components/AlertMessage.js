@@ -11,7 +11,7 @@ const AlertMessage = props => {
 				<Alert 
 		    	type={props.type} 
 		    	headline={props.headline}
-		    	timeout={5000}
+		    	timeout={3000}
 		    	onDismiss={props.onDismiss}
 	    	>
 		    	{props.message}
