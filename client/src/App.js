@@ -11,13 +11,6 @@ import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 
 class App extends Component {
-/*	
-  componentDidMount() {
-  	console.log("mounting app");
-  	this.props.dispatch(actions.isLoggedIn())
-
-  };
-*/
 
   render() {
   return (
@@ -38,12 +31,6 @@ class App extends Component {
   }
 }
 
-/*
-const mapDispatchToProps = dispatch => {
-  let dispatchActions = bindActionCreators(actions);
-  return { ...dispatchActions, dispatch };
-}
-*/
 const mapStateToProps = state => {
 	return{
     loginStatus: state.loginReducer.loginStatus, 
@@ -51,5 +38,3 @@ const mapStateToProps = state => {
 	};
 };
 export default connect(mapStateToProps, actions)(App);
-
-//export default connect(null, actions)(App);
