@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import ManageMyEvents from "../components/ManageMyEvents";
-import { fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent } from '../actions';
+import { fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent, toggleIsShowingInfoAlert } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 import CreateEventForm from "../components/CreateEventForm"
@@ -30,6 +30,10 @@ class CreateManage extends Component {
     this.props.dispatch(reset('event'));
   }
 
+  clearAlert = () =>{
+    this.props.dispatch(toggleIsShowingInfoAlert(false));
+  }
+
   componentWillReceiveProps(nextProps) {
     if(!this.props.isLoggedIn && nextProps.isLoggedIn){
       this.props.dispatch(fetchMyManagedEvents(nextProps.user));
@@ -38,13 +42,15 @@ class CreateManage extends Component {
   }
 
 	render() {
-    const { isFetching, myManagedEvents, user, categories, category, matchOption, eventName, organizerAka, aboutEvent, isPrivate, isLoggedIn, loginStatus } = this.props
+    const { isFetching, myManagedEvents, user, categories, category, matchOption, eventName, organizerAka, aboutEvent, isPrivate, isLoggedIn, loginStatus, isShowingInfoAlert } = this.props
     let data;
     if (loginStatus == "connected"){
       data = <div>
         <CreateEventForm
           options={categories} 
           onSubmit={this.handleClick}
+          toggleIsShowingInfoAlert={this.clearAlert}
+          isShowingInfoAlert={isShowingInfoAlert}
         />
         <ManageMyEvents 
           results={myManagedEvents}
@@ -74,7 +80,7 @@ class CreateManage extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent, reset });
+  let actions = bindActionCreators({ fetchMyManagedEvents, fetchCategories, selectCategory, selectMatchOptions, registerEventNameChange, registerOrganizerAkaChange, registerAboutEventChange, registerRadioButtonChange, submitNewEvent, toggleIsShowingInfoAlert, reset });
   return { ...actions, dispatch };
 }
 
@@ -91,7 +97,8 @@ const mapStateToProps = state => {
 		aboutEvent: state.registerFormData.aboutEvent, 
 		isPrivate: state.registerFormData.isPrivate,
     loginStatus: state.loginReducer.loginStatus, 
-    isLoggedIn: state.loginReducer.loggedIn
+    isLoggedIn: state.loginReducer.loggedIn,
+    isShowingInfoAlert: state.modal.isShowingInfoAlert
 	};
 };
 

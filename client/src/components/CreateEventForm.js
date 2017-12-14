@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import Toggle from 'react-toggle';
 import "react-toggle/style.css";
+import AlertMessage from "./AlertMessage";
 
 const validate = values => {
   const errors = {}
@@ -186,6 +187,14 @@ let CreateEventForm = props => {
               <div className="col-sm-offset-10 col-sm-3">
 				  			<button type="submit" className="btn btn-success">Submit</button>
 				  		</div>
+				  		<AlertMessage 
+				  			type="success"
+				  			message="Submitted!"
+				  			position="bottom-right"
+				  			isShowingInfoAlert={props.isShowingInfoAlert}
+				  			onDismiss={props.toggleIsShowingInfoAlert}
+				  			dispatch={props.dispatch}
+				  		/>
 				  	</div>
 					</div>
 				</form>

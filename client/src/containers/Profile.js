@@ -42,7 +42,6 @@ class Profile extends Component {
 		this.props.dispatch(toggleIsShowingInfoAlert(false));
 	}
 
-
 	render() {
     const { user, isLoggedIn, loginStatus, userData, isShowingInfoAlert } = this.props
         let data;

@@ -263,7 +263,7 @@ const clearFormData = data => {
 }
 
 export const submitNewEvent = eventData => dispatch => {
-	dispatch(clearFormData({
+/*	dispatch(clearFormData({
 		eventName: "",
 		organizerAka: "",
 		aboutEvent: "",
@@ -271,6 +271,8 @@ export const submitNewEvent = eventData => dispatch => {
 	}));
 	dispatch (selectCategory(1));
 	dispatch(selectMatchOptions(1));
+	*/
+	dispatch(toggleIsShowingInfoAlert(true));
 	const baseURL = `/api/events`;
 	return axios.post(baseURL, eventData)
 		.then(json => {
