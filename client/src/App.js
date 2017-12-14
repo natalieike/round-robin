@@ -20,11 +20,13 @@ class App extends Component {
 */
 
   render() {
-    return (
+  return (
 			<Router>
 		    <div className="container Site">
 		    	<div className="Site-content">
-			      <Navpills />
+			      <Navpills 
+			      	loginStatus = {this.props.loginStatus} 
+			      />
 			      <Route path="/" exact render={() => <Home />} />
 			      <Route path="/profile" render={() => <Profile />} />
 			      <Route path="/participate" render={() => <Participate />} />
@@ -41,22 +43,13 @@ const mapDispatchToProps = dispatch => {
   let dispatchActions = bindActionCreators(actions);
   return { ...dispatchActions, dispatch };
 }
-
+*/
 const mapStateToProps = state => {
 	return{
-		isFetching: state.manageMyEvents.isFetching,
-		myManagedEvents: state.manageMyEvents.myManagedEvents,
-		user: state.manageMyEvents.user,
-		categories: state.allCategories.categories,
-		category: state.selectCategories.category, 
-		matchOption: state.selectMatchOption.matchOption,
-		eventName: state.registerFormData.eventName,
-		organizerAka: state.registerFormData.organizerAka,
-		aboutEvent: state.registerFormData.aboutEvent, 
-		isPrivate: state.registerFormData.isPrivate
+    loginStatus: state.loginReducer.loginStatus, 
+    isLoggedIn: state.loginReducer.loggedIn,
 	};
 };
+export default connect(mapStateToProps, actions)(App);
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
-*/
-export default connect(null, actions)(App);
+//export default connect(null, actions)(App);
