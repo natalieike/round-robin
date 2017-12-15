@@ -14,18 +14,43 @@ class Home extends Component {
     }
 		return(
 		  <div>
-		    <div className="jumbotron">
-		      <h1 className="text-center">Welcome to Round Robin!</h1>
-		      <div className="text-center">
-		      	<img src="./roundRobinWithGift1.png" className="logo"/>
+		    <div className="jumbotron clearfix">
+		    	<div className="pull-left">
+		      	<h1 className="text-center">Welcome to Round Robin!</h1>
+		      	<h4>Your hub for Craft Exchanges, Secret Santas, Sweets Swaps, and More!</h4>
+		      </div>
+		      <div className="pull-right">
+		      	<img src="./roundRobinWithGift1-leftFacing.png" className="logo"/>
 	      	</div>
 	      </div>
-	      <div className="well">
-		      <ul className="list-unstyled jumboHome">
-			      <li>Sign up to Manage and Participate in all kinds of swaps - Craft Exchanges, Secret Santas, Sweets Swaps, and More!</li>
-			      <li>Create your own Swap - Make it Public or Private</li>
-			      <li>Participate in Swaps - Private Swaps by Invite, or Search for Public Events</li>
-			    </ul>
+		    <div className="well">
+		    	<h2 className="text-center">How it works</h2>
+		    	<div className="row how-works">
+		    		<div className="col-sm-3">
+		    			<img src="./roundRobin.png" className="smallLogo" />
+		    			<div className="how-to">
+		    				Create an Event as a Moderator - Make it Public or Private  
+		    			</div>
+		    		</div>
+		    		<div className="col-sm-3">
+		    			<img src="./roundRobin.png" className="smallLogo" />
+		    			<div className="how-to">
+		    				Or, Join an Existing Event - by Invite, or by Searching for Public Events.  
+		    			</div>
+		    		</div>		    		
+		    		<div className="col-sm-3">
+		    			<img src="./roundRobin.png" className="smallLogo" />
+		    			<div className="how-to">
+		    				Once the Signup period ends, All of the Users will be matched, Round-Robin style: You get someone to send a gift to, and a different person gets your name
+		    			</div>
+		    		</div>
+		    		<div className="col-sm-3">
+		    			<img src="./roundRobinWithGift.png" className="smallLogo" />
+		    			<div className="how-to">
+		    				Craft! Shop! Create! And Ship your gift to your Match by the Shipping Deadline
+		    			</div>
+		    		</div>
+		    	</div>
 		    </div>
 		    <div className="well">
 			    {data}

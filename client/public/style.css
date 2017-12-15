@@ -28,7 +28,7 @@ h3{
 
 .jumboHome{
   font-family: 'Roboto Condensed', sans-serif;
-	font-size: 20px;	
+	font-size: 18px;	
 }
 
 .logo{
@@ -49,11 +49,11 @@ h3{
 
 footer{
 	text-align: center;
-	color: #e6f7ff;
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
+  margin-bottom: -80px;
 }
 
 .nav-pills a{
@@ -108,3 +108,14 @@ footer{
 	color: red;
 }
 
+.smallLogo{
+	height: 50px;
+}
+
+.how-to{
+	font-size: 17px;
+}
+
+.how-works{
+	margin-top: 3%;
+}
