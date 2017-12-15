@@ -41,7 +41,7 @@ class Home extends Component {
 		    		<div className="col-sm-3">
 		    			<img src="./roundRobin.png" className="smallLogo" />
 		    			<div className="how-to">
-		    				Once the Signup period ends, All of the Users will be matched, Round-Robin style: You get someone to send a gift to, and a different person gets your name
+		    				Once the Signup period ends: All of the Users will be matched, Round-Robin style - You get someone to send a gift to, and a different person gets your name
 		    			</div>
 		    		</div>
 		    		<div className="col-sm-3">
