@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import EventSearch from "../components/EventSearch";
 import EventResults from "../components/EventResults";
-import { selectCategory, fetchCategories, searchEventsId, fetchMyEvents, joinEvent, searchEventsCategory, registerEventIdChange } from '../actions';
+import { selectCategory, fetchCategories, searchEventsId, fetchMyEvents, joinEvent, searchEventsCategory, registerEventIdChange, toggleIsShowingInfoAlert } from '../actions';
 import reduxThunk from "redux-thunk";
 import { bindActionCreators } from 'redux'
 import MyEvents from "../components/MyEvents";
@@ -36,8 +36,6 @@ class Participate extends Component {
   handleJoin = event => {
     event.preventDefault();
     let index = this.props.myEvents.find(x => x.event.id == event.target.value);
-    console.log(index);
-    console.log(this.props.myEvents);
     if(!this.props.myEvents.find(x => x.event.id == event.target.value)){
         this.props.dispatch(joinEvent({
           eventId: event.target.value, 
@@ -55,8 +53,12 @@ class Participate extends Component {
     }
   }
 
+  clearAlert = () =>{
+    this.props.dispatch(toggleIsShowingInfoAlert(false));
+  }
+
 	render() {
-    const { category, categories, events, myEvents, loginStatus, isLoggedIn, eventId } = this.props
+    const { category, categories, events, myEvents, loginStatus, isLoggedIn, eventId, isShowingInfoAlert } = this.props
     let data;
     if (loginStatus == "connected"){
       data = <div>
@@ -72,6 +74,8 @@ class Participate extends Component {
           results={events}
           onClick={this.handleJoin}
           myEvents={myEvents}
+          toggleIsShowingInfoAlert={this.clearAlert}
+          isShowingInfoAlert={isShowingInfoAlert}
         />
         <MyEvents 
           results={myEvents}
@@ -90,7 +94,7 @@ class Participate extends Component {
   		      <h4>Search for Events and Manage your Current Events</h4>
           </div>
           <div className="pull-right">
-            <img src="./roundRobin-leftFacing.png" className="logo2" />
+            <img src="./roundRobin-leftFacing1.png" className="logo2" />
           </div>
 		    </div>
         {data}
@@ -100,7 +104,7 @@ class Participate extends Component {
  }
 
 const mapDispatchToProps = dispatch => {
-  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEventsId, fetchMyEvents, joinEvent, searchEventsCategory, registerEventIdChange });
+  let actions = bindActionCreators({ selectCategory, fetchCategories, searchEventsId, fetchMyEvents, joinEvent, searchEventsCategory, registerEventIdChange, toggleIsShowingInfoAlert });
   return { ...actions, dispatch };
 }
 
@@ -114,7 +118,8 @@ const mapStateToProps = state => {
 		user: state.loginReducer.userId,
     loginStatus: state.loginReducer.loginStatus, 
     isLoggedIn: state.loginReducer.loggedIn,
-    eventId: state.registerFormData.eventId
+    eventId: state.registerFormData.eventId,
+    isShowingInfoAlert: state.modal.isShowingInfoAlert
 	 };
 	};
 

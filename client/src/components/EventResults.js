@@ -1,19 +1,22 @@
 import React from "react";
- 
+import AlertMessage from "./AlertMessage"; 
 
 const EventResult = props => {
 
   let resultTable = props.results.map((result, i) => {
     let button = "";
     if(!props.myEvents.find(x => x.event.id == result.id)){
-      button =           
-        <button 
-          onClick={props.onClick} 
-          className="btn btn-primary" 
-          value={result.id}
-        >
-          Join
-        </button>
+      console.log(props.isShowingInfoAlert);
+      button =
+        <div>           
+          <button 
+            onClick={props.onClick} 
+            className="btn btn-success" 
+            value={result.id}
+          >
+            Join
+          </button>
+        </div>
     }else{
       button = <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
     }
@@ -48,6 +51,14 @@ const EventResult = props => {
         </table>
         <hr/>
       </div>
+      <AlertMessage 
+        type="success"
+        message="Joined!"
+        position="bottom-right"
+        isShowingInfoAlert={props.isShowingInfoAlert}
+        onDismiss={props.toggleIsShowingInfoAlert}
+        dispatch={props.dispatch}
+      />
     </div>);
 };
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import {getUserData} from "../actions";
-
+import AlertMessage from "./AlertMessage";
 
 const validate = values => {
   const errors = {}
@@ -62,7 +62,7 @@ const renderStateProvinceList = (field) => {
 )};
 
 let ProfileForm = props => {
-  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting } = props;
+  const { handleSubmit, country, stateProvince, shippingPref, firstName, lastName, email, address, city, postalCode, aboutMe, getUserData, pristine, reset, submitting, toggleIsShowingInfoAlert } = props;
 
   return (
     <div className="panel">
@@ -179,6 +179,14 @@ let ProfileForm = props => {
               <div className="col-sm-offset-10 col-sm-3">
 				  			<button type="submit" className="btn btn-success">Submit</button>
 				  		</div>
+				  		<AlertMessage 
+				  			type="success"
+				  			message="Submitted!"
+				  			position="bottom-right"
+				  			isShowingInfoAlert={props.isShowingInfoAlert}
+				  			onDismiss={toggleIsShowingInfoAlert}
+				  			dispatch={props.dispatch}
+				  		/>
 				  	</div>
 					</div>
 				</form>

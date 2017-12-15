@@ -37,3 +37,4 @@ export const ERROR = "ERROR";
 
 //For Modal
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
+export const TOGGLE_ALERT = "TOGGLE_ALERT";
