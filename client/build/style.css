@@ -5,8 +5,9 @@
 */
 
 body{
-	background-color: #837370;
+	background-color: #e9e5e3;
   font-family: 'Oswald', sans-serif;
+  color: #575655;
 }
 
 h1{
@@ -18,16 +19,16 @@ h3{
 }
 
 .btn-primary{
-	background-color: #005780;
+	background-color: #006999;
 }
 
 .btn-success{
-	background-color: #008040;
+	background-color: #1d9900;
 }
 
 .jumboHome{
   font-family: 'Roboto Condensed', sans-serif;
-	font-size: 20px;	
+	font-size: 18px;	
 }
 
 .logo{
@@ -48,41 +49,45 @@ h3{
 
 footer{
 	text-align: center;
-	color: #e6f7ff;
   position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
+  margin-bottom: -80px;
 }
 
 .nav-pills a{
-	color: #e6f7ff;
+	color: #63747f;
 	font-weight: bold;
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 18px;
 }
 
 .nav-pills a:hover {
-	color: #ffc299;
+	color: #fec7a4;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {	background-color: #006999;
 }
 
 .jumbotron{
-	background-color: #ffe0cc;
+	background-color: #fedcc6;
 }
 
 .eggshellBlue{
-	background-color: #ccefff;
+	background-color: #c6e8fe;
 }
 
 .well{
-	background-color: #e6e6e6;	
+	background-color: #f6f6f6;	
 }
 
 .featherGrey{
-	background-color: #f2f2f2;
+	background-color: #f6f6f6;
+}
+
+.darkerGrey{
+	background-color: #e9e5e3;
 }
 
 .searchBtn{
@@ -103,3 +108,14 @@ footer{
 	color: red;
 }
 
+.smallLogo{
+	height: 50px;
+}
+
+.how-to{
+	font-size: 17px;
+}
+
+.how-works{
+	margin-top: 3%;
+}
